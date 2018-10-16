@@ -5,6 +5,9 @@
 #include "awgame.h"
 
 class Server {
+	/*
+		This is the core of the networking part
+	*/
 private:
 	AWGame* game;
 public:

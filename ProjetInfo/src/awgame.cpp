@@ -1,8 +1,12 @@
 #include <iostream>
 #include <string>
-#include "../include/awgame.h"
+#include "include/awgame.h"
 
 using namespace std;
+
+AWGame::AWGame() {
+	cout << "Game initialisé" << endl;
+}
 
 AWGame::AWGame(std::string config[]) {
 	cout << "Game Initialisé!" << endl;
