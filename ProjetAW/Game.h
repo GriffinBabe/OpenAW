@@ -10,10 +10,10 @@ class Game {
 		the units, the players etc...
 	*/
 private:
-	string args[];
+	string* args;
 
 public:
 	Game(); // Game with default settings
-	Game(std::string args[]);
-	string* getArgs();
+	Game(std::string arg[]);
+	void printArgs();
 };

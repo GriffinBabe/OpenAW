@@ -7,4 +7,5 @@ private:
 
 public:
 	Server();
+	Server(string args[]);
 };

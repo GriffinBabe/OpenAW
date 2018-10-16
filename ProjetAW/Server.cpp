@@ -2,5 +2,9 @@
 #include <iostream>
 
 Server::Server() {
-	this->game = *(new Game());
+	Game game();
+}
+
+Server::Server(string args[]) {
+	Game game(args);
 }
