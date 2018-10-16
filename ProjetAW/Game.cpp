@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <string>
-#include <QtDebug>
+#include <QDebug>
 #include "window.h"
 
 using std::string;
@@ -18,5 +18,6 @@ Game::Game(string arg[]) {
 void Game::printArgs() {
 	for (int i = 0; i < this->args->length(); i++) {
 		string str = this->args[i];
+		qDebug(this->args[i].c_str());
 	}
 }
