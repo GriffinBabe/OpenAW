@@ -56,6 +56,4 @@ public slots:
 
 protected:
 	void paintEvent(QPaintEvent *event) override;
-
-
 };
