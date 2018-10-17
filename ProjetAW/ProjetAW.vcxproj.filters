@@ -45,9 +45,15 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Painter.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="window.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Painter.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
