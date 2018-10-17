@@ -1,8 +1,9 @@
 #pragma once
-#include <QtWidgets/qopenglwidget.h>
+#include <qopenglwidget.h>
 #include <QPainter>
 #include <iostream>
 #include <qtimer.h>
+#include <QPaintEvent>
 
 class Helper{
 	/*

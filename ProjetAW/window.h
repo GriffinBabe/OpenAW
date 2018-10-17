@@ -1,20 +1,23 @@
 #pragma once
 
+#include <qgridlayout.h>
+#include <qlabel.h>
 #include <QtWidgets/QMainWindow>
 #include "ui_window.h"
 #include "Game.h"
+#include "Painter.h"
 
-class Window : public QMainWindow
+class Window : public QWidget
 {
 	/*
-		This class is the view core funtion
+		This class is the view core funtion, it uses a OpenGL widget
 	*/
 
 	Q_OBJECT
 
 public:
-	Window(QWidget *parent = Q_NULLPTR); 
+	Window();
 private:
-	Game game();
-	Ui::WindowClass ui;
+	Helper helper;
 };
+
