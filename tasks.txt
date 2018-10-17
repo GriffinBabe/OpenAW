@@ -1,8 +1,10 @@
 Tasks:
 
 Darius:
+Faire la base des graphismes du jeu sur OpenGL qt
+Faire la base du reseau
 
 Stefano:
-Sucer la teub a darius xd
 
 Romain:
+Faire le menu principal avec qt

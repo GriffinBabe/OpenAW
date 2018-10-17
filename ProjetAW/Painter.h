@@ -23,24 +23,6 @@ private:
 	QPen textPen;
 };
 
-class Widget : public QWidget
-{
-	Q_OBJECT
-
-public:
-	Widget(Helper *helper, QWidget *parent);
-
-public slots:
-	void animate();
-
-protected:
-	void paintEvent(QPaintEvent *event) override;
-
-private:
-	Helper *helper;
-	int elapsed;
-};
-
 class GLWidget : public QOpenGLWidget {
 	/*
 		We are using the GL Widget in this case,
@@ -56,4 +38,8 @@ public slots:
 
 protected:
 	void paintEvent(QPaintEvent *event) override;
+
+private:
+	Helper *helper;
+	int elapsed;
 };

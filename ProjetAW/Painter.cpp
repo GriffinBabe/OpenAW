@@ -33,18 +33,21 @@ void Helper::paint(QPainter *painter, QPaintEvent *event, int elapsed) {
 	painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, QStringLiteral("Qt"));
 }
 
-Widget::Widget(Helper *helper, QWidget *parent) 
-	: QWidget(parent), helper(helper)
+GLWidget::GLWidget(Helper *helper, QWidget *parent)
+	: QOpenGLWidget(parent), helper(helper)
 {
 	elapsed = 0;
 	setFixedSize(200, 200);
+	setAutoFillBackground(false);
 }
 
-void Widget::animate() {
-	elapsed = (elapsed + qobject_cast<QTimer*>(sender())->interval()) % 100;
+void GLWidget::animate()
+{
+	elapsed = (elapsed + qobject_cast<QTimer*>(sender())->interval()) % 1000;
+	update();
 }
 
-void Widget::paintEvent(QPaintEvent *event) {
+void GLWidget::paintEvent(QPaintEvent *event) {
 	QPainter painter;
 	painter.begin(this);
 	painter.setRenderHint(QPainter::Antialiasing);

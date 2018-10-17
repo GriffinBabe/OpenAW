@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <QDebug>
-#include "window.h"
 
 using std::string;
 using namespace std;

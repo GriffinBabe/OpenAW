@@ -2,7 +2,7 @@
 #include <iostream>
 
 Server::Server() {
-	Game game();
+	Game game;
 }
 
 Server::Server(string args[]) {
