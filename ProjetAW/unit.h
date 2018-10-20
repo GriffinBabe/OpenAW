@@ -7,6 +7,7 @@
 class Unit
 {
 public:
+	Unit();
 	Unit(Player& player);
 	Player* owner;
 };

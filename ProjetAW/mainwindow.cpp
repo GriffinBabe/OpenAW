@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+	Game game; // initialises the game
     ui->setupUi(this);
 	frameCount = 0;
 	gameSetted = false;

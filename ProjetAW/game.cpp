@@ -2,6 +2,7 @@
 
 Game::Game()
 {
+	std::cout << "Game initialised" << std::endl;
 	std::vector<Player> players; // vector initialisation
 }
 
