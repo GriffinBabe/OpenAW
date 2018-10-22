@@ -1,14 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <vector>
-#include <string>
-#include "unit.h"
+#include <iostream>
 
 class Player
 {
 public:
-	Player();
 	Player(std::string usr);
 	std::string getUsername();
 

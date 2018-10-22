@@ -1,18 +1,10 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QPainter>
-#include <QImage>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QDebug>
 #include <iostream>
+#include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-	Game game; // initialises the game
     ui->setupUi(this);
 	frameCount = 0;
 	gameSetted = false;
@@ -49,9 +41,4 @@ void MainWindow::tick()
 		frameCount++;
 		update(); // calls paintEvent
 	}
-}
-
-void MainWindow::setGame(Game& game) {
-	this->game = &game;
-	gameSetted = true; // Used so we can start showing stuff
 }

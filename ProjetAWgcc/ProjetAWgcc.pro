@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-10-20T14:58:24
+# Project created by QtCreator 2018-10-22T20:57:41
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ProjetAW
+TARGET = ProjetAWgcc
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -27,17 +27,12 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    server.cpp \
-    game.cpp \
-    player.cpp \
-    unit.cpp
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
-    server.h \
-    game.h \
-    player.h \
-    unit.h
+    mainwindow.h
 
 FORMS += \
         mainwindow.ui
@@ -46,3 +41,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    cara_pils.jpg

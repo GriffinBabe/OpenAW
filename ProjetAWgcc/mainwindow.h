@@ -1,9 +1,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QPainter>
+#include <QImage>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QDebug>
 #include <QMainWindow>
 #include <QTimer>
-#include "game.h"
+#include "ui_mainwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +30,6 @@ public:
 	void mousePressEvent(QMouseEvent *event);
 	void keyPressEvent(QKeyEvent *event);
 
-	void setGame(Game& game);
 
 public slots:
 	void tick();
@@ -34,7 +39,6 @@ private:
 	QImage image;
 	QTimer timer; // Game Loop
 
-	Game* game;
 	bool gameSetted;
 	int frameCount;
 };
