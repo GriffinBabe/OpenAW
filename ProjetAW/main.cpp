@@ -11,8 +11,6 @@ int main(int argc, char *argv[])
 	std::cout << std::endl;
 
 	Game game;
-	Player p("GriffinBabe");
-	game.addPlayer(p);
 
 	QApplication a(argc, argv);
 	MainWindow w;

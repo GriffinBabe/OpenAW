@@ -31,7 +31,6 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-	std::cout << "Mouse clicked" << event->x() << event->y() << std::endl;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {

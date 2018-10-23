@@ -35,7 +35,6 @@ void Game::setCursor(int x, int y)
 	int cellSize = 64; // in pixels
 	cursorX = x/cellSize;
 	cursorY = y/cellSize;
-	std::cout << cursorX << "; " << cursorY << std::endl;
 }
 
 int Game::getCursorX()
