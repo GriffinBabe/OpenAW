@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <iostream>
-#include <QResource>
 
 int main(int argc, char *argv[])
 {
@@ -9,13 +8,13 @@ int main(int argc, char *argv[])
 	for (int i = 0; i< argc; i++) {
 		std::cout << argv[i] << ",";
 	}
-    std::cout << std::endl;
+	std::cout << std::endl;
 
-    QResource::registerResource("resources.qrc");
+	Game game;
 
 	QApplication a(argc, argv);
 	MainWindow w;
-    w.show();
-    map(":/Maps/map1.txt");
+	w.show();
+	w.setGame(&game);
 	return a.exec();
 }

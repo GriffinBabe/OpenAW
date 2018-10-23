@@ -1,4 +1,7 @@
 <RCC>
+    <qresource prefix="/Images">
+        <file>cursor.png</file>
+    </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>
     </qresource>

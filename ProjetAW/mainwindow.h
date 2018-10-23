@@ -21,6 +21,7 @@ public:
 	~MainWindow();
 	void paintEvent(QPaintEvent *event);
 	void mousePressEvent(QMouseEvent *event);
+	void mouseMoveEvent(QMouseEvent *event);
 	void keyPressEvent(QKeyEvent *event);
 
 	void setGame(Game* game);
@@ -30,7 +31,7 @@ public slots:
 
 private:
 	Ui::MainWindow *ui;
-	QImage image;
+	QPixmap* cursorImage; // Image for the game cursor
 	QTimer timer;
 
 	Game* game;
