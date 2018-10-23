@@ -1,10 +1,12 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include "player.h"
+
 class Unit
 {
 public:
-	Unit(Player owner);
+	Unit(Player* p);
 
 private:
 	Player* owner;

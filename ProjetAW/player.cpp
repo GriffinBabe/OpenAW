@@ -3,5 +3,9 @@
 Player::Player(std::string name)
 {
 	username = name;
-	this->units = new std::vector<Unit*>;
+}
+
+std::string Player::getUsername()
+{
+	return this->username;
 }

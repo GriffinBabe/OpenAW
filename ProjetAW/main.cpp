@@ -12,8 +12,7 @@ int main(int argc, char *argv[])
 
 	Game game;
 	Player p("GriffinBabe");
-	game.addPlayer(&p);
-	Unit unit(&p);
+	game.addPlayer(p);
 
 	QApplication a(argc, argv);
 	MainWindow w;
