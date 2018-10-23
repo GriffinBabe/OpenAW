@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include "unit.h"
 
 class Player
 {
@@ -13,7 +12,6 @@ public:
 	std::string username;
 
 private:
-	std::vector<Unit*>* units;
 };
 
 #endif // PLAYER_H

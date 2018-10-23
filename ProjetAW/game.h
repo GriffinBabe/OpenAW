@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include <vector>
+#include "map.h"
 
 class Game
 {
