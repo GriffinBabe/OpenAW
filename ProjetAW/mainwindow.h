@@ -33,10 +33,13 @@ private:
 	Ui::MainWindow *ui;
 	QPixmap* cursorImage; // Image for the game cursor
 	QTimer timer;
+	void resize();
+	int gcd(int a, int b); // Greatest common divisor, used for cell size
 
 	Game* game;
 	bool gameSet;
 	int frameCount;
+	static int cellDim;
 };
 
 #endif // MAINWINDOW_H

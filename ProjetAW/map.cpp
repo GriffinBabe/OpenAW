@@ -9,9 +9,7 @@
 
 Map::Map(std::string mapPath)
 {
-
-
-    /*Ouverture du Fichier et récupération des données
+   /*Ouverture du Fichier et récupération des données
     Le lien du fichier est ":/Maps/map1.txt"
     On détermine la taille du tableau et on stocke les éléments dans un vector de vector d'entier data
     Ensuite, on crée les Cell à partir de ce vector.
@@ -21,7 +19,6 @@ Map::Map(std::string mapPath)
     QString path = QString::fromStdString(mapPath);
     QFile file(path);
     if (file.open(QIODevice::ReadOnly)) {
-        std::cout << "ouvert" << std::endl;
         QTextStream in(&file);
         int counter=0;
         while(!in.atEnd()) {
@@ -34,12 +31,11 @@ Map::Map(std::string mapPath)
             sizeX=line3.size();
         }
     sizeY=counter;
-    std::cout<<sizeX<<std::endl;
-    std::cout<<sizeY<<std::endl;
-    std::cout<<data[16][20]<<std::endl;
+    std::cout << "Map width: " << sizeX << std::endl;
+    std::cout << "Map height: " << sizeY <<std::endl;
     file.close();
     } else {
-        std::cout << "The file didn't open correctly" << std::endl;
+        throw "The file didn't open correctly";
     }
     Cell cells[sizeX][sizeY];
     for(int i=0;i<data.size();i++){
@@ -58,7 +54,6 @@ Cell Map::getNewCell(int i,int j, int id) {
         Grass grass(j,i,1);
         return grass;
     }
-
 }
 
 std::vector<int> Map::split(const std::string& input, char delim) { // Char is the devider characer
@@ -74,4 +69,12 @@ std::vector<int> Map::split(const std::string& input, char delim) { // Char is t
         intelems.push_back(temp);
     }
     return intelems;
+}
+
+int Map::getSizeX() {
+    return sizeX;
+}
+
+int Map::getSizeY(){
+    return sizeY;
 }

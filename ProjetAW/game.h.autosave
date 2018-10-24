@@ -1,7 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "map.h"
 #include "player.h"
 #include "unit.h"
 #include <vector>
@@ -17,28 +16,19 @@ public:
 
 	Player* getPlayerByUsername(std::string username);
 
-	//Controller & View
-	void cursorUp();
-	void cursorDown();
-	void cursorLeft();
-	void cursorRight();
+	//Controller
 	void setCursor(int x, int y);
 	int getCursorX();
 	int getCursorY();
-	void setCellDim(int dim);
-
-    //Model
     Unit checkpos(int x , int y);
-	Map* getMap();
 
 private:
 	Player* localPlayer;
 	std::vector<Unit> units;
 	std::vector<Player> players;
-	Map* map;
 
-	int cellDim;
 	int cursorX, cursorY;
 };
 
 #endif // GAME_H
+

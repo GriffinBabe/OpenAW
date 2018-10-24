@@ -249,6 +249,8 @@ debug/moc_mainwindow.cpp: C:/Qt/5.11.2/mingw53_32/include/QtWidgets/QMainWindow 
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qtimer.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qbasictimer.h \
 		../ProjetAW/game.h \
+		../ProjetAW/map.h \
+		../ProjetAW/cell.h \
 		../ProjetAW/player.h \
 		../ProjetAW/unit.h \
 		../ProjetAW/mainwindow.h \
@@ -393,6 +395,8 @@ debug/main.o: ../ProjetAW/main.cpp ../ProjetAW/mainwindow.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qtimer.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qbasictimer.h \
 		../ProjetAW/game.h \
+		../ProjetAW/map.h \
+		../ProjetAW/cell.h \
 		../ProjetAW/player.h \
 		../ProjetAW/unit.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/QApplication \
@@ -401,9 +405,7 @@ debug/main.o: ../ProjetAW/main.cpp ../ProjetAW/mainwindow.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qeventloop.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qdesktopwidget.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qguiapplication.h \
-		C:/Qt/5.11.2/mingw53_32/include/QtGui/qinputmethod.h \
-		../ProjetAW/map.h \
-		../ProjetAW/cell.h
+		C:/Qt/5.11.2/mingw53_32/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\ProjetAW\main.cpp
 
 debug/mainwindow.o: ../ProjetAW/mainwindow.cpp ../ProjetAW/mainwindow.h \
@@ -520,6 +522,8 @@ debug/mainwindow.o: ../ProjetAW/mainwindow.cpp ../ProjetAW/mainwindow.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qtimer.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qbasictimer.h \
 		../ProjetAW/game.h \
+		../ProjetAW/map.h \
+		../ProjetAW/cell.h \
 		../ProjetAW/player.h \
 		../ProjetAW/unit.h \
 		ui_mainwindow.h \
@@ -548,6 +552,8 @@ debug/mainwindow.o: ../ProjetAW/mainwindow.cpp ../ProjetAW/mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\ProjetAW\mainwindow.cpp
 
 debug/game.o: ../ProjetAW/game.cpp ../ProjetAW/game.h \
+		../ProjetAW/map.h \
+		../ProjetAW/cell.h \
 		../ProjetAW/player.h \
 		../ProjetAW/unit.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\game.o ..\ProjetAW\game.cpp

@@ -17,6 +17,8 @@ private:
     //Cell cells[static int sizeX][static int sizeY];
 public:
     Map(std::string mapPath);
+    int getSizeX();
+    int getSizeY();
 };
 
 #endif // MAP_H

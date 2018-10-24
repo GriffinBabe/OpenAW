@@ -15,10 +15,10 @@ void Unit::setDamage(int d){damage = d;}
 
 int Unit::getDamage(){return this->damage;}
 
-pair<int,int> Unit::getPos(){return pos;}
+std::pair<int,int> Unit::getPos(){return pos;}
 
-pair<int,int> Unit::getDir(){return dir;}
+std::pair<int,int> Unit::getDir(){return dir;}
 
-void Unit::setPos(pair<int,int> p){pos = p;}
+void Unit::setPos(std::pair<int,int> p){pos = p;}
 
-void Unit::setDir(pair<int,int> d){dir = d;}
+void Unit::setDir(std::pair<int,int> d){dir = d;}
