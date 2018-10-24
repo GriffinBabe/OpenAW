@@ -6,8 +6,9 @@ class infantery
 {
 public:
     infantery();
-    void setDamage();
-    int getDamage();
+
+private:
+
 };
 
 #endif // INFANTERY_H

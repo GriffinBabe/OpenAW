@@ -5,19 +5,26 @@
 #include <string>
 #include "player.h"
 
+using namespace std;
+
 class Unit
 {
 public:
     Unit(Player player);
-    Player* getOwner();
+    Player* getOwner()const;
     int getHealth();
     void setHealth(int a);
-    std::vector<int> getPos();
-    std::vector<int> getDir();
+    pair<int,int> getPos();
+    pair<int,int> getDir();
+    void setPos(pair<int,int> pos);
+    void setDir(pair<int,int> dir);
+    void setDamage(int d);
+    int getDamage();
 private:
     Player* owner;
     int health;
-    std::vector<int> pos (int x,int y);
-    std::vector<int> dir (int x,int y);
+    int damage;
+    pair<int,int> pos;
+    pair<int,int> dir;
 };
 #endif // UNIT_H
