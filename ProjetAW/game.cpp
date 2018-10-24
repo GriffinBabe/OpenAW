@@ -57,7 +57,6 @@ void Game::setCellDim(int dim)
 
 void Game::cursorDown() {
 	int temp = cursorY + 1;
-	std::cout << this->map->getSizeY() << std::endl;
 	if (temp <= this->map->getSizeY()) { // First put ++ before variable else the condition check will be false
 		cursorY++;
 	}

@@ -14,11 +14,12 @@ private:
     int sizeY;
     std::vector<int> split(const std::string& input, char delim);
     Cell getNewCell(int i,int j, int id);
-    //Cell cells[static int sizeX][static int sizeY];
+    std::vector<std::vector<Cell>>* cells; // 2D Vector
 public:
     Map(std::string mapPath);
     int getSizeX();
     int getSizeY();
+    Cell getCellAt(int x, int y);
 };
 
 #endif // MAP_H

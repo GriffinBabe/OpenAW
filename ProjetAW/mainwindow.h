@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QTimer>
 #include "game.h"
+#include "imageholder.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,12 +32,12 @@ public slots:
 
 private:
 	Ui::MainWindow *ui;
-	QPixmap* cursorImage; // Image for the game cursor
 	QTimer timer;
 	void resize();
 	int gcd(int a, int b); // Greatest common divisor, used for cell size
 
 	Game* game;
+	ImageHolder holder;
 	bool gameSet;
 	int frameCount;
 	static int cellDim;

@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+	ImageHolder holder; // Class that contains all image files into PixMap*
 	QResource::registerResource("resources.qrc"); //Resources list
 	setFixedSize(size());
 	setMouseTracking(true); // Enables mouse movement event
@@ -19,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	frameCount = 0;
 	connect(&timer, SIGNAL(timeout()), this, SLOT(tick()));
 	timer.start(16);
-	this->cursorImage = new QPixmap(":/Images/cursor.png"); // Imports cursor image
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +43,17 @@ void MainWindow::resize() {
 void MainWindow::paintEvent(QPaintEvent *event) {
 	QPainter painter(this);
 	painter.fillRect(10, 10, 10, 10, Qt::red);
-	painter.drawPixmap(game->getCursorX()*cellDim,game->getCursorY()*cellDim,cellDim,cellDim,*cursorImage);
+
+	//Draws the map
+
+	for (int x=0; x < this->game->getMap()->getSizeX()-1; x++) {
+		for (int y = 0; y < this->game->getMap()->getSizeY()-1; y++) {
+			game->getMap()->getCellAt(x, y);
+		}
+	}
+
+	//Draws the cursor
+	painter.drawPixmap(game->getCursorX()*cellDim,game->getCursorY()*cellDim,cellDim,cellDim,*holder.getCursorImage());
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {

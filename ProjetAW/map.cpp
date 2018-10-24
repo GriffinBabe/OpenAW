@@ -37,10 +37,11 @@ Map::Map(std::string mapPath)
     } else {
         throw "The file didn't open correctly";
     }
-    Cell cells[sizeX][sizeY];
-    for(int i=0;i<data.size();i++){
+    this->cells = new std::vector<std::vector<Cell>>;
+    for(int i=0;i<data.size();i++) {
+        this->cells->push_back(std::vector<Cell>());
         for(int j=0;j<data[1].size();j++){
-            cells[j][i] = getNewCell(i, j, data[i][j]);
+            this->cells->at(i).push_back(getNewCell(i, j, data[i][j]));
         }
     }
 
@@ -77,4 +78,10 @@ int Map::getSizeX() {
 
 int Map::getSizeY(){
     return sizeY;
+}
+
+Cell Map::getCellAt(int x, int y) {
+    std::cout << this->cells->size() << std::endl;
+    std::cout << this->cells->at(1).size() << std::endl;
+    return this->cells->at(x).at(y);
 }
