@@ -50,7 +50,29 @@ Cell Map::getNewCell(int i,int j, int id) {
     if(id>=101 && id<=110){
         Pipe pipe(j,i,id);
         return pipe;
-    } else {
+    }else if(id==2){
+        Mountain mountain(j,i,id);
+        return mountain;
+    }else if(id==34){
+        City city(j,i,id);
+        return city;
+    }else if(id==3){
+        Woods woods(j,i,id);
+        return woods;
+    }else if(id>=4&&id<=10){
+        River river(j,i,id);
+        return river;
+    }else if(id>=15&&id<=25){
+        Roads roads(j,i,id);
+        return roads;
+    }else if(id>=29&&id<=30){
+        Sea sea(j,i,id);
+        return sea;
+    }else if(id==33){
+        Reefs reefs(j,i,id);
+        std::cout<<reefs.getPosX()<<";"<<reefs.getPosY()<<std::endl;
+        return reefs;
+    }else {
         Grass grass(j,i,1);
         return grass;
     }
