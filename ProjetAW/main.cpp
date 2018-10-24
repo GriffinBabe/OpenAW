@@ -10,11 +10,12 @@ int main(int argc, char *argv[])
 	}
     std::cout << std::endl;
 
-    Game game;
+   // Game game;
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    w.setGame(&game);
-    return a.exec();
+    //QApplication a(argc, argv);
+    //MainWindow w;
+    //w.show();
+    //w.setGame(&game);
+    //return a.exec();
+    Map(":/Maps/map1.txt");
 }
