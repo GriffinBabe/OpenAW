@@ -39,7 +39,16 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-	std::cout << event->key() << std::endl;
+	switch(event->key()) {
+		case 16777234: this->game->cursorLeft();
+						break;
+		case 16777235: this->game->cursorUp();
+						break;
+		case 16777236: this->game->cursorRight();
+						break;
+		case 16777237: this->game->cursorDown();
+						break;
+	}
 }
 
 void MainWindow::tick() {

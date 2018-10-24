@@ -3,6 +3,7 @@
 
 Game::Game()
 {
+	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 	cursorX = 0;
@@ -45,4 +46,37 @@ int Game::getCursorX()
 int Game::getCursorY()
 {
 	return cursorY;
+}
+
+void Game::cursorDown() {
+	int temp = cursorY + 1;
+	std::cout << this->map->getSizeY() << std::endl;
+	if (temp <= this->map->getSizeY()) { // First put ++ before variable else the condition check will be false
+		cursorY++;
+	}
+}
+
+void Game::cursorLeft() {
+	int temp = cursorX - 1;
+	if (temp >= 0) {
+		cursorX--;
+	}
+}
+
+void Game::cursorRight() {
+	int temp = cursorX + 1;
+	if (temp <= this->map->getSizeX()) {
+		cursorX++;
+	}
+}
+
+void Game::cursorUp() {
+	int temp = cursorY - 1;
+	if (temp >= 0) {
+		cursorY--;
+	}
+}
+
+Map* Game::getMap() {
+	return this->map;
 }

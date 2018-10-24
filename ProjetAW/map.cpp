@@ -7,15 +7,12 @@
 #include <algorithm>
 
 
-map::map(std::string mapPath)
+Map::Map(std::string mapPath)
 {
-    int sizeX=21;
-    int sizeY=17;
     /* A modifier, les valeurs doivent être retrouvées à partir du fichier .txt
 
      */
 
-    Cell cells[sizeX][sizeY];
 
 
     /*Ouverture du Fichier et récupération des données
@@ -25,7 +22,6 @@ map::map(std::string mapPath)
     QString path = QString::fromStdString(mapPath);
     QFile file(path);
     if (file.open(QIODevice::ReadOnly)) {
-        std::cout << "ouvert" << std::endl;
         QTextStream in(&file);
         int counter=0;
         while(!in.atEnd()) {
@@ -38,17 +34,18 @@ map::map(std::string mapPath)
             sizeX=line3.size();
         }
     sizeY=counter;
-    std::cout<<sizeX<<std::endl;
-    std::cout<<sizeY<<std::endl;
+    std::cout << "Map width: " << sizeX << std::endl;
+    std::cout << "Map height: " << sizeY <<std::endl;
     file.close();
     } else {
-        std::cout << "The file didn't open correctly" << std::endl;
+        throw "The file didn't open correctly";
     }
 
+    Cell cells[sizeX][sizeY];
 
 }
 
-std::vector<int> map::split(const std::string& input, char delim) { // Char is the devider characer
+std::vector<int> Map::split(const std::string& input, char delim) { // Char is the devider characer
     std::stringstream ss(input);
     std::string item;
     std::vector<std::string> elems;
@@ -61,4 +58,12 @@ std::vector<int> map::split(const std::string& input, char delim) { // Char is t
         intelems.push_back(temp);
     }
     return intelems;
+}
+
+int Map::getSizeX() {
+    return sizeX;
+}
+
+int Map::getSizeY(){
+    return sizeY;
 }
