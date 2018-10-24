@@ -7,20 +7,16 @@
 #include <algorithm>
 
 
-map::map(std::string mapPath)
+Map::Map(std::string mapPath)
 {
-    int sizeX=21;
-    int sizeY=17;
-    /* A modifier, les valeurs doivent être retrouvées à partir du fichier .txt
-
-     */
-
-    Cell cells[sizeX][sizeY];
 
 
     /*Ouverture du Fichier et récupération des données
     Le lien du fichier est ":/Maps/map1.txt"
+    On détermine la taille du tableau et on stocke les éléments dans un vector de vector d'entier data
+    Ensuite, on crée les Cell à partir de ce vector.
     */
+    std::vector<std::vector<int>> data;
 
     QString path = QString::fromStdString(mapPath);
     QFile file(path);
@@ -33,22 +29,39 @@ map::map(std::string mapPath)
             std::string line2=line.toStdString();
 
             std::vector<int> line3=split(line2,',');
-
+            data.push_back(line3);
             counter+=1;
             sizeX=line3.size();
         }
     sizeY=counter;
     std::cout<<sizeX<<std::endl;
     std::cout<<sizeY<<std::endl;
+    std::cout<<data[16][20]<<std::endl;
     file.close();
     } else {
         std::cout << "The file didn't open correctly" << std::endl;
     }
-
+    Cell cells[sizeX][sizeY];
+    for(int i=0;i<data.size();i++){
+        for(int j=0;j<data[1].size();j++){
+            cells[j][i] = getNewCell(i, j, data[i][j]);
+        }
+    }
 
 }
 
-std::vector<int> map::split(const std::string& input, char delim) { // Char is the devider characer
+Cell Map::getNewCell(int i,int j, int id) {
+    if(id>=101 && id<=110){
+        Pipe pipe(j,i,id);
+        return pipe;
+    } else {
+        Grass grass(j,i,1);
+        return grass;
+    }
+
+}
+
+std::vector<int> Map::split(const std::string& input, char delim) { // Char is the devider characer
     std::stringstream ss(input);
     std::string item;
     std::vector<std::string> elems;

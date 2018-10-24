@@ -3,11 +3,11 @@
 Cell::Cell(){
 
 }
-Cell::Cell(int pX,int pY,int t)
+Cell::Cell(int x,int y, int id)
 {
-    posX= pX;
-    posY=pY;
-    type=t;
+    posX = x;
+    posY= y;
+    type=id;
 
 }
 int Cell::gettype(){
@@ -26,3 +26,16 @@ int Cell::getPosX(){
 int Cell::getPosY(){
     return posY;
 }
+
+Pipe::Pipe(int x, int y, int id){
+    posX = x;
+    posY = y;
+    type = id;
+}
+
+Grass::Grass(int x, int y, int id){
+    posX = x;
+    posY = y;
+    type = id;
+}
+

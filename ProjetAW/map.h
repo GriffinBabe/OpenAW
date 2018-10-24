@@ -7,14 +7,16 @@
 #include "cell.h"
 
 
-class map
+class Map
 {
 private:
     int sizeX;
     int sizeY;
     std::vector<int> split(const std::string& input, char delim);
+    Cell getNewCell(int i,int j, int id);
+    //Cell cells[static int sizeX][static int sizeY];
 public:
-    map(std::string mapPath);
+    Map(std::string mapPath);
 };
 
 #endif // MAP_H

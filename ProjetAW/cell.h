@@ -4,10 +4,8 @@
 
 class Cell
 {
-private:
-    int posX;
-    int posY;
-    int type;
+protected:
+    int posX, posY, type, dir;
 
 public:
     Cell(int posX,int posY,int t);
@@ -17,6 +15,29 @@ public:
     void setPos(int x,int y);
     int getPosX();
     int getPosY();
+
+};
+
+// --------------------------------------------------
+
+class Pipe : public Cell
+{
+private:
+
+public:
+    Pipe(int x, int y, int id);
+
+
+};
+
+// --------------------------------------------------------------
+class Grass : public Cell
+{
+private:
+
+public:
+    Grass(int x, int y, int id);
+
 
 };
 

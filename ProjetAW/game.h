@@ -30,4 +30,3 @@ private:
 };
 
 #endif // GAME_H
->>>>>>> c69b5c60240bfe75cf618edf19805eda09fd8b76
