@@ -8,6 +8,7 @@ Game::Game()
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 	cursorX = 0;
 	cursorY = 0;
+	cellDim = 32; // Default cell dimension but will be overrided when MainWindow::setGame() called
 }
 
 void Game::addPlayer(Player p)
@@ -31,11 +32,12 @@ Player* Game::getPlayerByUsername(std::string username) {
 }
 
 void Game::setCursor(int x, int y)
+/*
+ * set cursor to target cell the parameters are mouse
+ */
 {
-	//temporary but should get on map
-	int cellSize = 64; // in pixels
-	cursorX = x/cellSize;
-	cursorY = y/cellSize;
+	cursorX = x/cellDim;
+	cursorY = y/cellDim;
 }
 
 int Game::getCursorX()
@@ -46,6 +48,11 @@ int Game::getCursorX()
 int Game::getCursorY()
 {
 	return cursorY;
+}
+
+void Game::setCellDim(int dim)
+{
+	cellDim = dim;
 }
 
 void Game::cursorDown() {

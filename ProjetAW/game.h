@@ -17,7 +17,7 @@ public:
 
 	Player* getPlayerByUsername(std::string username);
 
-	//Controller
+	//Controller & View
 	void cursorUp();
 	void cursorDown();
 	void cursorLeft();
@@ -25,8 +25,10 @@ public:
 	void setCursor(int x, int y);
 	int getCursorX();
 	int getCursorY();
-    Unit checkpos(int x , int y);
+	void setCellDim(int dim);
 
+    //Model
+    Unit checkpos(int x , int y);
 	Map* getMap();
 
 private:
@@ -35,6 +37,7 @@ private:
 	std::vector<Player> players;
 	Map* map;
 
+	int cellDim;
 	int cursorX, cursorY;
 };
 
