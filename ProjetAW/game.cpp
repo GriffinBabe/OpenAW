@@ -46,3 +46,9 @@ int Game::getCursorY()
 {
 	return cursorY;
 }
+
+Unit Game::checkpos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
+    for (int i=0; i<units.size(); ++i ){
+        if((units.at(i).getPos().first == x)&&(units.at(i).getPos().second == y)){return units.at(i);}
+    }
+}
