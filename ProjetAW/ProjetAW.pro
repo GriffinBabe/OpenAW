@@ -32,7 +32,6 @@ SOURCES += \
     unit.cpp \
     map.cpp \
     cell.cpp \
-    infantery.cpp \
     imageholder.cpp
 
 HEADERS += \
@@ -42,7 +41,6 @@ HEADERS += \
     unit.h \
     map.h \
     cell.h \
-    infantery.h \
     imageholder.h
 
 FORMS += \

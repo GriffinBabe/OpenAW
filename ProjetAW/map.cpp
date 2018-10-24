@@ -38,16 +38,18 @@ Map::Map(std::string mapPath)
         throw "The file didn't open correctly";
     }
     this->cells = new std::vector<std::vector<Cell>>;
-    for(int i=0;i<data.size();i++) {
+    for (int y = 0; y < data[1].size(); y++) {
         this->cells->push_back(std::vector<Cell>());
-        for(int j=0;j<data[1].size();j++){
-            this->cells->at(i).push_back(getNewCell(i, j, data[i][j]));
+        for (int x = 0; x < data.size(); x++) {
+            this->cells->at(y).push_back(Cell(x,y,data[x][y]));
         }
     }
-
 }
 
 Cell Map::getNewCell(int i,int j, int id) {
+    /*
+     * Gives a cell with the right x and y coordinates
+     */
     if(id>=101 && id<=110){
         Pipe pipe(j,i,id);
         return pipe;
@@ -103,7 +105,5 @@ int Map::getSizeY(){
 }
 
 Cell Map::getCellAt(int x, int y) {
-    std::cout << this->cells->size() << std::endl;
-    std::cout << this->cells->at(1).size() << std::endl;
-    return this->cells->at(x).at(y);
+    return cells->at(x).at(y);
 }

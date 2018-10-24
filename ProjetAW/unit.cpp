@@ -3,6 +3,7 @@
 Unit::Unit(Player player)
 {
     *owner = player;
+    health = 10;
 }
 
 Player* Unit::getOwner()const{return this->owner;}
@@ -22,3 +23,11 @@ std::pair<int,int> Unit::getDir(){return dir;}
 void Unit::setPos(std::pair<int,int> p){pos = p;}
 
 void Unit::setDir(std::pair<int,int> d){dir = d;}
+
+
+// ---------------------------------------------
+
+Infantery::Infantery(Player player) : Unit(player) {
+    this->owner = &player;
+}
+

@@ -19,11 +19,23 @@ public:
     void setDir(std::pair<int,int> dir);
     void setDamage(int d);
     int getDamage();
-private:
+protected:
     Player* owner;
     int health;
     int damage;
     std::pair<int,int> pos;
     std::pair<int,int> dir;
 };
+
+// -------------------------------------------
+
+class Infantery : public Unit
+{
+public:
+    Infantery(Player player);
+
+private:
+
+};
+
 #endif // UNIT_H

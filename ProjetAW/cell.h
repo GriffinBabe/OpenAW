@@ -64,24 +64,28 @@ public:
 
 };
 
+// --------------------------------------------------------------
+
 class Woods : public Cell
 {
 private:
 
 public:
     Woods(int x, int y, int id);
-
-
 };
+
+// --------------------------------------------------------------
+
 class River : public Cell
 {
 private:
 
 public:
     River(int x, int y, int id);
-
-
 };
+
+// --------------------------------------------------------------
+
 class Roads : public Cell
 {
 private:

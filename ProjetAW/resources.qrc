@@ -7,5 +7,12 @@
     </qresource>
     <qresource prefix="/Images/Terrain">
         <file>grass.png</file>
+        <file>hpipe.png</file>
+        <file>hroad.png</file>
+        <file>mountain.png</file>
+        <file>plain.png</file>
+        <file>reef.png</file>
+        <file>sea.png</file>
+        <file>wood.png</file>
     </qresource>
 </RCC>

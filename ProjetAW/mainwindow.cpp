@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ImageHolder holder; // Class that contains all image files into PixMap*
 	QResource::registerResource("resources.qrc"); //Resources list
-	setFixedSize(size());
 	setMouseTracking(true); // Enables mouse movement event
 	gameSet = false;
 	ui->setupUi(this);
@@ -31,24 +30,28 @@ void MainWindow::resize() {
 	/*
 	 * Resizes the window for showing all cells width 32px quare dimension
 	 */
-	std::cout << "Window size is: " << size().width() << "; " << size().height() << std::endl;
-	std::cout << "Cell dim is: " << cellDim << std::endl;
-	int& height = size().rheight(); // Is a pointer so it can be modified later
-	int& width = size().rwidth();
+	int height = size().height(); // Is a pointer so it can be modified later
+	int width = size().width();
 	height = this->game->getMap()->getSizeY()*cellDim;
 	width = this->game->getMap()->getSizeX()*cellDim;
-
+	setFixedHeight(height);
+	setFixedWidth(width);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
 	QPainter painter(this);
-	painter.fillRect(10, 10, 10, 10, Qt::red);
 
+	//Draws grass everywhere
+	for (int x = 0; x < this->game->getMap()->getSizeX(); x++) {
+		for (int y = 0; y < this->game->getMap()->getSizeY(); y++) {
+			painter.drawPixmap(x*cellDim,y*cellDim,cellDim,cellDim,*holder.getGrassImage());
+		}
+	}
 	//Draws the map
-
-	for (int x=0; x < this->game->getMap()->getSizeX()-1; x++) {
-		for (int y = 0; y < this->game->getMap()->getSizeY()-1; y++) {
-			game->getMap()->getCellAt(x, y);
+	for (int x = 0; x < this->game->getMap()->getSizeX(); x++) {
+		for (int y = 0; y < this->game->getMap()->getSizeY(); y++) {
+			int type = game->getMap()->getCellAt(x, y).gettype();
+			painter.drawPixmap(x*cellDim,y*cellDim,cellDim,cellDim,*holder.getTerrainImage(type));
 		}
 	}
 
