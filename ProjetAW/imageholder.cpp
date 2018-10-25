@@ -35,6 +35,7 @@ ImageHolder::ImageHolder()
     this->pipe2S= new QPixmap(":/Images/Terrain/pipe2S.png");
     this->pipe2W= new QPixmap(":/Images/Terrain/pipe2W.png");
 
+
 }
 
 QPixmap* ImageHolder::getGrassImage() {
@@ -47,7 +48,6 @@ QPixmap* ImageHolder::getCursorImage() {
 
 QPixmap* ImageHolder::getTerrainImage(int id) {
     switch(id) {
-        case 1: return this->grassImage;
         case 2: return this->mountainImage;
         case 3: return this->woodImage;
         case 4: return this->riverImageEW;
@@ -79,6 +79,8 @@ QPixmap* ImageHolder::getTerrainImage(int id) {
         case 108:return this->pipe2E;
         case 109:return this->pipe2S;
         case 110:return this->pipe2W;
-
    }
+
+    return this->grassImage;
+
 }

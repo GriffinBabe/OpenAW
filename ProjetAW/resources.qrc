@@ -7,12 +7,48 @@
     </qresource>
     <qresource prefix="/Images/Terrain">
         <file>grass.png</file>
-        <file>hpipe.png</file>
-        <file>hroad.png</file>
         <file>mountain.png</file>
+        <file>pipe2E.png</file>
+        <file>pipe2N.png</file>
+        <file>pipe2S.png</file>
+        <file>pipe2W.png</file>
+        <file>pipeES.png</file>
+        <file>pipeEW.png</file>
+        <file>pipeNE.png</file>
+        <file>pipeNS.png</file>
+        <file>pipeNW.png</file>
+        <file>pipeSW.png</file>
         <file>plain.png</file>
         <file>reef.png</file>
+        <file>riverES.png</file>
+        <file>riverEW.png</file>
+        <file>riverNE.png</file>
+        <file>riverNS.png</file>
+        <file>riverNW.png</file>
+        <file>riverSW.png</file>
+        <file>road3E.png</file>
+        <file>road3N.png</file>
+        <file>road3S.png</file>
+        <file>road3W.png</file>
+        <file>roadA.png</file>
+        <file>roadES.png</file>
+        <file>roadEW.png</file>
+        <file>roadNE.png</file>
+        <file>roadNS.png</file>
+        <file>roadNW.png</file>
+        <file>roadSW.png</file>
         <file>sea.png</file>
         <file>wood.png</file>
+    </qresource>
+    <qresource prefix="/Images/Buildings">
+        <file>airport.png</file>
+        <file>airportB.png</file>
+        <file>airportR.png</file>
+        <file>city.png</file>
+        <file>cityB.png</file>
+        <file>cityR.png</file>
+        <file>factory.png</file>
+        <file>factoryB.png</file>
+        <file>factoryR.png</file>
     </qresource>
 </RCC>
