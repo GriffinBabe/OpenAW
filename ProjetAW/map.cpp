@@ -56,7 +56,7 @@ Cell Map::getNewCell(int i,int j, int id) {
     }else if(id==2){
         Mountain mountain(j,i,id);
         return mountain;
-    }else if(id==34){
+    }else if(id==34 || id==125 || id==95){
         City city(j,i,id);
         return city;
     }else if(id==3){
