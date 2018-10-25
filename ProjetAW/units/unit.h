@@ -27,3 +27,4 @@ protected:
     std::pair<int,int> dir;
 };
 
+#endif // UNIT_H
