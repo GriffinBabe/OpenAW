@@ -10,6 +10,7 @@ class Player
 		 */
 {
 public:
+    Player(std::string name);
 	Player(std::string name, char teamColor);
 	Player(std::string name, char teamColor, int IALvl);
 	std::string getUsername();
