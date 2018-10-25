@@ -14,6 +14,7 @@ ImageHolder::ImageHolder()
     this->riverImageES = new QPixmap(":/Images/Terrain/riverES.png");
     this->riverImageNW= new QPixmap(":/Images/Terrain/riverNW.png");
     this->riverImageNE= new QPixmap(":/Images/Terrain/riverNE.png");
+    this->riverImageSW = new QPixmap(":/Images/Terrain/riverSW.png");
     this->roadEW= new QPixmap(":/Images/Terrain/roadEW.png");
     this->roadNS= new QPixmap(":/Images/Terrain/roadNS.png");
     this->roadES= new QPixmap(":/Images/Terrain/roadES.png");
@@ -54,7 +55,7 @@ QPixmap* ImageHolder::getTerrainImage(int id) {
         case 5: return this->riverImageNS;
         //case 6: return this->riverImage;
         case 7: return this->riverImageES;
-        //case 8: return this->riverImage;
+        case 8: return this->riverImageSW;
         case 9: return this->riverImageNW;
         case 10: return this->riverImageNE;
         case 15: return this->roadEW;

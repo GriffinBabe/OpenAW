@@ -19,7 +19,6 @@ private:
     QPixmap* pipeImage;
     QPixmap* riverImage;
 
-<<<<<<< HEAD
     QPixmap* riverImageNS;
     // 6: QPixmap* riverImage;
     QPixmap* riverImageES;
@@ -27,6 +26,7 @@ private:
     QPixmap* riverImageNW;
     QPixmap* riverImageNE;
     QPixmap* riverImageEW;
+    QPixmap* riverImageSW;
     QPixmap* roadEW;
     QPixmap* roadNS;
     QPixmap* roadES;
@@ -47,8 +47,7 @@ private:
     QPixmap* pipe2W;
 
 
-=======
->>>>>>> 30f266edbb5246f7394d93fcd0629ced62e665ff
+
     //Units
     QPixmap* infantery;
 
