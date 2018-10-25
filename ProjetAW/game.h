@@ -4,6 +4,7 @@
 #include "map.h"
 #include "player.h"
 #include "units/unit.h"
+#include "units/infantery.h"
 #include <vector>
 #include <string>
 
@@ -28,7 +29,7 @@ public:
 	void setCellDim(int dim);
 	void selectElement();
 
-    std::vector<Unit*>* getUnits();
+	std::vector<Unit*>* getUnits();
 
     //Model
     void createUnit(Player* owner, std::pair<int,int> spawn);
