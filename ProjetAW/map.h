@@ -20,6 +20,7 @@ public:
     int getSizeX();
     int getSizeY();
     Cell getCellAt(int x, int y);
+	std::vector<std::vector<Cell>>* getCells();
 };
 
 #endif // MAP_H

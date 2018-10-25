@@ -105,5 +105,15 @@ int Map::getSizeY(){
 }
 
 Cell Map::getCellAt(int x, int y) {
-    return cells->at(x).at(y);
+	return cells->at(x).at(y);
+}
+
+std::vector<std::vector<Cell> > *Map::getCells()
+{
+	if (this->cells != nullptr) {
+		return this->cells;
+	} else {
+		throw "Cells Pointer in Map is null";
+	}
+
 }

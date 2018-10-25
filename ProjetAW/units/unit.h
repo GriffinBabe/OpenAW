@@ -23,10 +23,15 @@ public:
     int getID();
     void setDamage(int d);
     int getDamage();
+	int getMovementPoints();
+	bool getCanMove();
+	bool getCanAttack();
 
 protected:
     Player* owner;
-    int id, health, damage, disp, x, y;
+	int id, health, damage, disp, x, y, movementPoints;
+	bool canAttack;
+	bool canMove;
     std::pair<int,int> dir;
 };
 

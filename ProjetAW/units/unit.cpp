@@ -29,3 +29,9 @@ void Unit::setPos(int xi, int yi){x = xi; y = yi;}
 
 void Unit::setDir(std::pair<int,int> d){dir = d;}
 
+bool Unit::getCanAttack() { return canAttack; }
+
+bool Unit::getCanMove() { return canMove; }
+
+int Unit::getMovementPoints() { return movementPoints; }
+

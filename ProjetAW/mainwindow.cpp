@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+	setWindowIcon(QIcon(":/Images/Icon/icone.png"));
+	this->menu = new UI();
 	ImageHolder holder; // Class that contains all image files into PixMap*
 	QResource::registerResource("resources.qrc"); //Resources list
 	setMouseTracking(true); // Enables mouse movement event
@@ -20,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	frameCount = 0;
 	connect(&timer, SIGNAL(timeout()), this, SLOT(tick()));
 	timer.start(16);
+	cursorX = 0;
+	cursorY = 0;
 }
 
 MainWindow::~MainWindow()
@@ -37,6 +41,7 @@ void MainWindow::resize() {
 	width = this->game->getMap()->getSizeX()*cellDim;
 	setFixedHeight(height);
 	setFixedWidth(width);
+	this->menu->setDimensions(size().width(), size().height(), cellDim);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
@@ -74,30 +79,41 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 
 	//Draws UI
-
+	if (this->selectedUnit != nullptr) {
+		if (this->selectedUnit->getCanMove()) {
+			this->menu->moveMenu(&painter,this->selectedUnit);
+		} else {
+			this->menu->unitMenu(&painter, this->selectedUnit);
+		}
+	}
 	//Draws the cursor
-	painter.drawPixmap(game->getCursorX()*cellDim,game->getCursorY()*cellDim,cellDim,cellDim,*holder.getCursorImage());
+	painter.drawPixmap(cursorX*cellDim,cursorY*cellDim,cellDim,cellDim,*holder.getCursorImage());
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
+	if (event->button()==1) {
+		selectElement();
+	}
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-	game->setCursor(event->x(), event->y());
+	setCursor(event->x(), event->y());
 }
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
 	switch(event->key()) {
-		case 16777234: this->game->cursorLeft(); // Left arrow
+		case 16777234: cursorLeft(); // Left arrow
 						break;
-		case 16777235: this->game->cursorUp(); // Up arrow
+		case 16777235: cursorUp(); // Up arrow
 						break;
-		case 16777236: this->game->cursorRight(); // Right arrow
+		case 16777236: cursorRight(); // Right arrow
 						break;
-		case 16777237: this->game->cursorDown(); // Down arrow
+		case 16777237: cursorDown(); // Down arrow
 						break;
-		case 16777220: this->game->selectElement(); //Enter, select element on cursor, can be a cell, an unit or a building
+		case 16777220: selectElement(); //Enter, select element on cursor, can be a cell, an unit or a building
+						break;
+		case 16777216: noSelectedElement(); //Escape, quits any menu
 						break;
 	}
 }
@@ -112,8 +128,69 @@ void MainWindow::tick() {
 void MainWindow::setGame(Game *game)
 {
 	this->game = game;
-	this->game->setCellDim(cellDim); // Set the cell dimension value to game, is usefull for controller method in game
+	this->menu->setGame(game);
 	resize();
 	std::cout << "Game Set in View/Controller" << std::endl;
 	gameSet = true;
+}
+
+void MainWindow::selectElement()
+/*
+ *  This method selects the unit, building and cell where the cursor is.
+ *  There is a priority to be respect and it's ruled by the return statement.
+ */
+{
+	//Checks if there is any unit on it and selects it
+	if (this->game->checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
+		this->selectedUnit = this->game->getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
+		std::cout << "Unit selected with position: " << this->selectedUnit->getPosX()<< "; "
+				  << this->selectedUnit->getPosY()<< std::endl;
+		if (this->selectedUnit->getCanMove()) {
+			this->menu->setMoveCells(this->game->getMoveCells(this->selectedUnit)); //Sets the cells where the unit can move in the UI class
+		}
+		return;
+	}
+	std::cout << "No unit selected" << std::endl;
+}
+
+void MainWindow::noSelectedElement()
+{
+	this->selectedUnit = nullptr;
+}
+
+void MainWindow::setCursor(int x, int y)
+/*
+ * set cursor to target cell the parameters are mouse
+ */
+{
+	cursorX = x/cellDim;
+	cursorY = y/cellDim;
+}
+
+void MainWindow::cursorDown() {
+	int temp = cursorY + 1;
+	if (temp <= this->game->getMap()->getSizeY()) { // First put ++ before variable else the condition check will be false
+		cursorY++;
+	}
+}
+
+void MainWindow::cursorLeft() {
+	int temp = cursorX - 1;
+	if (temp >= 0) {
+		cursorX--;
+	}
+}
+
+void MainWindow::cursorRight() {
+	int temp = cursorX + 1;
+	if (temp <= this->game->getMap()->getSizeX()) {
+		cursorX++;
+	}
+}
+
+void MainWindow::cursorUp() {
+	int temp = cursorY - 1;
+	if (temp >= 0) {
+		cursorY--;
+	}
 }

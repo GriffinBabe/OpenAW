@@ -19,17 +19,10 @@ public:
 	Player* getPlayerByUsername(std::string username);
 
 	//Controller & View
-	void cursorUp();
-	void cursorDown();
-	void cursorLeft();
-	void cursorRight();
-	void setCursor(int x, int y);
-	int getCursorX();
-	int getCursorY();
-	void setCellDim(int dim);
-	void selectElement();
 
 	std::vector<Unit*>* getUnits();
+	std::vector<std::pair<int,int>> getMoveCells(Unit* u);
+	bool unitCanMoveOnCell(Unit* u, Cell c);
 
     //Model
     void createUnit(Player* owner, std::pair<int,int> spawn);
@@ -38,15 +31,10 @@ public:
 	Map* getMap();
 
 private:
-	Unit* safeSelectedUnit();
 	Player* localPlayer;
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
 	Map* map;
-
-	Unit* selectedUnit;
-	int cellDim;
-	int cursorX, cursorY;
 };
 
 #endif // GAME_H

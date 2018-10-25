@@ -1,5 +1,6 @@
 #include "game.h"
 #include <iostream>
+#include <math.h>
 
 Game::Game()
 {
@@ -7,9 +8,6 @@ Game::Game()
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
 	std::cout << "[Game Model] Game Initialised" << std::endl;
-	cursorX = 0;
-	cursorY = 0;
-	cellDim = 32; // Default cell dimension but will be overrided when MainWindow::setGame() called
 }
 
 void Game::addPlayer(Player* p)
@@ -31,90 +29,46 @@ Player* Game::getPlayerByUsername(std::string username) {
 	return NULL;
 }
 
-void Game::setCursor(int x, int y)
-/*
- * set cursor to target cell the parameters are mouse
- */
-{
-	cursorX = x/cellDim;
-	cursorY = y/cellDim;
-}
-
-int Game::getCursorX()
-{
-	return cursorX;
-}
-
-int Game::getCursorY()
-{
-	return cursorY;
-}
-
-void Game::setCellDim(int dim)
-{
-	cellDim = dim;
-}
-
-void Game::selectElement()
-/*
- *  This method selects the unit, building and cell where the cursor is.
- *  There is a priority to be respect and it's ruled by the return statement.
- */
-{
-	//Checks if there is any unit on it and selects it
-	if (checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
-		this->selectedUnit = getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
-		std::cout << "Unit selected with position: " << this->selectedUnit->getPosX()<< "; "
-				  << this->selectedUnit->getPosY()<< std::endl;
-		return;
-	}
-	std::cout << "No unit selected" << std::endl;
-}
-
 std::vector<Unit *> *Game::getUnits()
 {
 	return &units;
 }
 
-void Game::cursorDown() {
-	int temp = cursorY + 1;
-	if (temp <= this->map->getSizeY()) { // First put ++ before variable else the condition check will be false
-		cursorY++;
+std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
+{
+	/*
+	 * returns the a vector of pairs containing the position where the unit can move
+	 */
+
+	std::vector<std::pair<int,int>> moveCells;
+	std::vector<std::vector<Cell>> cells = *this->map->getCells();
+	std::vector<std::vector<Cell>>::iterator it;
+	std::vector<Cell>::iterator it2;
+	for (it=cells.begin(); it != cells.end(); ++it) {
+		for (it2 = it->begin(); it2 != it->end(); ++it2) { //it2 is technically a cell
+			if (unitCanMoveOnCell(u,(*it2))) {
+				moveCells.push_back(std::pair<int,int>((*it2).getPosX(),(*it2).getPosY()));
+			}
+		}
 	}
+	return moveCells;
 }
 
-void Game::cursorLeft() {
-	int temp = cursorX - 1;
-	if (temp >= 0) {
-		cursorX--;
-	}
-}
-
-void Game::cursorRight() {
-	int temp = cursorX + 1;
-	if (temp <= this->map->getSizeX()) {
-		cursorX++;
-	}
-}
-
-void Game::cursorUp() {
-	int temp = cursorY - 1;
-	if (temp >= 0) {
-		cursorY--;
+bool Game::unitCanMoveOnCell(Unit *u, Cell c)
+{
+	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
+		// If there is enough range, this is a simplified version and is going to be changed after
+		return false;
+	} else if (checkUnitOnPos(c.getPosX(), c.getPosY()) && c.getPosX()!=u->getPosX() && c.getPosY()!= u->getPosY()) {
+		// If there is a unit on this cell and this unit isn't the unit that we want to move
+		return false;
+	} else {
+		return true;
 	}
 }
 
 Map* Game::getMap() {
 	return this->map;
-}
-
-Unit *Game::safeSelectedUnit()
-{
-    if (this->selectedUnit != NULL) {
-        return this->selectedUnit;
-    } else {
-        throw "Selected Unit is a null pointer";
-    }
 }
 
 bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
@@ -137,6 +91,6 @@ Unit* Game::getUnitOnPos(int x, int y) {
 }
 
 void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-    this->units.push_back(new Infantery()); //infantery pour le test, UNIT_TYPE dans le futur
+	this->units.push_back(new Infantery(3,3,owner)); //infantery pour le test, UNIT_TYPE dans le futur
 }
 

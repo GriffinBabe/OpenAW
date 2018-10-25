@@ -33,7 +33,8 @@ SOURCES += \
     cell.cpp \
     imageholder.cpp \
     units/unit.cpp \
-    units/infantery.cpp
+    units/infantery.cpp \
+    ui.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     cell.h \
     imageholder.h \
     units/infantery.h \
-    units/unit.h
+    units/unit.h \
+    ui.h
 
 FORMS += \
         mainwindow.ui

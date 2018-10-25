@@ -8,6 +8,7 @@
 #include <QTimer>
 #include "game.h"
 #include "imageholder.h"
+#include "ui.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,11 +37,22 @@ private:
 	void resize();
 	int gcd(int a, int b); // Greatest common divisor, used for cell size
 
+	UI* menu;
 	Game* game;
 	ImageHolder holder;
 	bool gameSet;
 	int frameCount;
 	static int cellDim;
+
+	int cursorX, cursorY;
+	Unit* selectedUnit;
+	void cursorUp();
+	void cursorDown();
+	void cursorLeft();
+	void cursorRight();
+	void setCursor(int x, int y);
+	void selectElement();
+	void noSelectedElement();
 };
 
 #endif // MAINWINDOW_H

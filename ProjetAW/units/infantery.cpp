@@ -10,7 +10,8 @@ Infantery::Infantery(int xi, int yi, Player* owner)
    id = 1; // used for view
    x = xi;
    y = yi;
-   std::pair<int,int> pos(x,y);
+   canMove = true; // Should be false, but let true until player's turns are implemented
+   canAttack = false;
+   movementPoints = 3; // can be found here => http://awbw.amarriner.com/units.php
    std::pair<int,int> dir(0,1);
-   std::cout << "Infantery created with position x y " << pos.first << " " << pos.second << std::endl;
 }

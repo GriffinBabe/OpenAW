@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/Images">
         <file>cursor.png</file>
+        <file>arrow.png</file>
     </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>
@@ -59,5 +60,8 @@
         <file>infanteryR.png</file>
         <file>bazookaB.png</file>
         <file>infanteryB.png</file>
+    </qresource>
+    <qresource prefix="/Images/Icon">
+        <file>icone.png</file>
     </qresource>
 </RCC>
