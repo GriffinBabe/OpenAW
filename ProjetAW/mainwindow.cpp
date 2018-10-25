@@ -61,7 +61,9 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 	std::vector<Unit*> units = *this->game->getUnits();
 	std::vector<Unit*>::iterator it;
 	for (it = units.begin(); it != units.end(); ++it) {
-		(*it)->getOwner()->get
+        int x = (*it)->getPos().first;
+        int y = (*it)->getPos().second;
+        painter.drawPixmap(x*cellDim,y*cellDim,cellDim,cellDim,*holder.getUnitImage(1,'B'));
 	}
 
 

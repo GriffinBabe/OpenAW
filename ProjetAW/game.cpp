@@ -18,7 +18,7 @@ void Game::addPlayer(Player p)
 	std::cout << "[Game Model] Player with username " << p.getUsername() << " added to game." << std::endl;
 }
 
-void Game::addUnit(Unit u)
+void Game::addUnit(Unit* u)
 {
 	units.push_back(u);
 }
@@ -138,5 +138,6 @@ Unit* Game::getUnitOnPos(int x, int y) {
 }
 
 void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-    this->units.push_back(new Infantery());
+    this->units.push_back(new Infantery()); //infantery pour le test, UNIT_TYPE dans le futur
 }
+
