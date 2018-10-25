@@ -42,8 +42,8 @@ HEADERS += \
     map.h \
     cell.h \
     imageholder.h \
-    units/unit.h \
-    units/infantery.h
+    units/infantery.h \
+    units/unit.h
 
 FORMS += \
         mainwindow.ui
