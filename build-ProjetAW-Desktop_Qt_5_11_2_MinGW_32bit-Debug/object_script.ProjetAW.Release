@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\game.o
+./release\player.o
+./release\unit.o
+./release\map.o
+./release\cell.o
+./release\infantery.o
+./release\qrc_resources.o
+./release\moc_mainwindow.o
+);

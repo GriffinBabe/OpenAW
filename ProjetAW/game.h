@@ -26,17 +26,21 @@ public:
 	int getCursorX();
 	int getCursorY();
 	void setCellDim(int dim);
+	void selectElement();
 
     //Model
-    Unit checkpos(int x , int y);
+    bool checkUnitOnPos(int x , int y);
+    Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 
 private:
+	Unit* safeSelectedUnit();
 	Player* localPlayer;
-	std::vector<Unit> units;
+	std::vector<Unit*> units;
 	std::vector<Player> players;
 	Map* map;
 
+	Unit* selectedUnit;
 	int cellDim;
 	int cursorX, cursorY;
 };

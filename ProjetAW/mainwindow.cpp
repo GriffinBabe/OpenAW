@@ -68,14 +68,17 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
+	std::cout << event->key() << std::endl;
 	switch(event->key()) {
-		case 16777234: this->game->cursorLeft();
+		case 16777234: this->game->cursorLeft(); // Left arrow
 						break;
-		case 16777235: this->game->cursorUp();
+		case 16777235: this->game->cursorUp(); // Up arrow
 						break;
-		case 16777236: this->game->cursorRight();
+		case 16777236: this->game->cursorRight(); // Right arrow
 						break;
-		case 16777237: this->game->cursorDown();
+		case 16777237: this->game->cursorDown(); // Down arrow
+						break;
+		case 16777220: this->game->selectElement(); // select element on cursor, can be a cell, an unit or a building
 						break;
 	}
 }
