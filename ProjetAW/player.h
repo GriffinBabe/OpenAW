@@ -10,8 +10,8 @@ class Player
 		 */
 {
 public:
-	Player(std::string name, char teamColor);
-	Player(std::string name, char teamColor, int IALvl);
+	Player(std::string name, char tc);
+	Player(std::string name, char tc, int IALvl);
 	std::string getUsername();
 	char getTeamColor();
 

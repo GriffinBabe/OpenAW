@@ -15,20 +15,18 @@ public:
     int getHealth();
     int getDisp();
     void setHealth(int a);
-    std::pair<int,int> getPos();
+    int getPosX();
+    int getPosY();
     std::pair<int,int> getDir();
-    void setPos(std::pair<int,int> pos);
+    void setPos(int xi, int yi);
     void setDir(std::pair<int,int> dir);
     int getID();
     void setDamage(int d);
     int getDamage();
+
 protected:
-    int id;
     Player* owner;
-    int health;
-    int damage;
-    int disp;
-    std::pair<int,int> pos;
+    int id, health, damage, disp, x, y;
     std::pair<int,int> dir;
 };
 

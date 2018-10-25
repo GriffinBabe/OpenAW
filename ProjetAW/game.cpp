@@ -12,22 +12,21 @@ Game::Game()
 	cellDim = 32; // Default cell dimension but will be overrided when MainWindow::setGame() called
 }
 
-void Game::addPlayer(Player p)
+void Game::addPlayer(Player* p)
 {
 	players.push_back(p);
-	std::cout << "[Game Model] Player with username " << p.getUsername() << " added to game." << std::endl;
+	std::cout << "[Game Model] Player with username " << p->getUsername() << " added to game." << std::endl;
 }
 
-void Game::addUnit(Unit u)
+void Game::addUnit(Unit* u)
 {
 	units.push_back(u);
 }
 
 Player* Game::getPlayerByUsername(std::string username) {
-	for (auto it = players.begin(); it != players.end(); ++it) {
-		if (it->getUsername().compare(username)==0) {
-			return &players.at(std::distance(players.begin(),it));
-		}
+	std::vector<Player*>::iterator it;
+	for (it = players.begin(); it != players.end(); ++it) {
+		if ((*it)->getUsername().compare(username)==0) {return *it;}
 	}
 	return NULL;
 }
@@ -65,8 +64,8 @@ void Game::selectElement()
 	//Checks if there is any unit on it and selects it
 	if (checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
 		this->selectedUnit = getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
-		std::cout << "Unit selected with position: " << this->selectedUnit->getPos().first << "; "
-				  << this->selectedUnit->getPos().second << std::endl;
+		std::cout << "Unit selected with position: " << this->selectedUnit->getPosX()<< "; "
+				  << this->selectedUnit->getPosY()<< std::endl;
 		return;
 	}
 	std::cout << "No unit selected" << std::endl;
@@ -121,7 +120,7 @@ Unit *Game::safeSelectedUnit()
 bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
     std::vector<Unit*>::iterator it;
     for (it = units.begin(); it!=units.end(); ++it ){
-        if ( ((*it)->getPos().first == x) && ((*it)->getPos().second == y) ){
+        if ( ((*it)->getPosX() == x) && ((*it)->getPosY() == y) ){
             return true;
         }
     }
@@ -131,12 +130,12 @@ bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la positi
 Unit* Game::getUnitOnPos(int x, int y) {
     std::vector<Unit*>::iterator it;
     for (it = units.begin(); it!=units.end(); ++it ){
-        if ( ((*it)->getPos().first == x) && ((*it)->getPos().second == y) ){
+        if ( ((*it)->getPosX() == x) && ((*it)->getPosY() == y) ){
             return *it;
         }
     }
 }
 
 void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-    this->units.push_back(new Infantery());
+    this->units.push_back(new Infantery(3,3,owner));
 }

@@ -6,7 +6,7 @@ class Infantery : public Unit
 
 {
 public:
-    Infantery();
+    Infantery(int xi, int yi, Player* owner);
 };
 
 #endif // INFANTERY_H

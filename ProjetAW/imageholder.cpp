@@ -1,4 +1,5 @@
 #include "imageholder.h"
+#include <iostream>
 
 ImageHolder::ImageHolder()
 {
@@ -43,10 +44,10 @@ ImageHolder::ImageHolder()
 
 
     // Units
-    this->infanteryB = new QPixmap(":/Image/Units/infanteryB");
-    this->infanteryR = new QPixmap(":/Image/Units/infanteryR");
-    this->bazookaB = new QPixmap(":/Image/Units/bazookaB");
-    this->bazookaB = new QPixmap(":/Image/Units/bazookaR");
+    this->infanteryB = new QPixmap(":/Images/Units/infanteryB.png");
+    this->infanteryR = new QPixmap(":/Images/Units/infanteryR.png");
+    this->bazookaB = new QPixmap(":/Images/Units/bazookaB.png");
+    this->bazookaB = new QPixmap(":/Images/Units/bazookaR.png");
 }
 
 QPixmap* ImageHolder::getGrassImage() {

@@ -13,7 +13,7 @@ class Game
 public:
 	//Model
 	Game();
-	void addPlayer(Player p);
+	void addPlayer(Player* p);
     void addUnit(Unit* u);
 
 	Player* getPlayerByUsername(std::string username);
@@ -41,7 +41,7 @@ private:
 	Unit* safeSelectedUnit();
 	Player* localPlayer;
 	std::vector<Unit*> units;
-	std::vector<Player> players;
+	std::vector<Player*> players;
 	Map* map;
 
 	Unit* selectedUnit;

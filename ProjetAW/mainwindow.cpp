@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QResource>
+#include <QPixmap>
 
 int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
 
@@ -61,7 +62,11 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 	std::vector<Unit*> units = *this->game->getUnits();
 	std::vector<Unit*>::iterator it;
 	for (it = units.begin(); it != units.end(); ++it) {
-		(*it)->getOwner()->get
+		painter.drawPixmap((*it)->getPosX() * cellDim,
+						   (*it)->getPosY() * cellDim,
+						   cellDim,
+						   cellDim,
+						   *holder.getUnitImage((*it)->getID(),(*it)->getOwner()->getTeamColor()));
 	}
 
 
@@ -83,7 +88,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-	std::cout << event->key() << std::endl;
 	switch(event->key()) {
 		case 16777234: this->game->cursorLeft(); // Left arrow
 						break;
@@ -93,7 +97,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 						break;
 		case 16777237: this->game->cursorDown(); // Down arrow
 						break;
-		case 16777220: this->game->selectElement(); // select element on cursor, can be a cell, an unit or a building
+		case 16777220: this->game->selectElement(); //Enter, select element on cursor, can be a cell, an unit or a building
 						break;
 	}
 }

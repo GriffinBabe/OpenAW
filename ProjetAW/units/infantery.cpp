@@ -1,11 +1,16 @@
 #include "infantery.h"
+#include <iostream>
 
-Infantery::Infantery()
+Infantery::Infantery(int xi, int yi, Player* owner)
 {
-   int health = 10;
-   int damage = 1;
-   int disp = 1;
-   int id = 1;
-   std::pair<int,int> pos(5,5);
-   std::pair<int,int> dir(1,0);
+   this->owner = owner;
+   health = 10;
+   damage = 1;
+   disp = 1;
+   id = 1; // used for view
+   x = xi;
+   y = yi;
+   std::pair<int,int> pos(x,y);
+   std::pair<int,int> dir(0,1);
+   std::cout << "Infantery created with position x y " << pos.first << " " << pos.second << std::endl;
 }
