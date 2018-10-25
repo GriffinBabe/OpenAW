@@ -9,9 +9,11 @@
 class Unit
 {
 public:
+    Unit();
     Unit(Player player);
     Player* getOwner()const;
     int getHealth();
+    int getDisp();
     void setHealth(int a);
     std::pair<int,int> getPos();
     std::pair<int,int> getDir();
@@ -23,6 +25,7 @@ protected:
     Player* owner;
     int health;
     int damage;
+    int disp;
     std::pair<int,int> pos;
     std::pair<int,int> dir;
 };

@@ -28,13 +28,14 @@ public:
 	void setCellDim(int dim);
 
     //Model
-    Unit checkpos(int x , int y);
+    Unit* checkpos(int x , int y);
+    void createUnit(Player* owner, std::pair<int,int> spawn);
 	Map* getMap();
 
 private:
 	Player* localPlayer;
-	std::vector<Unit> units;
-	std::vector<Player> players;
+    std::vector<Unit*> units;
+    std::vector<Player> players;
 	Map* map;
 
 	int cellDim;

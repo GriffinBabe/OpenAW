@@ -1,9 +1,9 @@
 #include "units/unit.h"
-
+Unit::Unit(){}
 Unit::Unit(Player player)
 {
     *owner = player;
-    health = 10;
+
 }
 
 Player* Unit::getOwner()const{return this->owner;}
@@ -15,6 +15,8 @@ int Unit::getHealth(){return this->health;}
 void Unit::setDamage(int d){damage = d;}
 
 int Unit::getDamage(){return this->damage;}
+
+int Unit::getDisp(){return this->disp;}
 
 std::pair<int,int> Unit::getPos(){return pos;}
 

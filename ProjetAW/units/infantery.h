@@ -1,11 +1,12 @@
 #ifndef INFANTERY_H
 #define INFANTERY_H
 
+#include "unit.h"
+class Infantery : public Unit
 
-class infantery
 {
 public:
-    infantery();
+    Infantery();
 };
 
 #endif // INFANTERY_H

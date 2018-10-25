@@ -1,6 +1,6 @@
 #include "game.h"
 #include <iostream>
-
+#include "units/infantery.h"
 Game::Game()
 {
 	this->map = new Map(":/Maps/map1.txt");
@@ -87,9 +87,16 @@ Map* Game::getMap() {
 	return this->map;
 }
 
-Unit Game::checkpos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
-    std::vector<Unit>::iterator it;
+Unit* Game::checkpos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
+    std::vector<Unit*>::iterator it;
     for (it = units.begin(); it!=units.end(); ++it ){
         if((it->getPos().first == x)&&(it->getPos().second == y)){return *it;}
     }
+}
+
+void Game::createUnit(Player* owner, std::pair<int,int> spawn){
+    Infantery newunit();
+
+    //addUnit(newunit);
+
 }
