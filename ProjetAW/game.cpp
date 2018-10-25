@@ -5,6 +5,7 @@ Game::Game()
 {
 	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
+	std::vector<Unit*> units;
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 	cursorX = 0;
 	cursorY = 0;
@@ -17,7 +18,7 @@ void Game::addPlayer(Player p)
 	std::cout << "[Game Model] Player with username " << p.getUsername() << " added to game." << std::endl;
 }
 
-void Game::addUnit(Unit u)
+void Game::addUnit(Unit* u)
 {
 	units.push_back(u);
 }
@@ -55,6 +56,22 @@ void Game::setCellDim(int dim)
 	cellDim = dim;
 }
 
+void Game::selectElement()
+/*
+ *  This method selects the unit, building and cell where the cursor is.
+ *  There is a priority to be respect and it's ruled by the return statement.
+ */
+{
+	//Checks if there is any unit on it and selects it
+	if (checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
+		this->selectedUnit = getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
+		std::cout << "Unit selected with position: " << this->selectedUnit->getPos().first << "; "
+				  << this->selectedUnit->getPos().second << std::endl;
+		return;
+	}
+	std::cout << "No unit selected" << std::endl;
+}
+
 void Game::cursorDown() {
 	int temp = cursorY + 1;
 	if (temp <= this->map->getSizeY()) { // First put ++ before variable else the condition check will be false
@@ -87,10 +104,31 @@ Map* Game::getMap() {
 	return this->map;
 }
 
-Unit* Game::checkpos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
+Unit *Game::safeSelectedUnit()
+{
+    if (this->selectedUnit != NULL) {
+        return this->selectedUnit;
+    } else {
+        throw "Selected Unit is a null pointer";
+    }
+}
+
+bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
     std::vector<Unit*>::iterator it;
     for (it = units.begin(); it!=units.end(); ++it ){
-        if((it->getPos().first == x)&&(it->getPos().second == y)){return *it;}
+        if ( ((*it)->getPos().first == x) && ((*it)->getPos().second == y) ){
+            return true;
+        }
+    }
+    return false;
+}
+
+Unit* Game::getUnitOnPos(int x, int y) {
+    std::vector<Unit*>::iterator it;
+    for (it = units.begin(); it!=units.end(); ++it ){
+        if ( ((*it)->getPos().first == x) && ((*it)->getPos().second == y) ){
+            return *it;
+        }
     }
 }
 

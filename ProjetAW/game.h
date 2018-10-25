@@ -13,7 +13,7 @@ public:
 	//Model
 	Game();
 	void addPlayer(Player p);
-	void addUnit(Unit u);
+    void addUnit(Unit* u);
 
 	Player* getPlayerByUsername(std::string username);
 
@@ -26,18 +26,22 @@ public:
 	int getCursorX();
 	int getCursorY();
 	void setCellDim(int dim);
+	void selectElement();
 
     //Model
-    Unit* checkpos(int x , int y);
     void createUnit(Player* owner, std::pair<int,int> spawn);
+    bool checkUnitOnPos(int x , int y);
+    Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 
 private:
+	Unit* safeSelectedUnit();
 	Player* localPlayer;
-    std::vector<Unit*> units;
-    std::vector<Player> players;
+	std::vector<Unit*> units;
+	std::vector<Player> players;
 	Map* map;
 
+	Unit* selectedUnit;
 	int cellDim;
 	int cursorX, cursorY;
 };

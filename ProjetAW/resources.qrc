@@ -39,6 +39,9 @@
         <file>roadSW.png</file>
         <file>sea.png</file>
         <file>wood.png</file>
+        <file>bridgeNS.png</file>
+        <file>bridgeEW.png</file>
+        <file>moveCell.png</file>
     </qresource>
     <qresource prefix="/Images/Buildings">
         <file>airport.png</file>

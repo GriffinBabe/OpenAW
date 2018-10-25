@@ -36,6 +36,9 @@ ImageHolder::ImageHolder()
     this->pipe2S= new QPixmap(":/Images/Terrain/pipe2S.png");
     this->pipe2W= new QPixmap(":/Images/Terrain/pipe2W.png");
 
+    this->bridgeNS = new QPixmap(":/Images/Terrain/bridgeNS.png");
+    this->bridgeEW = new QPixmap(":/Images/Terrain/bridgeEW.png");
+
 
 }
 
@@ -68,6 +71,8 @@ QPixmap* ImageHolder::getTerrainImage(int id) {
         case 23: return this->road3W;
         case 24: return this->road3N;
         case 25: return this->road3E;
+        case 26: return this->bridgeEW;
+        case 27: return this->bridgeNS;
         case 29:return this->seaImage;
         case 30:return this->seaImage;
 

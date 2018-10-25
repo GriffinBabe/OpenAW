@@ -46,6 +46,9 @@ private:
     QPixmap* pipe2S;
     QPixmap* pipe2W;
 
+    QPixmap* bridgeNS;
+    QPixmap* bridgeEW;
+
 
 
     //Units
