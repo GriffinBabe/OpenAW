@@ -27,15 +27,3 @@ protected:
     std::pair<int,int> dir;
 };
 
-// -------------------------------------------
-
-class Infantery : public Unit
-{
-public:
-    Infantery(Player player);
-
-private:
-
-};
-
-#endif // UNIT_H

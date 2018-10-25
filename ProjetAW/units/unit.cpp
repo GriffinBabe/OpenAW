@@ -24,10 +24,3 @@ void Unit::setPos(std::pair<int,int> p){pos = p;}
 
 void Unit::setDir(std::pair<int,int> d){dir = d;}
 
-
-// ---------------------------------------------
-
-Infantery::Infantery(Player player) : Unit(player) {
-    this->owner = &player;
-}
-

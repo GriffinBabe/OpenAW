@@ -29,19 +29,21 @@ SOURCES += \
         mainwindow.cpp \
     game.cpp \
     player.cpp \
-    unit.cpp \
     map.cpp \
     cell.cpp \
-    imageholder.cpp
+    imageholder.cpp \
+    units/unit.cpp \
+    units/infantery.cpp
 
 HEADERS += \
         mainwindow.h \
     game.h \
     player.h \
-    unit.h \
     map.h \
     cell.h \
-    imageholder.h
+    imageholder.h \
+    units/unit.h \
+    units/infantery.h
 
 FORMS += \
         mainwindow.ui
