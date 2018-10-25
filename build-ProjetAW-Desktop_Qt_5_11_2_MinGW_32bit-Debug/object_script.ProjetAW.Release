@@ -6,7 +6,7 @@ INPUT(
 ./release\unit.o
 ./release\map.o
 ./release\cell.o
-./release\infantery.o
+./release\imageholder.o
 ./release\qrc_resources.o
 ./release\moc_mainwindow.o
 );

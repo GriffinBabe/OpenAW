@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QResource>
 
-int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 64; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
