@@ -52,11 +52,16 @@ private:
 
 
     //Units
-    QPixmap* infantery;
+    QPixmap* infanteryB;
+    QPixmap* infanteryR;
+
+    QPixmap* bazookaB;
+    QPixmap* bazookaR;
 
 public:
     ImageHolder();
 
+    QPixmap* getUnitImage(int id, char teamColor);
     QPixmap* getGrassImage();
     QPixmap* getCursorImage();
     QPixmap* getTerrainImage(int id);

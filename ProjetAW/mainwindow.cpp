@@ -54,6 +54,21 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 			painter.drawPixmap(x*cellDim,y*cellDim,cellDim,cellDim,*holder.getTerrainImage(type));
 		}
 	}
+	//Draws Buildings
+
+
+	//Draws ground unit
+	std::vector<Unit*> units = *this->game->getUnits();
+	std::vector<Unit*>::iterator it;
+	for (it = units.begin(); it != units.end(); ++it) {
+		(*it)->getOwner()->get
+	}
+
+
+	//Draws air unit
+
+
+	//Draws UI
 
 	//Draws the cursor
 	painter.drawPixmap(game->getCursorX()*cellDim,game->getCursorY()*cellDim,cellDim,cellDim,*holder.getCursorImage());

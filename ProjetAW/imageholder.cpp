@@ -2,6 +2,8 @@
 
 ImageHolder::ImageHolder()
 {
+
+    //Cells
     this->cursorImage = new QPixmap(":/Images/cursor.png");
     this->grassImage = new QPixmap(":/Images/Terrain/grass.png");
     this->reefImage = new QPixmap(":/Images/Terrain/reef.png");
@@ -40,6 +42,11 @@ ImageHolder::ImageHolder()
     this->bridgeEW = new QPixmap(":/Images/Terrain/bridgeEW.png");
 
 
+    // Units
+    this->infanteryB = new QPixmap(":/Image/Units/infanteryB");
+    this->infanteryR = new QPixmap(":/Image/Units/infanteryR");
+    this->bazookaB = new QPixmap(":/Image/Units/bazookaB");
+    this->bazookaB = new QPixmap(":/Image/Units/bazookaR");
 }
 
 QPixmap* ImageHolder::getGrassImage() {
@@ -48,6 +55,25 @@ QPixmap* ImageHolder::getGrassImage() {
 
 QPixmap* ImageHolder::getCursorImage() {
     return this->cursorImage;
+}
+
+QPixmap* ImageHolder::getUnitImage(int id, char teamColor) {
+    /*
+     * Id is holded in the unit class, it is used to return the right image
+     */
+    if (id == 1) { // infantery
+        if (teamColor == 'B') {
+            return this->infanteryB;
+        } else {
+            return this->infanteryR;
+        }
+    } else if (id == 2) { // bazooka
+        if (teamColor == 'B') {
+            return this->bazookaB;
+        } else {
+            return this->bazookaR;
+        }
+    }
 }
 
 QPixmap* ImageHolder::getTerrainImage(int id) {

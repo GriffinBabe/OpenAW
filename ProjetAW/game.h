@@ -28,6 +28,8 @@ public:
 	void setCellDim(int dim);
 	void selectElement();
 
+    std::vector<Unit*>* getUnits();
+
     //Model
     void createUnit(Player* owner, std::pair<int,int> spawn);
     bool checkUnitOnPos(int x , int y);

@@ -9,3 +9,8 @@ std::string Player::getUsername()
 {
 	return this->username;
 }
+
+char Player::getTeamColor()
+{
+	return teamColor;
+}

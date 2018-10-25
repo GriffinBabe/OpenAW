@@ -54,4 +54,10 @@
         <file>factoryB.png</file>
         <file>factoryR.png</file>
     </qresource>
+    <qresource prefix="/Images/Units">
+        <file>bazookaR.png</file>
+        <file>infanteryR.png</file>
+        <file>bazookaB.png</file>
+        <file>infanteryB.png</file>
+    </qresource>
 </RCC>

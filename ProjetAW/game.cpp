@@ -1,6 +1,6 @@
 #include "game.h"
 #include <iostream>
-#include "units/infantery.h"
+
 Game::Game()
 {
 	this->map = new Map(":/Maps/map1.txt");
@@ -18,7 +18,7 @@ void Game::addPlayer(Player p)
 	std::cout << "[Game Model] Player with username " << p.getUsername() << " added to game." << std::endl;
 }
 
-void Game::addUnit(Unit* u)
+void Game::addUnit(Unit u)
 {
 	units.push_back(u);
 }
@@ -70,6 +70,11 @@ void Game::selectElement()
 		return;
 	}
 	std::cout << "No unit selected" << std::endl;
+}
+
+std::vector<Unit *> *Game::getUnits()
+{
+	return &units;
 }
 
 void Game::cursorDown() {
@@ -130,11 +135,4 @@ Unit* Game::getUnitOnPos(int x, int y) {
             return *it;
         }
     }
-}
-
-void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-    Infantery newunit();
-
-    //addUnit(newunit);
-
 }
