@@ -133,8 +133,5 @@ Unit* Game::getUnitOnPos(int x, int y) {
 }
 
 void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-    Infantery newunit();
-
-    //addUnit(newunit);
-
+    this->units.push_back(new Infantery());
 }

@@ -19,9 +19,11 @@ public:
     std::pair<int,int> getDir();
     void setPos(std::pair<int,int> pos);
     void setDir(std::pair<int,int> dir);
+    int getID();
     void setDamage(int d);
     int getDamage();
 protected:
+    int id;
     Player* owner;
     int health;
     int damage;
