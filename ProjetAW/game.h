@@ -5,6 +5,7 @@
 #include "player.h"
 #include "units/unit.h"
 #include "units/infantery.h"
+#include "buildings/buildings.h"
 #include <vector>
 #include <string>
 
@@ -32,7 +33,8 @@ public:
 	Map* getMap();
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
-
+    void Capture(Buildings* b);
+    
 private:
 	Player* localPlayer;
 	std::vector<Unit*> units;

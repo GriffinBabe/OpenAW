@@ -115,3 +115,11 @@ void Game::createUnit(Player* owner, std::pair<int,int> spawn){
 	this->units.push_back(new Infantery(3,3,owner)); //infantery pour le test, UNIT_TYPE dans le futur
 }
 
+void Game::Capture(Buildings* b){
+    if (checkUnitOnPos(b->getPosX(),b->getPosY()) == true){
+        Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
+        if(u->getOwner()!=b->getOwner()){
+            if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
+        }
+    }
+}
