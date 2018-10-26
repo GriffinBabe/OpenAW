@@ -59,16 +59,37 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
 		return false;
-	} else if (checkUnitOnPos(c.getPosX(), c.getPosY()) && c.getPosX()!=u->getPosX() && c.getPosY()!= u->getPosY()) {
+	} else if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
 		// If there is a unit on this cell and this unit isn't the unit that we want to move
 		return false;
 	} else {
+		// All is good, the unit can moove here
 		return true;
 	}
 }
 
+Player *Game::getLocalPlayer()
+{
+	return this->localPlayer;
+}
+
 Map* Game::getMap() {
 	return this->map;
+}
+
+void Game::setLocalPlayer(Player *lp)
+{
+	this->localPlayer = lp;
+}
+
+void Game::moveUnit(Unit *u, std::pair<int, int> pos)
+{
+	if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
+		u->setPos(pos.first,pos.second);
+		u->setCanMove(false); // The unit moved and can't move anymore.
+	} else {
+		std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
+	}
 }
 
 bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité

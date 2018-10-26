@@ -24,54 +24,54 @@ int Cell::getPosX(){
     return posX;
 }
 int Cell::getPosY(){
-    return posY;
+	return posY;
 }
 
 Pipe::Pipe(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 
 Grass::Grass(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 Mountain::Mountain(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 City::City(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 Woods::Woods(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 River::River(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 Roads::Roads(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 Sea::Sea(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 Reefs::Reefs(int x, int y, int id){
     posX = x;
     posY = y;
-    type = id;
+	type = id;
 }
 
 

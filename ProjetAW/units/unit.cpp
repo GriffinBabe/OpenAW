@@ -31,6 +31,8 @@ void Unit::setDir(std::pair<int,int> d){dir = d;}
 
 bool Unit::getCanAttack() { return canAttack; }
 
+void Unit::setCanMove(bool c) {canMove = c;}
+
 bool Unit::getCanMove() { return canMove; }
 
 int Unit::getMovementPoints() { return movementPoints; }

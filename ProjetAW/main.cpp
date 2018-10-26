@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	Unit* u2 = new Infantery(3,4,p2);
     game.addUnit(u);
 	game.addUnit(u2);
+	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
     QApplication a(argc, argv);
     MainWindow w;

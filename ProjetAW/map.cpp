@@ -41,7 +41,7 @@ Map::Map(std::string mapPath)
     for (int y = 0; y < data[1].size(); y++) {
         this->cells->push_back(std::vector<Cell>());
         for (int x = 0; x < data.size(); x++) {
-            this->cells->at(y).push_back(Cell(x,y,data[x][y]));
+			this->cells->at(y).push_back(Cell(y,x,data[x][y]));
         }
     }
 }
@@ -73,8 +73,8 @@ Cell Map::getNewCell(int i,int j, int id) {
         return sea;
     }else if(id==33){
         Reefs reefs(j,i,id);
-        std::cout<<reefs.getPosX()<<";"<<reefs.getPosY()<<std::endl;
-        return reefs;
+		std::cout<<reefs.getPosX()<<";"<<reefs.getPosY()<<std::endl;
+		return reefs;
     }else {
         Grass grass(j,i,1);
         return grass;

@@ -23,12 +23,15 @@ public:
 	std::vector<Unit*>* getUnits();
 	std::vector<std::pair<int,int>> getMoveCells(Unit* u);
 	bool unitCanMoveOnCell(Unit* u, Cell c);
+	Player* getLocalPlayer();
 
     //Model
     void createUnit(Player* owner, std::pair<int,int> spawn);
     bool checkUnitOnPos(int x , int y);
     Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
+	void setLocalPlayer(Player* lp);
+	void moveUnit(Unit* u, std::pair<int,int> pos);
 
 private:
 	Player* localPlayer;

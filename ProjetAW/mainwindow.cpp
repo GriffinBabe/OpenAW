@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	timer.start(16);
 	cursorX = 0;
 	cursorY = 0;
+	selectedUnit = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +84,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 		if (this->selectedUnit->getCanMove()) {
 			this->menu->moveMenu(&painter,this->selectedUnit);
 		} else {
+			std::cout << "printing unit menu" << std::endl;
 			this->menu->unitMenu(&painter, this->selectedUnit);
 		}
 	}
@@ -142,15 +144,21 @@ void MainWindow::selectElement()
 {
 	//Checks if there is any unit on it and selects it
 	if (this->game->checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
-		this->selectedUnit = this->game->getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
-		std::cout << "Unit selected with position: " << this->selectedUnit->getPosX()<< "; "
-				  << this->selectedUnit->getPosY()<< std::endl;
-		if (this->selectedUnit->getCanMove()) {
-			this->menu->setMoveCells(this->game->getMoveCells(this->selectedUnit)); //Sets the cells where the unit can move in the UI class
+		if (this->game->getUnitOnPos(cursorX, cursorY)->getOwner() == this->game->getLocalPlayer()) {
+			this->selectedUnit = this->game->getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
+			if (this->selectedUnit->getCanMove()) {
+				this->menu->setMoveCells(this->game->getMoveCells(this->selectedUnit)); //Sets the cells where the unit can move in the UI class
+			}
+			return;
 		}
-		return;
 	}
-	std::cout << "No unit selected" << std::endl;
+
+	if (this->selectedUnit != nullptr) { // We have a selected player
+		if (this->selectedUnit->getCanMove()) {//The unit hasn't mooved yet
+			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
+			// The unit will move if the game tells it's possible
+		}
+	}
 }
 
 void MainWindow::noSelectedElement()
