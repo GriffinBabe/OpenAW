@@ -34,7 +34,9 @@ SOURCES += \
     imageholder.cpp \
     units/unit.cpp \
     units/infantery.cpp \
-    ui.cpp
+    ui.cpp \
+    buildings/buildings.cpp \
+    buildings/factory.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +47,9 @@ HEADERS += \
     imageholder.h \
     units/infantery.h \
     units/unit.h \
-    ui.h
+    ui.h \
+    buildings/buildings.h \
+    buildings/factory.h
 
 FORMS += \
         mainwindow.ui
