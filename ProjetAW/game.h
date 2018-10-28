@@ -16,7 +16,7 @@ public:
 	Game();
 	void addPlayer(Player* p);
     void addUnit(Unit* u);
-
+    void addBuilding(Buildings* b);
 	Player* getPlayerByUsername(std::string username);
 
 	//Controller & View
@@ -34,11 +34,13 @@ public:
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
     void Capture(Buildings* b);
-    void CashIncome(Buildings* b);
+    void CashIncome();
+
 private:
 	Player* localPlayer;
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
+    std::vector<Buildings*> buildings;
 	Map* map;
     int tour;
 };

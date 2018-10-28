@@ -7,6 +7,7 @@ Game::Game()
 	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
+    std::vector<Buildings*> buildings;
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 }
 
@@ -20,6 +21,9 @@ void Game::addUnit(Unit* u)
 {
 	units.push_back(u);
 }
+
+void Game::addBuilding(Buildings* b){buildings.push_back(b);}
+
 
 Player* Game::getPlayerByUsername(std::string username) {
 	std::vector<Player*>::iterator it;
@@ -128,7 +132,13 @@ void Game::Capture(Buildings* b){
 }
 
 
-void Game::CashIncome(Buildings* b){
-    Player* p = b->getOwner();
+void Game::CashIncome(){
+    std::vector<Buildings*>::iterator it;
+    for (it = buildings.begin(); it != buildings.end(); ++it) {
+        Player* p = (*it)->getOwner();
+        p->setMoney(p->getMoney() + (*it)->getCash());
+    }
 
+ // add to the owner of the building the amount of money allowed by the building
 }
+
