@@ -18,12 +18,14 @@ public:
     int getCash();
     void setOwner(Player* owner);
     Player* getOwner();
+    int getID();
 protected:
     int posX;
     int posY;
     Player* owner;
     int capturepoint;
     int cash;
+    int id;
 };
 
 #endif // BUILDINGS_H

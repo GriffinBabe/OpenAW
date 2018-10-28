@@ -22,6 +22,7 @@ public:
 	//Controller & View
 
 	std::vector<Unit*>* getUnits();
+    std::vector<Buildings*>* getBuildings();
 	std::vector<std::pair<int,int>> getMoveCells(Unit* u);
 	bool unitCanMoveOnCell(Unit* u, Cell c);
 	Player* getLocalPlayer();

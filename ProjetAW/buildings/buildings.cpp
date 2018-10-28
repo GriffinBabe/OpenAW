@@ -22,3 +22,5 @@ int Buildings::getCash(){return this->cash;}
 void Buildings::setOwner(Player* newowner){owner = newowner;}
 
 Player* Buildings::getOwner(){return this->owner;}
+
+int Buildings::getID(){return this->id;}

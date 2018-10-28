@@ -38,6 +38,11 @@ std::vector<Unit *> *Game::getUnits()
 	return &units;
 }
 
+std::vector<Buildings *> *Game::getBuildings()
+{
+    return &buildings;
+}
+
 std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
 {
 	/*

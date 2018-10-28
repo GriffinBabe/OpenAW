@@ -76,7 +76,17 @@ QPixmap* ImageHolder::getUnitImage(int id, char teamColor) {
         }
     }
 }
+QPixmap* ImageHolder::getBuildingImage(int id, char teamColor) {
 
+    if (id == 1) { // Factory
+        if (teamColor == 'B') {
+            return this->factoryB;
+        } else {
+            return this->factoryR;
+        }
+
+    }
+}
 QPixmap* ImageHolder::getTerrainImage(int id) {
     switch(id) {
         case 2: return this->mountainImage;
