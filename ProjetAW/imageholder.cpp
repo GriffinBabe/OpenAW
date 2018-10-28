@@ -48,6 +48,15 @@ ImageHolder::ImageHolder()
     this->infanteryR = new QPixmap(":/Images/Units/infanteryR.png");
     this->bazookaB = new QPixmap(":/Images/Units/bazookaB.png");
     this->bazookaB = new QPixmap(":/Images/Units/bazookaR.png");
+
+
+	this->cityB = new QPixmap(":/Images/Buildings/cityB.png");
+	this->cityR = new QPixmap(":/Images/Buildings/cityR.png");
+	this->city = new QPixmap(":/Images/Buildings/city.png");
+	this->factoryB = new QPixmap(":/Images/Buildings/factoryB.png");
+	this->factoryR = new QPixmap(":/Images/Buildings/factoryR.png");
+	this->factory = new QPixmap(":/Images/Buildings/factory.png");
+
 }
 
 QPixmap* ImageHolder::getGrassImage() {
@@ -81,11 +90,21 @@ QPixmap* ImageHolder::getBuildingImage(int id, char teamColor) {
     if (id == 1) { // Factory
         if (teamColor == 'B') {
             return this->factoryB;
-        } else {
+		} else if (teamColor == 'R') {
             return this->factoryR;
-        }
+		} else {
+			return this->factory;
+		}
 
-    }
+	} else if (id == 2) { //City
+		if (teamColor == 'B') {
+			return this->cityB;
+		} else if (teamColor == 'R') {
+			return  this->cityR;
+		} else {
+			return this->city;
+		}
+	}
 }
 QPixmap* ImageHolder::getTerrainImage(int id) {
     switch(id) {

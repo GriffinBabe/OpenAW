@@ -65,11 +65,15 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     std::vector<Buildings*> buildings= *this->game->getBuildings();
     std::vector<Buildings*>::iterator at;
     for (at = buildings.begin(); at != buildings.end(); ++at) {
+		char teamColor = 'N'; // N for neutral
+		if ((*at)->getOwner() != nullptr) {
+			teamColor = (*at)->getOwner()->getTeamColor();
+		}
         painter.drawPixmap((*at)->getPosX() * cellDim,
-                           (*at)->getPosY() * cellDim,
+						   ((*at)->getPosY()-1) * cellDim,
                            cellDim,
-                           cellDim,
-                           *holder.getBuildingImage((*at)->getID(),(*at)->getOwner()->getTeamColor()));
+						   cellDim*2,
+						   *holder.getBuildingImage((*at)->getID(),teamColor));
     }
 
 

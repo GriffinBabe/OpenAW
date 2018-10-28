@@ -36,7 +36,8 @@ SOURCES += \
     units/infantery.cpp \
     ui.cpp \
     buildings/buildings.cpp \
-    buildings/factory.cpp
+    buildings/citybuilding.cpp \
+    buildings/factorybuilding.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     units/unit.h \
     ui.h \
     buildings/buildings.h \
-    buildings/factory.h
+    buildings/citybuilding.h \
+    buildings/factorybuilding.h
 
 FORMS += \
         mainwindow.ui

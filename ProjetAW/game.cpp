@@ -7,7 +7,7 @@ Game::Game()
 	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
-    std::vector<Buildings*> buildings;
+	this->buildings = *map->getBuildings(); // Buildings are loaded into the map and the gathered by the game
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 }
 
