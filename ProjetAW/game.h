@@ -35,7 +35,7 @@ public:
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
     void Capture(Buildings* b);
-    void CashIncome();
+    void CashIncome(Player* p);
 
 private:
 	Player* localPlayer;

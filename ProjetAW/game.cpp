@@ -138,13 +138,12 @@ void Game::Capture(Buildings* b){
 }
 
 
-void Game::CashIncome(){
+void Game::CashIncome(Player* p){
     std::vector<Buildings*>::iterator it;
     for (it = buildings.begin(); it != buildings.end(); ++it) {
-        Player* p = (*it)->getOwner();
-        p->setMoney(p->getMoney() + (*it)->getCash());
-    }
+        if(p == (*it)->getOwner()){p->setMoney(p->getMoney() + (*it)->getCash());}
 
+    }
  // add to the owner of the building the amount of money allowed by the building
 }
 
