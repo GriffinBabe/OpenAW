@@ -87,6 +87,7 @@ void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 	if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
 		u->setPos(pos.first,pos.second);
 		u->setCanMove(false); // The unit moved and can't move anymore.
+		u->setCanAttack(true);
 	} else {
 		std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
 	}

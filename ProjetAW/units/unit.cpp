@@ -33,6 +33,8 @@ bool Unit::getCanAttack() { return canAttack; }
 
 void Unit::setCanMove(bool c) {canMove = c;}
 
+void Unit::setCanAttack(bool c) { canAttack = c;}
+
 bool Unit::getCanMove() { return canMove; }
 
 int Unit::getMovementPoints() { return movementPoints; }

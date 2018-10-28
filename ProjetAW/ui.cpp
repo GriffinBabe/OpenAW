@@ -27,7 +27,7 @@ void UI::unitMenu(QPainter* p, Unit* u) {
 	/*
 	 * This menu get opened once the unit moved, it can now do several actions as attack, capture a city, nothing
 	 */
-	if (u->getCanMove()) {
+	if (u->getCanAttack()) {
 		// In this case unit can move AND attack
 		int swidth = cellDim*4;
 		int sheight = cellDim*4;
@@ -44,6 +44,22 @@ void UI::unitMenu(QPainter* p, Unit* u) {
 	}
 }
 
+void UI::paint(QPainter *p, Unit *u)
+{
+	if (menuType == 0) {
+		return; //nothing to print here
+	} else if (menuType == 1) { //move menu
+		moveMenu(p,u);
+	} else if (menuType == 2) { //unit menu
+		unitMenu(p,u);
+	}
+}
+
+void UI::setMenuType(int t)
+{
+	this->menuType = t;
+}
+
 void UI::setDimensions(int w, int h, int c) {
 	width = w;
 	cellDim = c;
@@ -58,4 +74,18 @@ void UI::setGame(Game *g)
 void UI::setMoveCells(std::vector<std::pair<int, int> > mv)
 {
 	this->moveCells = mv;
+}
+
+void UI::cursorDown() {
+	int newPos = cursorPos++;
+	if (this->menuType==2 && newPos < 2 ) { // Unit menu has only two options (for the moment): attack and wait
+		cursorPos++;
+	}
+}
+
+void UI::cursorUp() {
+	int newPos = cursorPos--;
+	if (newPos >= 0) {
+		cursorPos--;
+	}
 }
