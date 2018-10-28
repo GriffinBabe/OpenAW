@@ -16,12 +16,13 @@ public:
 	Game();
 	void addPlayer(Player* p);
     void addUnit(Unit* u);
-
+    void addBuilding(Buildings* b);
 	Player* getPlayerByUsername(std::string username);
 
 	//Controller & View
 
 	std::vector<Unit*>* getUnits();
+    std::vector<Buildings*>* getBuildings();
 	std::vector<std::pair<int,int>> getMoveCells(Unit* u);
 	bool unitCanMoveOnCell(Unit* u, Cell c);
 	Player* getLocalPlayer();
@@ -34,12 +35,15 @@ public:
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
     void Capture(Buildings* b);
-    
+    void CashIncome();
+
 private:
 	Player* localPlayer;
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
+    std::vector<Buildings*> buildings;
 	Map* map;
+    int tour;
 };
 
 #endif // GAME_H

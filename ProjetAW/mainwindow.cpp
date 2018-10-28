@@ -61,7 +61,16 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 			painter.drawPixmap(x*cellDim,y*cellDim,cellDim,cellDim,*holder.getTerrainImage(type));
 		}
 	}
-	//Draws Buildings
+    //Draws Buildings
+    std::vector<Buildings*> buildings= *this->game->getBuildings();
+    std::vector<Buildings*>::iterator at;
+    for (at = buildings.begin(); at != buildings.end(); ++at) {
+        painter.drawPixmap((*at)->getPosX() * cellDim,
+                           (*at)->getPosY() * cellDim,
+                           cellDim,
+                           cellDim,
+                           *holder.getBuildingImage((*at)->getID(),(*at)->getOwner()->getTeamColor()));
+    }
 
 
 	//Draws ground unit

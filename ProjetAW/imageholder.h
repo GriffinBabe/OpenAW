@@ -58,9 +58,14 @@ private:
     QPixmap* bazookaB;
     QPixmap* bazookaR;
 
+    QPixmap* factoryB;
+    QPixmap* factoryR;
+
+
+
 public:
     ImageHolder();
-
+    QPixmap* getBuildingImage(int id, char teamColor);
     QPixmap* getUnitImage(int id, char teamColor);
     QPixmap* getGrassImage();
     QPixmap* getCursorImage();

@@ -7,6 +7,7 @@ Game::Game()
 	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
+    std::vector<Buildings*> buildings;
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 }
 
@@ -21,6 +22,9 @@ void Game::addUnit(Unit* u)
 	units.push_back(u);
 }
 
+void Game::addBuilding(Buildings* b){buildings.push_back(b);}
+
+
 Player* Game::getPlayerByUsername(std::string username) {
 	std::vector<Player*>::iterator it;
 	for (it = players.begin(); it != players.end(); ++it) {
@@ -32,6 +36,11 @@ Player* Game::getPlayerByUsername(std::string username) {
 std::vector<Unit *> *Game::getUnits()
 {
 	return &units;
+}
+
+std::vector<Buildings *> *Game::getBuildings()
+{
+    return &buildings;
 }
 
 std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
@@ -121,6 +130,21 @@ void Game::Capture(Buildings* b){
         Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
         if(u->getOwner()!=b->getOwner()){
             if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
+            if(b->getCpoint() <= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
         }
     }
+//check si y a une unité ennemi sur le batiment, si c'est une infanterie ou bazooka, retire des points de capture
+//au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
 }
+
+
+void Game::CashIncome(){
+    std::vector<Buildings*>::iterator it;
+    for (it = buildings.begin(); it != buildings.end(); ++it) {
+        Player* p = (*it)->getOwner();
+        p->setMoney(p->getMoney() + (*it)->getCash());
+    }
+
+ // add to the owner of the building the amount of money allowed by the building
+}
+
