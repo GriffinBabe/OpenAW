@@ -120,10 +120,15 @@ void Game::Capture(Buildings* b){
         Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
         if(u->getOwner()!=b->getOwner()){
             if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
-            if(b->getCpoint() >= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
+            if(b->getCpoint() <= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
         }
     }
 //check si y a une unité ennemi sur le batiment, si c'est une infanterie ou bazooka, retire des points de capture
 //au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
+}
+
+
+void Game::CashIncome(Buildings* b){
+    Player* p = b->getOwner();
 
 }

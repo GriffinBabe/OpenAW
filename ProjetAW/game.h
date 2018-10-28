@@ -34,12 +34,13 @@ public:
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
     void Capture(Buildings* b);
-    
+    void CashIncome(Buildings* b);
 private:
 	Player* localPlayer;
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
 	Map* map;
+    int tour;
 };
 
 #endif // GAME_H

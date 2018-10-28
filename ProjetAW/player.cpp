@@ -15,3 +15,7 @@ char Player::getTeamColor()
 {
 	return teamColor;
 }
+
+int Player::getMoney(){return this->money;}
+
+void Player::setMoney(int m){money = m;}
