@@ -54,6 +54,11 @@ Factory::Factory(int x, int y, int id) {
 	posY = y;
 	type = id;
 }
+Airport::Airport(int x, int y, int id){
+    posX = x;
+    posY = y;
+    type = id;
+}
 Woods::Woods(int x, int y, int id){
     posX = x;
     posY = y;
