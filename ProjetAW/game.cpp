@@ -155,6 +155,6 @@ int Game::nextTurn(){
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){
         if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); return 1;}
-        if((getPlayerwhoplays()==*(it))&&(it != players.end())){setPlayerwhoplays(*(players.begin())); return 1;}
+        if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); return 1;}
     }
 }
