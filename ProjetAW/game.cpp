@@ -147,3 +147,18 @@ void Game::CashIncome(Player* p){
  // add to the owner of the building the amount of money allowed by the building
 }
 
+void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
+
+Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
+
+int Game::nextTurn(){
+    std::vector<Buildings*>::iterator at;
+    for (at = buildings.begin(); at != buildings.end(); ++at) {Capture(*at);}  //génère les changement de capture points à la fin du tour
+
+    CashIncome(playerwhoplays); //génère le cash des batiments à la fin du tour
+    std::vector<Player*>::iterator it;
+    for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
+        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); return 1;}
+        if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); return 1;}
+    }
+}
