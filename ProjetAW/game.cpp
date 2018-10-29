@@ -152,7 +152,6 @@ void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
 Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
 void Game::nextTurn(){
-    Player* now = getPlayerwhoplays();
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){
         if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1));}
