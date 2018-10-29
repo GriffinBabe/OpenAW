@@ -39,10 +39,13 @@ public:
 	void moveUnit(Unit* u, std::pair<int,int> pos);
 	void capture(Buildings* b);
 	void cashIncome(Player* p);
-	bool attackable(Unit* u, Unit* unit); // can u attack unit ?
+	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
     int nextTurn();
+
+	void attack(Unit* u1, Unit* u2, bool backfire);
+	int getDamage(Unit* u1, Unit* u2);
 
 private:
 	Player* localPlayer;

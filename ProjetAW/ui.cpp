@@ -65,6 +65,7 @@ void UI::attackMenu(QPainter *p, Unit *u)
 
 void UI::paint(QPainter *p, Unit *u)
 {
+	p->setPen(Qt::black);
 	if (menuType == 0) {
 		return; //nothing to paint here
 	} else if (menuType == 1) { //move menu
@@ -155,6 +156,11 @@ void UI::clearMenuBoxes()
 MenuBox *UI::getSelectedBox()
 {
 	return this->selectedBox;
+}
+
+Unit *UI::getSelectedAttackableUnit()
+{
+	return this->selectedAttackableUnit;
 }
 
 void UI::cursorDown() {

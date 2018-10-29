@@ -29,6 +29,7 @@ public:
 	void clearMenuBoxes();
 
 	MenuBox *getSelectedBox();
+	Unit *getSelectedAttackableUnit();
 
 private:
 	Game* game;

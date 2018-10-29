@@ -15,10 +15,13 @@ int main(int argc, char *argv[])
 	Player* p2 = new Player("Stefano", 'R'); // Adds a red player
     game.addPlayer(p);
 	game.addPlayer(p2);
-    Unit* u = new Infantery(3,3,p);
-	Unit* u2 = new Infantery(3,4,p2);
+	Unit* u = new Infantery(4,2,p);
+	Unit* u2 = new Infantery(3,2,p2);
+	Unit* u3 = new Infantery(4,1,p2);
+	//Unit* u3 = new Infantery()
     game.addUnit(u);
 	game.addUnit(u2);
+	game.addUnit(u3);
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
     QApplication a(argc, argv);

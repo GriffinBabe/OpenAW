@@ -48,8 +48,7 @@ SOURCES += \
     units/LandVehicles/neotank.cpp \
     units/AirUnits/bcopter.cpp \
     units/AirUnits/fighter.cpp \
-    units/AirUnits/bomber.cpp
-
+    units/AirUnits/bomber.cpp \
     menubox.cpp
 
 

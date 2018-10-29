@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include <math.h>
+#include <algorithm>
 
 Game::Game()
 {
@@ -67,7 +68,7 @@ std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
 {
 	std::vector<Unit*>* uns = new std::vector<Unit*>();
 	for (Unit* unit : this->units) {
-		if (attackable(u,unit)){ // Can u attack unit ?
+		if (attackable(u,unit,false)){ // Can u attack unit ?
 			uns->push_back(unit);
 		}
 	}
@@ -183,9 +184,13 @@ void Game::cashIncome(Player* p){
 
 /*
  * Can U attack Unit?
+ * DefenseMode let's you attack even when you already did, this is for backfires during fights.
  */
-bool Game::attackable(Unit *u, Unit *unit)
+bool Game::attackable(Unit *u, Unit *unit, bool defensemode)
 {
+	if (!defensemode && !u->getCanAttack()) {
+		return false;
+	}
 	// No friendly fire
 	if (u->getOwner()->getTeamColor()==unit->getOwner()->getTeamColor()) {
 		return false;
@@ -210,5 +215,43 @@ int Game::nextTurn(){
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
         if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); return 1;}
         if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); return 1;}
-    }
+	}
+}
+
+/*
+ * Unit u1 is the attacker, unit u2 is the defender. After the attack,
+ * if the backfire is set on true and the defender is still alive, the function
+ * gets recalled but without backfire!
+ */
+void Game::attack(Unit *u1, Unit *u2, bool backfire)
+{
+	if (attackable(u1,u2,!backfire)) { // Checks if u1 can attack u2
+									// Reverted Backfire is given as parameter because we want to let the defender backfire even if he didn't attacked yet.
+		u2->setHealth(u2->getHealth() - getDamage(u1,u2)); // Reduces U2 health
+		if (u2->getHealth() <= 0) { // If u2 dies
+			units.erase(std::remove(units.begin(), units.end(), u2), units.end());
+		}
+		u1->setCanAttack(false);
+		if (u2->getHealth() > 0 && backfire) { // if u2 is still alive and the backfire is on
+			attack(u2, u1, false); // Note that the unit are reversed because u2 backfires and becomes the attacker
+		}
+	}
+}
+
+
+/*
+ *  This is the damage formula given in the project instructions
+ *  u1 is the attacker, u2 is the defender
+ */
+int Game::getDamage(Unit *u1, Unit *u2)
+{
+	int B = u1->getChartDamage(u1->getID(),u2->getID());
+	int A_HP = u1->getHealth(); // TODO: change if aerial
+	int D_HP = u2->getHealth(); // TODO: change if aerial
+	int D_TR = this->map->getCellAt(u2->getPosX(),u2->getPosY()).getDefense();
+	if (u2->getID() == 9 || u2->getID() == 10 || u2->getID() == 11) { // If the defender U2 is an aerial unit
+		D_TR = 0;
+	}
+	int damage =  B * A_HP / 10 * (100 - D_TR * D_HP) / 100;
+	return damage/10;
 }

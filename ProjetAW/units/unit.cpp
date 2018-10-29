@@ -43,3 +43,8 @@ int Unit::getMovementPoints() { return movementPoints; }
 
 int Unit::getCost(){return cost;}
 
+int Unit::getChartDamage(int u1, int u2)
+{
+	return damageChart[u1-1][u2-1];
+}
+

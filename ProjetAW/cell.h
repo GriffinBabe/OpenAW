@@ -5,7 +5,7 @@
 class Cell
 {
 protected:
-	int posX, posY, type, dir;
+	int posX, posY, type, dir, defense;
 
 public:
     Cell(int posX,int posY,int t);
@@ -15,6 +15,7 @@ public:
     void setPos(int x,int y);
     int getPosX();
 	int getPosY();
+	int getDefense();
 
 };
 

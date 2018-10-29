@@ -47,6 +47,10 @@ void MainWindow::resize() {
 
 void MainWindow::paintEvent(QPaintEvent *event) {
 	QPainter painter(this);
+	QFont font = painter.font();
+	font.setPointSize(cellDim/2);
+	painter.setPen(Qt::black);
+	painter.setFont(font);
 
 	//Draws grass everywhere
 	for (int x = 0; x < this->game->getMap()->getSizeX(); x++) {
@@ -88,6 +92,12 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 						   *holder.getUnitImage((*it)->getID(),(*it)->getOwner()->getTeamColor()));
 		if (!(*it)->getCanMove() && !(*it)->getCanAttack()) {
 			painter.fillRect(QRect((*it)->getPosX() * cellDim,(*it)->getPosY() * cellDim,cellDim,cellDim),QColor(0,0,0,128));
+		}
+		if ( (*it)->getHealth() != 10) {
+			painter.fillRect((*it)->getPosX() * cellDim,
+							 (*it)->getPosY() * cellDim + cellDim/2,cellDim/2,cellDim/2,Qt::white);
+			painter.drawText((*it)->getPosX() * cellDim,
+							 (*it)->getPosY() * cellDim + cellDim, QString::number( (*it)->getHealth() ) );
 		}
 	}
 
@@ -178,14 +188,19 @@ void MainWindow::selectElement()
 			this->menu->setType(this->selectedUnit, 2);
 			return;
 		} else {
-			this->menu->setType(this->selectedUnit,0);
+			this->menu->setType(this->selectedUnit, 0);
 			this->selectedUnit = nullptr;
 			return;
 		}
 	}
 	else if (menu->getType() == 2) { // Unit menu
+		this->menu->setType(this->selectedUnit, 0);
 		this->action(this->menu->getSelectedBox()->getAction());
-		this->menu->setType(this->selectedUnit,0);
+		return;
+	}
+	else if (menu->getType() == 4) { // Attack Menu
+		this->menu->setType(this->selectedUnit, 0);
+		this->game->attack(this->selectedUnit,this->menu->getSelectedAttackableUnit(),true); // Game.attack(Unit* u, Unit* u2);
 		return;
 	}
 
@@ -203,16 +218,18 @@ void MainWindow::action(int id)
 		this->game->capture(this->game->getBuildingOnPos(this->selectedUnit->getPosX(),this->selectedUnit->getPosY()));
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
-	} else if (id==0) {
+	} else if (id==0) { // wait
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
+	} else if (id==1) { //attack
+		this->menu->setType(this->selectedUnit, 4);
 	}
 }
 
-void MainWindow::setCursor(int x, int y)
 /*
  * set cursor to target cell the parameters are mouse
  */
+void MainWindow::setCursor(int x, int y)
 {
 	cursorX = x/cellDim;
 	cursorY = y/cellDim;
