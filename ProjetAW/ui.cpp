@@ -20,6 +20,11 @@ UI::UI()
  * This method paints the mapMenu, that can let you end the turn, for exemple.
  */
 void UI::mapMenu(QPainter* p) {
+	p->fillRect(this->selectedBox->getPosX()-10, this->selectedBox->getPosY()-10,
+				this->selectedBox->getWidth()+10, this->selectedBox->getHeight()+10, Qt::red);
+	for (MenuBox* box : *this->menuBoxes) {
+		p->drawPixmap(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight(), *box->getImage());
+	}
 }
 
 /*
@@ -41,9 +46,7 @@ void UI::unitMenu(QPainter* p, Unit* u) {
 	p->fillRect(this->selectedBox->getPosX()-10, this->selectedBox->getPosY()-10,
 				this->selectedBox->getWidth()+10, this->selectedBox->getHeight()+10, Qt::red);
 	for (MenuBox* box : *this->menuBoxes) {
-		p->fillRect(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight(), Qt::white);
-		p->drawRect(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight());
-		p->drawText(box->getPosX(), box->getPosY(), QString::fromStdString(box->getTitle()));
+		p->drawPixmap(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight(), *box->getImage());
 	}
 }
 
@@ -74,6 +77,8 @@ void UI::paint(QPainter *p, Unit *u)
 		unitMenu(p,u);
 	} else if (menuType == 4) { //attack menu
 		attackMenu(p,u);
+	} else if (menuType == 3) {
+		mapMenu(p);
 	}
 }
 
@@ -82,12 +87,12 @@ void UI::setType(Unit* u, int t)
 	cursorPos = 0;
 	clearMenuBoxes();
 	menuType = t;
+	int swidth = cellDim*3;
+	int sheight = cellDim;
 	if (menuType == 1) {
 		this->moveCells = this->game->getMoveCells(u);
 	}
 	else if (menuType == 2) {//Unit menu
-		int swidth = cellDim*3;
-		int sheight = cellDim;
 		if (u->getCanAttack()) {
 			this->menuBoxes->push_back(new AttackBox((width/2)-(swidth/2),(height/2)-(sheight*1.5),swidth,sheight));
 		}
@@ -119,6 +124,13 @@ void UI::setType(Unit* u, int t)
 		if (this->attackableUnits->size() > 0) {
 			this->selectedAttackableUnit = this->attackableUnits->at(0);
 		}
+	} else if (menuType == 3) { //map menu
+		this->menuBoxes->push_back(new NextTurnBox((width/2)-(swidth/2),
+												   (height/2),
+												   swidth, sheight));
+		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2), (height/2)+(sheight*1.5), swidth, sheight));
+		this->selectedBox = this->menuBoxes->at(0);
+		std::cout << "all good" << std::endl;
 	}
 }
 
@@ -165,7 +177,7 @@ Unit *UI::getSelectedAttackableUnit()
 
 void UI::cursorDown() {
 	int newPos = cursorPos;
-	if (menuType == 3) {
+	if (menuType == 2 || menuType == 3) {
 		if (++newPos < this->menuBoxes->size()) { // Unit menu has only two options (for the moment): attack and wait
 			cursorPos++;
 			this->selectedBox = this->menuBoxes->at(cursorPos);
@@ -182,7 +194,7 @@ void UI::cursorUp() {
 	int newPos = cursorPos;
 	if (--newPos >= 0) {
 		cursorPos--;
-		if (menuType == 3) {
+		if (menuType == 2 || menuType == 3) {
 			this->selectedBox = this->menuBoxes->at(cursorPos);
 		} else if (menuType == 4) {
 			if (this->attackableUnits->size() > 0) {

@@ -4,6 +4,10 @@
         <file>arrow.png</file>
         <file>target.png</file>
         <file>redtarget.png</file>
+        <file>attack.png</file>
+        <file>capture.png</file>
+        <file>wait.png</file>
+        <file>end.png</file>
     </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>

@@ -11,6 +11,7 @@ class MenuBox
 protected:
 	int posX, posY, width, height, action;
 	std::string title;
+	QPixmap* image;
 public:
 	MenuBox(int x, int y, int w, int h);
 	MenuBox();
@@ -22,6 +23,7 @@ public:
 	int getAction();
 
 	std::string getTitle();
+	QPixmap* getImage();
 };
 
 class WaitBox : public MenuBox
@@ -40,6 +42,12 @@ class CaptureBox : public MenuBox
 {
 public:
 	CaptureBox(int x, int y, int w, int h);
+};
+
+class NextTurnBox : public MenuBox
+{
+public:
+	NextTurnBox(int x, int y, int w, int h);
 };
 
 #endif // MENUBOX_H

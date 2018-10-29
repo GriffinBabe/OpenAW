@@ -46,6 +46,7 @@ void MainWindow::resize() {
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
+
 	QPainter painter(this);
 	QFont font = painter.font();
 	font.setPointSize(cellDim/2);
@@ -180,6 +181,10 @@ void MainWindow::selectElement()
 					return;
 				}
 			}
+		} else {
+			std::cout << "switching to type 3" << std::endl;
+			this->menu->setType(this->selectedUnit, 3);
+			return;
 		}
 	}
 	else if (menu->getType() == 1) { // Move menu
@@ -194,6 +199,11 @@ void MainWindow::selectElement()
 		}
 	}
 	else if (menu->getType() == 2) { // Unit menu
+		this->menu->setType(this->selectedUnit, 0);
+		this->action(this->menu->getSelectedBox()->getAction());
+		return;
+	}
+	else if (menu->getType() == 3) {
 		this->menu->setType(this->selectedUnit, 0);
 		this->action(this->menu->getSelectedBox()->getAction());
 		return;
@@ -218,11 +228,13 @@ void MainWindow::action(int id)
 		this->game->capture(this->game->getBuildingOnPos(this->selectedUnit->getPosX(),this->selectedUnit->getPosY()));
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
-	} else if (id==0) { // wait
+	} else if (id==0) { // wait - do nothing
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==1) { //attack
 		this->menu->setType(this->selectedUnit, 4);
+	} else if (id==3) { // pass turn
+		this->game->nextTurn();
 	}
 }
 

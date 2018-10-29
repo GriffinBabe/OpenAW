@@ -15,6 +15,9 @@ Game::Game()
 void Game::addPlayer(Player* p)
 {
 	players.push_back(p);
+	if (players.size()==1) { // In this case whe know this is the first player we add
+		this->playerwhoplays = players.at(0); // Sets the first player we add to te player who plays
+	}
 	std::cout << "[Game Model] Player with username " << p->getUsername() << " added to game." << std::endl;
 }
 
@@ -206,15 +209,22 @@ void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
 
 Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
-int Game::nextTurn(){
+
+void Game::nextTurn(){
+	std::cout << "next turn called " << std::endl;
     std::vector<Buildings*>::iterator at;
 	for (at = buildings.begin(); at != buildings.end(); ++at) {capture(*at);}  //génère les changement de capture points à la fin du tour
-
-	cashIncome(playerwhoplays); //génère le cash des batiments à la fin du tour
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
-        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); return 1;}
-        if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); return 1;}
+		if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1));}
+		if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin()));}
+	}
+	cashIncome(playerwhoplays); //génère le cash des batiments -à la fin du tour- <- changé au début du tour du joueur qui va commencer à jouer maintenant, comme dans advance wars
+	for (Unit* u : units) {
+		if (u->getOwner() == this->playerwhoplays) {
+			u->setCanMove(true);
+			u->setCanAttack(false);
+		}
 	}
 }
 

@@ -42,7 +42,7 @@ public:
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
-    int nextTurn();
+	void nextTurn();
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
