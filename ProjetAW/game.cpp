@@ -151,10 +151,10 @@ void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
 
 Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
-void Game::nextTurn(){
+int Game::nextTurn(){
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){
-        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1));}
-        if((getPlayerwhoplays()==*(it))&&(it != players.end())){setPlayerwhoplays(*(players.begin()));}
+        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); return 1;}
+        if((getPlayerwhoplays()==*(it))&&(it != players.end())){setPlayerwhoplays(*(players.begin())); return 1;}
     }
 }

@@ -38,7 +38,7 @@ public:
     void CashIncome(Player* p);
     void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
-    void nextTurn();
+    int nextTurn();
 private:
 	Player* localPlayer;
     Player* playerwhoplays;
