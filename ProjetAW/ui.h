@@ -2,6 +2,8 @@
 #define UI_H
 
 #include "game.h"
+#include "menubox.h"
+#include <vector>
 #include <QPainter>
 
 class UI
@@ -13,13 +15,19 @@ public:
 	void unitMenu(QPainter* p, Unit* u);
 	void paint(QPainter* p, Unit* u);
 
-	void setMenuType(int t);
 	void cursorDown();
 	void cursorUp();
 	void setDimensions(int w, int h, int c);
 	void setGame(Game* g);
 
 	void setMoveCells(std::vector<std::pair<int,int>> mv);
+
+	int getType();
+	void setType(Unit* u, int t);
+
+	void clearMenuBoxes();
+
+	MenuBox *getSelectedBox();
 
 private:
 	Game* game;
@@ -29,6 +37,9 @@ private:
 	Unit* selectedUnit;
 	int width, height, cellDim, cursorPos; // Window width and height, used for displaying menu at the right place
 	std::vector<std::pair<int,int>> moveCells;
+	std::vector<MenuBox*>* menuBoxes;
+
+	MenuBox* selectedBox;
 };
 
-#endif // UI_H
+#endif //UI_H

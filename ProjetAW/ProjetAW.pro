@@ -50,6 +50,9 @@ SOURCES += \
     units/AirUnits/fighter.cpp \
     units/AirUnits/bomber.cpp
 
+    menubox.cpp
+
+
 HEADERS += \
         mainwindow.h \
     game.h \
@@ -78,6 +81,11 @@ HEADERS += \
     units/AirUnits/bcopter.h \
     units/AirUnits/fighter.h \
     units/AirUnits/bomber.h
+
+    menubox.h
+
+    buildings/airportbuilding.h
+
 
 FORMS += \
         mainwindow.ui
