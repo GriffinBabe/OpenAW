@@ -147,3 +147,15 @@ void Game::CashIncome(Player* p){
  // add to the owner of the building the amount of money allowed by the building
 }
 
+void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
+
+Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
+
+void Game::nextTurn(){
+    Player* now = getPlayerwhoplays();
+    std::vector<Player*>::iterator it;
+    for (it = players.begin(); it != players.end(); ++it){
+        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1));}
+        if((getPlayerwhoplays()==*(it))&&(it != players.end())){setPlayerwhoplays(*(players.begin()));}
+    }
+}

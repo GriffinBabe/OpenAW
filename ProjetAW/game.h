@@ -36,9 +36,12 @@ public:
 	void moveUnit(Unit* u, std::pair<int,int> pos);
     void Capture(Buildings* b);
     void CashIncome(Player* p);
-
+    void setPlayerwhoplays(Player* p);
+    Player* getPlayerwhoplays();
+    void nextTurn();
 private:
 	Player* localPlayer;
+    Player* playerwhoplays;
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;
