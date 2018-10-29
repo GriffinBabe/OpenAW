@@ -65,11 +65,15 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     std::vector<Buildings*> buildings= *this->game->getBuildings();
     std::vector<Buildings*>::iterator at;
     for (at = buildings.begin(); at != buildings.end(); ++at) {
+		char teamColor = 'N'; // N for neutral
+		if ((*at)->getOwner() != nullptr) {
+			teamColor = (*at)->getOwner()->getTeamColor();
+		}
         painter.drawPixmap((*at)->getPosX() * cellDim,
-                           (*at)->getPosY() * cellDim,
+						   ((*at)->getPosY()-1) * cellDim,
                            cellDim,
-                           cellDim,
-                           *holder.getBuildingImage((*at)->getID(),(*at)->getOwner()->getTeamColor()));
+						   cellDim*2,
+						   *holder.getBuildingImage((*at)->getID(),teamColor));
     }
 
 
@@ -87,18 +91,18 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 	//Draws air unit
 
+	//Draws the cursor
+	painter.drawPixmap(cursorX*cellDim,cursorY*cellDim,cellDim,cellDim,*holder.getCursorImage());
 
 	//Draws UI
+	this->menu->paint(&painter,this->selectedUnit);
 	if (this->selectedUnit != nullptr) {
 		if (this->selectedUnit->getCanMove()) {
 			this->menu->moveMenu(&painter,this->selectedUnit);
 		} else {
-			std::cout << "printing unit menu" << std::endl;
 			this->menu->unitMenu(&painter, this->selectedUnit);
 		}
 	}
-	//Draws the cursor
-	painter.drawPixmap(cursorX*cellDim,cursorY*cellDim,cellDim,cellDim,*holder.getCursorImage());
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -185,6 +189,11 @@ void MainWindow::setCursor(int x, int y)
 }
 
 void MainWindow::cursorDown() {
+	if (this->selectedUnit != nullptr) {
+		if (this->selectedUnit->getCanAttack()) {
+			this->menu->cursorDown();
+		}
+	}
 	int temp = cursorY + 1;
 	if (temp <= this->game->getMap()->getSizeY()) { // First put ++ before variable else the condition check will be false
 		cursorY++;
@@ -206,6 +215,11 @@ void MainWindow::cursorRight() {
 }
 
 void MainWindow::cursorUp() {
+	if (this->selectedUnit != nullptr) {
+		if (this->selectedUnit->getCanAttack()) {
+			this->menu->cursorUp();
+		}
+	}
 	int temp = cursorY - 1;
 	if (temp >= 0) {
 		cursorY--;

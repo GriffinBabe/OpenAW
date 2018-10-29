@@ -64,6 +64,14 @@ public:
 
 };
 
+// -------------------------------------------------------------
+class Factory : public Cell {
+private:
+
+public:
+	Factory(int x, int y, int id);
+};
+
 // --------------------------------------------------------------
 
 class Woods : public Cell

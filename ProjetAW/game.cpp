@@ -7,7 +7,7 @@ Game::Game()
 	this->map = new Map(":/Maps/map1.txt");
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
-    std::vector<Buildings*> buildings;
+	this->buildings = *map->getBuildings(); // Buildings are loaded into the map and the gathered by the game
 	std::cout << "[Game Model] Game Initialised" << std::endl;
 }
 
@@ -96,6 +96,7 @@ void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 	if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
 		u->setPos(pos.first,pos.second);
 		u->setCanMove(false); // The unit moved and can't move anymore.
+		u->setCanAttack(true);
 	} else {
 		std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
 	}
@@ -137,13 +138,12 @@ void Game::Capture(Buildings* b){
 }
 
 
-void Game::CashIncome(){
+void Game::CashIncome(Player* p){
     std::vector<Buildings*>::iterator it;
     for (it = buildings.begin(); it != buildings.end(); ++it) {
-        Player* p = (*it)->getOwner();
-        p->setMoney(p->getMoney() + (*it)->getCash());
-    }
+        if(p == (*it)->getOwner()){p->setMoney(p->getMoney() + (*it)->getCash());}
 
+    }
  // add to the owner of the building the amount of money allowed by the building
 }
 

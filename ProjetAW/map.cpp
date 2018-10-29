@@ -5,7 +5,8 @@
 #include <iostream>
 #include <regex>
 #include <algorithm>
-
+#include "buildings/citybuilding.h"
+#include "buildings/factorybuilding.h"
 
 Map::Map(std::string mapPath)
 {
@@ -15,6 +16,7 @@ Map::Map(std::string mapPath)
     Ensuite, on crée les Cell à partir de ce vector.
     */
     std::vector<std::vector<int>> data;
+	this->buildings = new std::vector<Buildings*>;
 
     QString path = QString::fromStdString(mapPath);
     QFile file(path);
@@ -41,12 +43,12 @@ Map::Map(std::string mapPath)
     for (int y = 0; y < data[1].size(); y++) {
         this->cells->push_back(std::vector<Cell>());
         for (int x = 0; x < data.size(); x++) {
-			this->cells->at(y).push_back(Cell(y,x,data[x][y]));
+			this->cells->at(y).push_back(getNewCell(y,x,data[x][y]));
         }
     }
 }
 
-Cell Map::getNewCell(int i,int j, int id) {
+Cell Map::getNewCell(int j,int i, int id) {
     /*
      * Gives a cell with the right x and y coordinates
      */
@@ -58,8 +60,13 @@ Cell Map::getNewCell(int i,int j, int id) {
         return mountain;
     }else if(id==34 || id==125 || id==95){
         City city(j,i,id);
+		this->buildings->push_back(new CityBuilding(j,i));
         return city;
-    }else if(id==3){
+	} else if (id==35 || id==92 || id== 123) {
+		Factory factory(j,i,id);
+		this->buildings->push_back(new FactoryBuilding(j,i));
+		return factory;
+	} else if(id==3){
         Woods woods(j,i,id);
         return woods;
     }else if(id>=4&&id<=10){
@@ -116,4 +123,9 @@ std::vector<std::vector<Cell> > *Map::getCells()
 		throw "Cells Pointer in Map is null";
 	}
 
+}
+
+std::vector<Buildings*> *Map::getBuildings()
+{
+	return this->buildings;
 }

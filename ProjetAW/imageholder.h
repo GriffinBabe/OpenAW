@@ -58,8 +58,14 @@ private:
     QPixmap* bazookaB;
     QPixmap* bazookaR;
 
+	// Buildings
     QPixmap* factoryB;
     QPixmap* factoryR;
+	QPixmap* factory;
+
+	QPixmap* cityB;
+	QPixmap* cityR;
+	QPixmap* city;
 
 
 

@@ -53,6 +53,9 @@ private:
 	void setCursor(int x, int y);
 	void selectElement();
 	void noSelectedElement();
+
+	bool moveMode; //When selecting a move cell for unit
+	bool unitMode; //
 };
 
 #endif // MAINWINDOW_H

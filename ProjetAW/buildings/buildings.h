@@ -25,7 +25,7 @@ protected:
     Player* owner;
     int capturepoint;
     int cash;
-    int id;
+	int id; // 1 = factory, 2 = city NOTE that those are different IDs than cells id/data
 };
 
 #endif // BUILDINGS_H

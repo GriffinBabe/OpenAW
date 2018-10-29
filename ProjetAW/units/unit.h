@@ -27,6 +27,7 @@ public:
 	bool getCanMove();
 	bool getCanAttack();
 	void setCanMove(bool c);
+	void setCanAttack(bool c);
 
 protected:
     Player* owner;
