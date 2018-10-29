@@ -2,6 +2,8 @@
     <qresource prefix="/Images">
         <file>cursor.png</file>
         <file>arrow.png</file>
+        <file>target.png</file>
+        <file>redtarget.png</file>
     </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>

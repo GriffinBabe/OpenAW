@@ -6,7 +6,7 @@
 #include <QResource>
 #include <QPixmap>
 
-int MainWindow::cellDim = 64; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -219,7 +219,7 @@ void MainWindow::setCursor(int x, int y)
 }
 
 void MainWindow::cursorDown() {
-	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu, map menu or attack menu
 		this->menu->cursorDown();
 		return;
 	}
@@ -230,7 +230,7 @@ void MainWindow::cursorDown() {
 }
 
 void MainWindow::cursorLeft() {
-	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
 		this->menu->cursorUp();
 		return;
 	}
@@ -241,7 +241,7 @@ void MainWindow::cursorLeft() {
 }
 
 void MainWindow::cursorRight() {
-	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
 		this->menu->cursorDown();
 		return;
 	}
@@ -252,7 +252,7 @@ void MainWindow::cursorRight() {
 }
 
 void MainWindow::cursorUp() {
-	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
 		this->menu->cursorUp();
 		return;
 	}

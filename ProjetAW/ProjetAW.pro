@@ -54,11 +54,8 @@ HEADERS += \
     buildings/buildings.h \
     buildings/citybuilding.h \
     buildings/factorybuilding.h \
-<<<<<<< HEAD
+    buildings/airportbuilding.h \
     menubox.h
-=======
-    buildings/airportbuilding.h
->>>>>>> a4be280ba1d068a1cb7e712c5b81003067f09ced
 
 FORMS += \
         mainwindow.ui

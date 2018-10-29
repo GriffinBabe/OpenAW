@@ -63,6 +63,17 @@ std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
 	return moveCells;
 }
 
+std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
+{
+	std::vector<Unit*>* uns = new std::vector<Unit*>();
+	for (Unit* unit : this->units) {
+		if (attackable(u,unit)){ // Can u attack unit ?
+			uns->push_back(unit);
+		}
+	}
+	return uns;
+}
+
 bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 {
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
@@ -167,7 +178,23 @@ void Game::cashIncome(Player* p){
         if(p == (*it)->getOwner()){p->setMoney(p->getMoney() + (*it)->getCash());}
 
     }
- // add to the owner of the building the amount of money allowed by the building
+	// add to the owner of the building the amount of money allowed by the building
+}
+
+/*
+ * Can U attack Unit?
+ */
+bool Game::attackable(Unit *u, Unit *unit)
+{
+	// No friendly fire
+	if (u->getOwner()->getTeamColor()==unit->getOwner()->getTeamColor()) {
+		return false;
+	}
+	// We can only attack units that are one cell close
+	if ( sqrt( pow(u->getPosX()-unit->getPosX(),2) + pow(u->getPosY()-unit->getPosY(),2) ) > 1 ) {
+		return  false;
+	}
+	return true;
 }
 
 void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
