@@ -4,7 +4,7 @@
 #include "map.h"
 #include "player.h"
 #include "units/unit.h"
-#include "units/infantery.h"
+#include "units/LandUnits/infantery.h"
 #include "buildings/buildings.h"
 #include <vector>
 #include <string>
