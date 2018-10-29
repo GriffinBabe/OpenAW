@@ -56,6 +56,7 @@ private:
 
 	bool moveMode; //When selecting a move cell for unit
 	bool unitMode; //
+	void action(int id);
 };
 
 #endif // MAINWINDOW_H

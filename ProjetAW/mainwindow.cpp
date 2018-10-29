@@ -86,6 +86,9 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 						   cellDim,
 						   cellDim,
 						   *holder.getUnitImage((*it)->getID(),(*it)->getOwner()->getTeamColor()));
+		if (!(*it)->getCanMove() && !(*it)->getCanAttack()) {
+			painter.fillRect(QRect((*it)->getPosX() * cellDim,(*it)->getPosY() * cellDim,cellDim,cellDim),QColor(0,0,0,128));
+		}
 	}
 
 
@@ -95,14 +98,12 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 	painter.drawPixmap(cursorX*cellDim,cursorY*cellDim,cellDim,cellDim,*holder.getCursorImage());
 
 	//Draws UI
-	this->menu->paint(&painter,this->selectedUnit);
-	if (this->selectedUnit != nullptr) {
+	if (this->selectedUnit!=nullptr) {
 		if (this->selectedUnit->getCanMove()) {
-			this->menu->moveMenu(&painter,this->selectedUnit);
-		} else {
-			this->menu->unitMenu(&painter, this->selectedUnit);
+			this->menu->setType(this->selectedUnit, 1);
 		}
 	}
+	this->menu->paint(&painter,this->selectedUnit);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -155,28 +156,57 @@ void MainWindow::selectElement()
  *  There is a priority to be respect and it's ruled by the return statement.
  */
 {
-	//Checks if there is any unit on it and selects it
-	if (this->game->checkUnitOnPos(cursorX,cursorY)) { //We know that there is a unit
-		if (this->game->getUnitOnPos(cursorX, cursorY)->getOwner() == this->game->getLocalPlayer()) {
-			this->selectedUnit = this->game->getUnitOnPos(cursorX, cursorY); //The selectedPointer unit is now set
-			if (this->selectedUnit->getCanMove()) {
-				this->menu->setMoveCells(this->game->getMoveCells(this->selectedUnit)); //Sets the cells where the unit can move in the UI class
+	if (menu->getType() == 0) { // No menu
+		if (this->game->checkUnitOnPos(cursorX, cursorY)) {
+			Unit* u = this->game->getUnitOnPos(cursorX, cursorY);
+			if (u->getOwner() == this->game->getLocalPlayer()) {
+				if (u->getCanMove()) {
+					this->selectedUnit = u;
+					this->menu->setType(this->selectedUnit, 1); //Move menu
+					return;
+				} else if (u->getCanAttack()) {
+					this->selectedUnit = u;
+					this->menu->setType(this->selectedUnit, 2); //Unit menu
+					return;
+				}
 			}
+		}
+	}
+	else if (menu->getType() == 1) { // Move menu
+		if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
+			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
+			this->menu->setType(this->selectedUnit, 2);
+			return;
+		} else {
+			this->menu->setType(this->selectedUnit,0);
+			this->selectedUnit = nullptr;
 			return;
 		}
 	}
-
-	if (this->selectedUnit != nullptr) { // We have a selected player
-		if (this->selectedUnit->getCanMove()) {//The unit hasn't mooved yet
-			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
-			// The unit will move if the game tells it's possible
-		}
+	else if (menu->getType() == 2) { // Unit menu
+		this->action(this->menu->getSelectedBox()->getAction());
+		this->menu->setType(this->selectedUnit,0);
+		return;
 	}
+
 }
 
 void MainWindow::noSelectedElement()
 {
 	this->selectedUnit = nullptr;
+	this->menu->setType(this->selectedUnit, 0);
+}
+
+void MainWindow::action(int id)
+{
+	if (id==2) { // capture
+		this->game->capture(this->game->getBuildingOnPos(this->selectedUnit->getPosX(),this->selectedUnit->getPosY()));
+		this->selectedUnit = nullptr;
+		this->menu->setType(this->selectedUnit, 0);
+	} else if (id==0) {
+		this->selectedUnit = nullptr;
+		this->menu->setType(this->selectedUnit, 0);
+	}
 }
 
 void MainWindow::setCursor(int x, int y)
@@ -189,10 +219,9 @@ void MainWindow::setCursor(int x, int y)
 }
 
 void MainWindow::cursorDown() {
-	if (this->selectedUnit != nullptr) {
-		if (this->selectedUnit->getCanAttack()) {
-			this->menu->cursorDown();
-		}
+	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+		this->menu->cursorDown();
+		return;
 	}
 	int temp = cursorY + 1;
 	if (temp <= this->game->getMap()->getSizeY()) { // First put ++ before variable else the condition check will be false
@@ -201,6 +230,10 @@ void MainWindow::cursorDown() {
 }
 
 void MainWindow::cursorLeft() {
+	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+		this->menu->cursorUp();
+		return;
+	}
 	int temp = cursorX - 1;
 	if (temp >= 0) {
 		cursorX--;
@@ -208,6 +241,10 @@ void MainWindow::cursorLeft() {
 }
 
 void MainWindow::cursorRight() {
+	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+		this->menu->cursorDown();
+		return;
+	}
 	int temp = cursorX + 1;
 	if (temp <= this->game->getMap()->getSizeX()) {
 		cursorX++;
@@ -215,10 +252,9 @@ void MainWindow::cursorRight() {
 }
 
 void MainWindow::cursorUp() {
-	if (this->selectedUnit != nullptr) {
-		if (this->selectedUnit->getCanAttack()) {
-			this->menu->cursorUp();
-		}
+	if (this->menu->getType()==2 || this->menu->getType()==3) { // unit menu or map menu
+		this->menu->cursorUp();
+		return;
 	}
 	int temp = cursorY - 1;
 	if (temp >= 0) {

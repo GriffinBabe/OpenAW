@@ -68,13 +68,12 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
 		return false;
-	} else if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
+	}
+	if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
 		// If there is a unit on this cell and this unit isn't the unit that we want to move
 		return false;
-	} else {
-		// All is good, the unit can moove here
-		return true;
 	}
+	return true;
 }
 
 Player *Game::getLocalPlayer()
@@ -109,7 +108,28 @@ bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la positi
             return true;
         }
     }
-    return false;
+	return false;
+}
+
+bool Game::checkBuildingOnPos(int x, int y)
+{
+	std::vector<Buildings*>::iterator it;
+	for (it = buildings.begin(); it != buildings.end(); ++it) {
+		if ( (*it)->getPosX() == x && (*it)->getPosY() == y) {
+			return true;
+		}
+	}
+	return  false;
+}
+
+Buildings* Game::getBuildingOnPos(int x, int y) {
+	std::vector<Buildings*>::iterator it;
+	for (it = buildings.begin(); it != buildings.end(); ++it) {
+		if ( (*it)->getPosX() == x && (*it)->getPosY() == y) {
+			return *it;
+		}
+	}
+	return nullptr;
 }
 
 Unit* Game::getUnitOnPos(int x, int y) {
@@ -125,20 +145,23 @@ void Game::createUnit(Player* owner, std::pair<int,int> spawn){
 	this->units.push_back(new Infantery(3,3,owner)); //infantery pour le test, UNIT_TYPE dans le futur
 }
 
-void Game::Capture(Buildings* b){
-    if (checkUnitOnPos(b->getPosX(),b->getPosY()) == true){
-        Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
-        if(u->getOwner()!=b->getOwner()){
-            if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
-            if(b->getCpoint() <= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
-        }
+void Game::capture(Buildings* b){
+	if (checkUnitOnPos(b->getPosX(),b->getPosY()) == true){
+		if (getUnitOnPos(b->getPosX(), b->getPosY())->getCanAttack()) {
+			Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
+			if(u->getOwner()!=b->getOwner()){
+				if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
+				if(b->getCpoint() <= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
+			}
+			u->setCanAttack(false);
+		}
     }
 //check si y a une unité ennemi sur le batiment, si c'est une infanterie ou bazooka, retire des points de capture
 //au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
 }
 
 
-void Game::CashIncome(Player* p){
+void Game::cashIncome(Player* p){
     std::vector<Buildings*>::iterator it;
     for (it = buildings.begin(); it != buildings.end(); ++it) {
         if(p == (*it)->getOwner()){p->setMoney(p->getMoney() + (*it)->getCash());}

@@ -37,7 +37,8 @@ SOURCES += \
     ui.cpp \
     buildings/buildings.cpp \
     buildings/citybuilding.cpp \
-    buildings/factorybuilding.cpp
+    buildings/factorybuilding.cpp \
+    menubox.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     ui.h \
     buildings/buildings.h \
     buildings/citybuilding.h \
-    buildings/factorybuilding.h
+    buildings/factorybuilding.h \
+    menubox.h
 
 FORMS += \
         mainwindow.ui

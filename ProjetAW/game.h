@@ -30,12 +30,14 @@ public:
     //Model
     void createUnit(Player* owner, std::pair<int,int> spawn);
     bool checkUnitOnPos(int x , int y);
+	bool checkBuildingOnPos(int x, int y);
+	Buildings* getBuildingOnPos(int x, int y);
     Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 	void setLocalPlayer(Player* lp);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
-    void Capture(Buildings* b);
-    void CashIncome(Player* p);
+	void capture(Buildings* b);
+	void cashIncome(Player* p);
 
 private:
 	Player* localPlayer;
