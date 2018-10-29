@@ -152,6 +152,9 @@ void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
 Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
 int Game::nextTurn(){
+    std::vector<Buildings*>::iterator at;
+    for (at = buildings.begin(); at != buildings.end(); ++at) {Capture(*at);}  //génère les changement de capture points à la fin du tour
+
     CashIncome(playerwhoplays); //génère le cash des batiments à la fin du tour
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
