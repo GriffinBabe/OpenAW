@@ -28,10 +28,12 @@ public:
 	bool getCanAttack();
 	void setCanMove(bool c);
 	void setCanAttack(bool c);
+    int getCost();
+
 
 protected:
     Player* owner;
-	int id, health, damage, disp, x, y, movementPoints;
+    int id, health, damage, disp, x, y, movementPoints,cost;
 	bool canAttack;
 	bool canMove;
     std::pair<int,int> dir;

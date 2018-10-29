@@ -1,5 +1,7 @@
 #include "units/unit.h"
+
 Unit::Unit(){}
+
 Unit::Unit(Player player)
 {
     *owner = player;
@@ -38,4 +40,6 @@ void Unit::setCanAttack(bool c) { canAttack = c;}
 bool Unit::getCanMove() { return canMove; }
 
 int Unit::getMovementPoints() { return movementPoints; }
+
+int Unit::getCost(){return cost;}
 

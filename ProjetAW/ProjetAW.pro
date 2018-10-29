@@ -33,13 +33,25 @@ SOURCES += \
     cell.cpp \
     imageholder.cpp \
     units/unit.cpp \
-    units/infantery.cpp \
     ui.cpp \
     buildings/buildings.cpp \
     buildings/citybuilding.cpp \
     buildings/factorybuilding.cpp \
     buildings/airportbuilding.cpp \
+    units/LandUnits/bazooka.cpp \
+    units/LandUnits/infantery.cpp \
+    units/LandVehicles/recon.cpp \
+    units/LandVehicles/antiair.cpp \
+    units/LandVehicles/tank.cpp \
+    units/LandVehicles/mdtank.cpp \
+    units/LandVehicles/megatank.cpp \
+    units/LandVehicles/neotank.cpp \
+    units/AirUnits/bcopter.cpp \
+    units/AirUnits/fighter.cpp \
+    units/AirUnits/bomber.cpp
+
     menubox.cpp
+
 
 HEADERS += \
         mainwindow.h \
@@ -48,14 +60,29 @@ HEADERS += \
     map.h \
     cell.h \
     imageholder.h \
-    units/infantery.h \
     units/unit.h \
     ui.h \
     buildings/buildings.h \
     buildings/citybuilding.h \
     buildings/factorybuilding.h \
     buildings/airportbuilding.h \
+    units/LandUnits/bazooka.h \
+    units/LandUnits/infantery.h \
+    units/LandUnits/recon.h \
+    units/LandUnits/bazooka.h \
+    units/LandUnits/infantery.h \
+    units/LandVehicles/recon.h \
+    units/unit.h \
+    units/LandVehicles/antiair.h \
+    units/LandVehicles/tank.h \
+    units/LandVehicles/mdtank.h \
+    units/LandVehicles/megatank.h \
+    units/LandVehicles/neotank.h \
+    units/AirUnits/bcopter.h \
+    units/AirUnits/fighter.h \
+    units/AirUnits/bomber.h \
     menubox.h
+
 
 FORMS += \
         mainwindow.ui
