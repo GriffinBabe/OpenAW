@@ -74,6 +74,15 @@ public:
 
 // --------------------------------------------------------------
 
+class Airport : public Cell {
+private:
+
+public:
+    Airport(int x, int y, int id);
+};
+
+// --------------------------------------------------------------
+
 class Woods : public Cell
 {
 private:

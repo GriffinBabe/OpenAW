@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "buildings/citybuilding.h"
 #include "buildings/factorybuilding.h"
+#include "buildings/airportbuilding.h"
 
 Map::Map(std::string mapPath)
 {
@@ -66,7 +67,11 @@ Cell Map::getNewCell(int j,int i, int id) {
 		Factory factory(j,i,id);
 		this->buildings->push_back(new FactoryBuilding(j,i));
 		return factory;
-	} else if(id==3){
+    }else if (id==36) {
+        Airport airport(j,i,id);
+        this->buildings->push_back(new AirportBuilding(j,i));
+        return airport;
+    }else if(id==3){
         Woods woods(j,i,id);
         return woods;
     }else if(id>=4&&id<=10){

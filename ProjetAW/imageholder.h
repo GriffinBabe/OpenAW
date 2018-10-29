@@ -67,7 +67,9 @@ private:
 	QPixmap* cityR;
 	QPixmap* city;
 
-
+    QPixmap* airport;
+    QPixmap* airportB;
+    QPixmap* airportR;
 
 public:
     ImageHolder();

@@ -56,6 +56,10 @@ ImageHolder::ImageHolder()
 	this->factoryB = new QPixmap(":/Images/Buildings/factoryB.png");
 	this->factoryR = new QPixmap(":/Images/Buildings/factoryR.png");
 	this->factory = new QPixmap(":/Images/Buildings/factory.png");
+    this->airportB = new QPixmap(":/Images/Buildings/airportB.png");
+    this->airportR = new QPixmap(":/Images/Buildings/airportR.png");
+    this->airport = new QPixmap(":/Images/Buildings/airport.png");
+
 
 }
 
@@ -105,6 +109,15 @@ QPixmap* ImageHolder::getBuildingImage(int id, char teamColor) {
 			return this->city;
 		}
 	}
+    else if (id == 3) { //Airport
+            if (teamColor == 'B') {
+                return this->airportB;
+            } else if (teamColor == 'R') {
+                return  this->airportR;
+            } else {
+                return this->airport;
+            }
+        }
 }
 QPixmap* ImageHolder::getTerrainImage(int id) {
     switch(id) {

@@ -7,6 +7,7 @@
 #include "buildings/buildings.h"
 #include "buildings/citybuilding.h"
 #include "buildings/factorybuilding.h"
+#include "buildings/airportbuilding.h"
 #include "cell.h"
 
 
