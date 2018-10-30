@@ -9,6 +9,7 @@ class Buildings
 {
 public:
     Buildings();
+	virtual ~Buildings();
     void setCpoint(int a);
     void setPosX(int x);
     void setPosY(int y);

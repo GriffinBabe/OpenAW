@@ -25,6 +25,7 @@ public:
 
 	int getType();
 	void setType(Unit* u, int t);
+	void setType(Buildings* f, int t);
 
 	void clearMenuBoxes();
 

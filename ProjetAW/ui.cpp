@@ -89,6 +89,10 @@ void UI::setType(Unit* u, int t)
 	menuType = t;
 	int swidth = cellDim*3;
 	int sheight = cellDim;
+	if (this->game->getPlayerwhoplays() != this->game->getLocalPlayer()) {
+		menuType = 0;
+		return;
+	}
 	if (menuType == 1) {
 		this->moveCells = this->game->getMoveCells(u);
 	}
@@ -98,19 +102,7 @@ void UI::setType(Unit* u, int t)
 		}
 		Buildings* build = this->game->getBuildingOnPos(u->getPosX(), u->getPosY()); // !! MIGHT BE NULLPTR
 		if (build != nullptr) {
-		}
-		if (build != nullptr) {
-			if (build->getOwner()!=nullptr) {
-			}
-			if (build->getOwner()!=nullptr) {
-				if (build->getOwner()->getTeamColor()!=u->getOwner()->getTeamColor()) {
-					/* ennemy building */
-					this->menuBoxes->push_back(new CaptureBox((width/2)-(swidth/2),
-															  (height/2),
-															  swidth, sheight));
-				}
-			} else {
-				/* neutral building*/
+			if (this->game->canCapture(build)) {
 				this->menuBoxes->push_back(new CaptureBox((width/2)-(swidth/2),
 														  (height/2),
 														  swidth, sheight));
@@ -118,11 +110,13 @@ void UI::setType(Unit* u, int t)
 		}
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2), (height/2)+(sheight*1.5), swidth, sheight));
 		this->selectedBox = this->menuBoxes->at(0);
-	} else if (menuType == 4) {
+	} else if (menuType == 4) { // Attack menu
 		/* Attack menu */
 		this->attackableUnits = this->game->getAttackableUnits(u);
 		if (this->attackableUnits->size() > 0) {
 			this->selectedAttackableUnit = this->attackableUnits->at(0);
+		} else {
+			setType(u, 0); // The attackable units list is empty, we set the ui to no menu
 		}
 	} else if (menuType == 3) { //map menu
 		this->menuBoxes->push_back(new NextTurnBox((width/2)-(swidth/2),
@@ -130,11 +124,51 @@ void UI::setType(Unit* u, int t)
 												   swidth, sheight));
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2), (height/2)+(sheight*1.5), swidth, sheight));
 		this->selectedBox = this->menuBoxes->at(0);
-		std::cout << "all good" << std::endl;
 	}
 }
 
 
+
+void UI::setType(Buildings *f, int t)
+{
+	cursorPos = 0;
+	clearMenuBoxes();
+	menuType = t;
+	int swidth = cellDim*3;
+	int sheight = cellDim;
+	if (this->game->getPlayerwhoplays() != this->game->getLocalPlayer()) {
+		menuType = 0;
+		return;
+	}
+	if (menuType == 5) { // Factory Menu
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),1)) { // we downcast Buildings* b to FactoryBuilding* b
+			this->menuBoxes->push_back(new NewInfateryBox((width/2)-(swidth/2),(height/2)-(sheight*3),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),2)) {
+			this->menuBoxes->push_back(new NewBazookaBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),3)) {
+			this->menuBoxes->push_back(new NewReconBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),4)) {
+			this->menuBoxes->push_back(new NewAntiAirBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),5)) {
+			this->menuBoxes->push_back(new NewTankBox((width/2)-(swidth/2),(height/2)+(sheight*1),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),6)) {
+			this->menuBoxes->push_back(new NewMdTankBox((width/2)-(swidth/2),(height/2)+(sheight*2),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),7)) {
+			this->menuBoxes->push_back(new NewMegaTankBox((width/2)-(swidth/2),(height/2)+(sheight*3),swidth,sheight));
+		}
+		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),8)) {
+			this->menuBoxes->push_back(new NewNeoTankBox((width/2)-(swidth/2),(height/2)+(sheight*4),swidth,sheight));
+		}
+		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2),(height/2)+(sheight*5),swidth,sheight));
+		this->selectedBox = this->menuBoxes->at(0);
+	}
+}
 
 
 void UI::setDimensions(int w, int h, int c) {

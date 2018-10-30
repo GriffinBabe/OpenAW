@@ -50,4 +50,52 @@ public:
 	NextTurnBox(int x, int y, int w, int h);
 };
 
+class NewInfateryBox : public MenuBox
+{
+public:
+	NewInfateryBox(int x, int y, int w, int h);
+};
+
+class NewBazookaBox : public MenuBox
+{
+public:
+	NewBazookaBox(int x,int y,int w,int h);
+};
+
+class NewReconBox : public MenuBox
+{
+public:
+	NewReconBox(int x,int y,int w,int h);
+};
+
+class NewTankBox : public MenuBox
+{
+public:
+	NewTankBox(int x,int y,int w,int h);
+};
+
+class NewMdTankBox : public MenuBox
+{
+public:
+	NewMdTankBox(int x,int y,int w,int h);
+};
+
+class NewMegaTankBox : public MenuBox
+{
+public:
+	NewMegaTankBox(int x,int y,int w,int h);
+};
+
+class NewNeoTankBox : public MenuBox
+{
+public:
+	NewNeoTankBox(int x,int y,int w,int h);
+};
+
+class NewAntiAirBox : public MenuBox
+{
+public:
+		NewAntiAirBox(int x, int y, int w, int h);
+};
+
 #endif // MENUBOX_H

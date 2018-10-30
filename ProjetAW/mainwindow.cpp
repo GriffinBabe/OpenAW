@@ -115,6 +115,9 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 		}
 	}
 	this->menu->paint(&painter,this->selectedUnit);
+	painter.drawText(20,20,"Player who plays: "+
+					QString::fromStdString(this->game->getPlayerwhoplays()->getUsername())
+					 +" Money: "+QString::number(this->game->getPlayerwhoplays()->getMoney()));
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -181,8 +184,15 @@ void MainWindow::selectElement()
 					return;
 				}
 			}
+			if (this->game->checkBuildingOnPos(cursorX, cursorY)) {
+				Buildings* b = this->game->getBuildingOnPos(cursorX,cursorY);
+				if (b->getID() == 1) { // FactoryBuilding
+					this->selectedBuildings = b; // This is a downcast
+					this->menu->setType(b, 5); // We set a Factory Menu
+					return;
+				}
+			}
 		} else {
-			std::cout << "switching to type 3" << std::endl;
 			this->menu->setType(this->selectedUnit, 3);
 			return;
 		}
@@ -219,6 +229,7 @@ void MainWindow::selectElement()
 void MainWindow::noSelectedElement()
 {
 	this->selectedUnit = nullptr;
+	this->selectedBuildings = nullptr;
 	this->menu->setType(this->selectedUnit, 0);
 }
 
@@ -248,7 +259,7 @@ void MainWindow::setCursor(int x, int y)
 }
 
 void MainWindow::cursorDown() {
-	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu, map menu or attack menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4 || this->menu->getType()==5) { // unit menu, map menu or attack menu
 		this->menu->cursorDown();
 		return;
 	}
@@ -259,7 +270,7 @@ void MainWindow::cursorDown() {
 }
 
 void MainWindow::cursorLeft() {
-	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4 || this->menu->getType()==5) { // unit menu or map menu
 		this->menu->cursorUp();
 		return;
 	}
@@ -270,7 +281,7 @@ void MainWindow::cursorLeft() {
 }
 
 void MainWindow::cursorRight() {
-	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4 || this->menu->getType()==5) { // unit menu or map menu
 		this->menu->cursorDown();
 		return;
 	}
@@ -281,7 +292,7 @@ void MainWindow::cursorRight() {
 }
 
 void MainWindow::cursorUp() {
-	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4) { // unit menu or map menu
+	if (this->menu->getType()==2 || this->menu->getType()==3 || this->menu->getType()==4 || this->menu->getType()==5) { // unit menu or map menu
 		this->menu->cursorUp();
 		return;
 	}

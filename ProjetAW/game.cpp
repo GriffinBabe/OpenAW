@@ -80,6 +80,9 @@ std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
 
 bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 {
+	if (u->getOwner() != this->playerwhoplays) {
+		return false;
+	}
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
 		return false;
@@ -161,18 +164,80 @@ void Game::createUnit(Player* owner, std::pair<int,int> spawn){
 }
 
 void Game::capture(Buildings* b){
-	if (checkUnitOnPos(b->getPosX(),b->getPosY()) == true){
-		if (getUnitOnPos(b->getPosX(), b->getPosY())->getCanAttack()) {
-			Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
-			if(u->getOwner()!=b->getOwner()){
-				if((u->getID() == 1)||(u->getID() == 2)){b->setCpoint(b->getCpoint() - u->getHealth());}
-				if(b->getCpoint() <= 0){b->setOwner(u->getOwner()); b->setCpoint(20);}
-			}
-			u->setCanAttack(false);
+	if (canCapture(b)) {
+		Unit* u = getUnitOnPos(b->getPosX(),b->getPosY());
+		b->setCpoint(b->getCpoint() - u->getHealth());
+		if (b->getCpoint() <= 0) {
+			b->setOwner(u->getOwner());
+			b->setCpoint(20);
 		}
-    }
+		u->setCanAttack(false);
+	}
 //check si y a une unité ennemi sur le batiment, si c'est une infanterie ou bazooka, retire des points de capture
-//au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
+	//au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
+}
+
+bool Game::canBuildFactory(Buildings *b, int unitID)
+{
+	if (this->checkUnitOnPos(b->getPosX(),b->getPosY())) {
+		/* If there is a unit on the factory */
+		return false;
+	}
+	if (b->getOwner()==nullptr) {
+		return  false;
+	}
+	if (unitID == 1) { // Infatery
+		if (b->getOwner()->getMoney() < 1000)
+			return false;
+	} else if (unitID == 2) { // Bazooka
+		if (b->getOwner()->getMoney() < 3000)
+			return  false;
+	} else if (unitID == 3) { // Recon
+		if (b->getOwner()->getMoney() < 4000)
+			return  false;
+	} else if (unitID == 4) { // AntiAir
+		if (b->getOwner()->getMoney() < 8000)
+			return  false;
+	} else if (unitID == 5) { // Tank
+		if (b->getOwner()->getMoney() < 7000)
+			return  false;
+	} else if (unitID == 6) { // MdTank
+		if (b->getOwner()->getMoney() < 16000)
+			return  false;
+	} else if (unitID == 7) { // MegaTank
+		if (b->getOwner()->getMoney() < 28000)
+			return  false;
+	} else if (unitID == 8) { // NeoTank
+		if (b->getOwner()->getMoney() < 22000)
+			return  false;
+	} else {
+		return false; // Unknown ID -> can't build that
+	}
+	return true;
+}
+
+bool Game::canCapture(Buildings* b) {
+	if (checkUnitOnPos(b->getPosX(),b->getPosY()) == false) {
+		return false;
+	}
+	Unit* capturer = this->getUnitOnPos(b->getPosX(),b->getPosY());
+	if (capturer->getID()!=1 && capturer->getID()!=2) {
+		// Only infantery and bazooka can capture
+		return  false;
+	}
+	if (!capturer->getCanAttack()) {
+		return false;
+	}
+	if (b->getOwner() != nullptr) {
+		if (capturer->getOwner()->getTeamColor() != b->getOwner()->getTeamColor()) {
+			return false;
+		}
+	}
+	if (getUnitOnPos(b->getPosX(),b->getPosY())->getOwner() != this->playerwhoplays) {
+		// If the owner of the capture unit is not the current playing player, do nothing
+		return false;
+	}
+	return true;
 }
 
 
@@ -194,6 +259,10 @@ bool Game::attackable(Unit *u, Unit *unit, bool defensemode)
 	if (!defensemode && !u->getCanAttack()) {
 		return false;
 	}
+	if (!defensemode && this->playerwhoplays!=u->getOwner()) {
+		// If u if the initial attacker and his owner is not the player that should play now
+		return false;
+	}
 	// No friendly fire
 	if (u->getOwner()->getTeamColor()==unit->getOwner()->getTeamColor()) {
 		return false;
@@ -211,13 +280,20 @@ Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
 
 void Game::nextTurn(){
-	std::cout << "next turn called " << std::endl;
-    std::vector<Buildings*>::iterator at;
-	for (at = buildings.begin(); at != buildings.end(); ++at) {capture(*at);}  //génère les changement de capture points à la fin du tour
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
-        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); break;}
-        if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); break;}
+		if (getPlayerwhoplays()==*(it) && it != players.end()-1){
+			setPlayerwhoplays(*(it+1));
+			this->localPlayer = this->playerwhoplays; // This is TEMPORARY and is here
+			// only for testing purposes;
+			break;
+		}
+		if(getPlayerwhoplays()==*(it) && it == players.end()-1){
+			setPlayerwhoplays(*(players.begin()));
+			this->localPlayer = this->playerwhoplays; // This is TEMPORARY and is here
+			// only for testing purposes;
+			break;
+		}
 	}
 	cashIncome(playerwhoplays); //génère le cash des batiments -à la fin du tour- <- changé au début du tour du joueur qui va commencer à jouer maintenant, comme dans advance wars
 	for (Unit* u : units) {

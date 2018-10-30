@@ -46,10 +46,38 @@ ImageHolder::ImageHolder()
     // Units
     this->infanteryB = new QPixmap(":/Images/Units/infanteryB.png");
     this->infanteryR = new QPixmap(":/Images/Units/infanteryR.png");
+
     this->bazookaB = new QPixmap(":/Images/Units/bazookaB.png");
     this->bazookaB = new QPixmap(":/Images/Units/bazookaR.png");
 
+	this->reconB = new QPixmap(":/Images/Units/reconB.png");
+	this->reconR = new QPixmap(":/Images/Units/reconR.png");
 
+	this->tankB = new QPixmap(":/Images/Units/tankB.png");
+	this->tankR = new QPixmap(":/Images/Units/tankR.png");
+
+	this->megatankB = new QPixmap(":/Images/Units/megatankB.png");
+	this->megatankR = new QPixmap(":/Images/Units/megatankR.png");
+
+	this->mdtankR = new QPixmap(":/Images/Units/mdtankR.png");
+	this->mdtankB = new QPixmap(":/Images/Units/mdtankB.png");
+
+	this->neotankR = new QPixmap(":/Images/Units/neotankR.png");
+	this->neotankB = new QPixmap(":/Images/Units/neotankB.png");
+
+	this->bcopterB = new QPixmap(":/Images/Units/bcopterB.png");
+	this->bcopterR = new QPixmap(":/Images/Units/bcopterR.png");
+
+	this->bomberB = new QPixmap(":/Images/Units/bomberB.png");
+	this->bomberR = new QPixmap(":/Images/Units/bomberR.png");
+
+	this->fighterB = new QPixmap(":/Images/Units/fighterB.png");
+	this->fighterR = new QPixmap(":/Images/Units/fighterR.png");
+
+	this->antiairB = new QPixmap(":/Images/Units/antiairB.png");
+	this->antiairR = new QPixmap(":/Images/Units/antiairR.png");
+
+	//buildings
 	this->cityB = new QPixmap(":/Images/Buildings/cityB.png");
 	this->cityR = new QPixmap(":/Images/Buildings/cityR.png");
 	this->city = new QPixmap(":/Images/Buildings/city.png");
@@ -87,7 +115,61 @@ QPixmap* ImageHolder::getUnitImage(int id, char teamColor) {
         } else {
             return this->bazookaR;
         }
-    }
+	} else if (id == 3) { // recon
+		if (teamColor == 'B') {
+			return this->reconB;
+		} else {
+			return this->reconR;
+		}
+	} else if (id == 4) { // antiair
+		if (teamColor == 'B') {
+			return this->antiairB;
+		} else {
+			return this->antiairR;
+		}
+	} else if (id == 5) { // tank
+		if (teamColor == 'B') {
+			return this->tankB;
+		} else {
+			return this->tankR;
+		}
+	} else if (id == 6) { // mdtank
+		if (teamColor == 'B') {
+			return this->mdtankB;
+		} else {
+			return this->mdtankR;
+		}
+	} else if (id == 7) { // megatank
+		if (teamColor == 'B') {
+			return this->megatankB;
+		} else {
+			return this->megatankR;
+		}
+	} else if (id == 8) { // neotank
+		if (teamColor == 'B') {
+			return this->neotankB;
+		} else {
+			return this->neotankR;
+		}
+	} else if (id == 9) { // bcopter
+		if (teamColor == 'B') {
+			return this->bcopterB;
+		} else {
+			return this->bcopterR;
+		}
+	} else if (id == 10) { // fighter
+		if (teamColor == 'B') {
+			return this->fighterB;
+		} else {
+			return this->fighterR;
+		}
+	} else if (id == 11) { // bomber
+		if (teamColor == 'B') {
+			return this->bomberB;
+		} else {
+			return this->bomberR;
+		}
+	}
 }
 QPixmap* ImageHolder::getBuildingImage(int id, char teamColor) {
 

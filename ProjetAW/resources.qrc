@@ -8,6 +8,14 @@
         <file>capture.png</file>
         <file>wait.png</file>
         <file>end.png</file>
+        <file>newantiair.png</file>
+        <file>newneotank.png</file>
+        <file>newmegatank.png</file>
+        <file>newmdtank.png</file>
+        <file>newtank.png</file>
+        <file>newrecon.png</file>
+        <file>newbazooka.png</file>
+        <file>newinfantery.png</file>
     </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>
@@ -66,6 +74,24 @@
         <file>infanteryR.png</file>
         <file>bazookaB.png</file>
         <file>infanteryB.png</file>
+        <file>antiairB.png</file>
+        <file>antiairR.png</file>
+        <file>bcopterB.png</file>
+        <file>bcopterR.png</file>
+        <file>bomberB.png</file>
+        <file>bomberR.png</file>
+        <file>fighterB.png</file>
+        <file>fighterR.png</file>
+        <file>mdtankB.png</file>
+        <file>mdtankR.png</file>
+        <file>megatankB.png</file>
+        <file>megatankR.png</file>
+        <file>neotankB.png</file>
+        <file>neotankR.png</file>
+        <file>tankB.png</file>
+        <file>tankR.png</file>
+        <file>reconB.png</file>
+        <file>reconR.png</file>
     </qresource>
     <qresource prefix="/Images/Icon">
         <file>icone.png</file>

@@ -25,7 +25,6 @@ public:
     std::vector<Buildings*>* getBuildings();
 	std::vector<std::pair<int,int>> getMoveCells(Unit* u);
 	std::vector<Unit*>* getAttackableUnits(Unit* u);
-	bool unitCanMoveOnCell(Unit* u, Cell c);
 	Player* getLocalPlayer();
 
     //Model
@@ -36,8 +35,11 @@ public:
     Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 	void setLocalPlayer(Player* lp);
+	bool unitCanMoveOnCell(Unit* u, Cell c);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
+	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
+	bool canBuildFactory(FactoryBuilding* f, int unitID);
 	void cashIncome(Player* p);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);

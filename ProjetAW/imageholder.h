@@ -58,6 +58,33 @@ private:
     QPixmap* bazookaB;
     QPixmap* bazookaR;
 
+	QPixmap* reconB;
+	QPixmap* reconR;
+
+	QPixmap* tankB;
+	QPixmap* tankR;
+
+	QPixmap* mdtankB;
+	QPixmap* mdtankR;
+
+	QPixmap* megatankB;
+	QPixmap* megatankR;
+
+	QPixmap* neotankB;
+	QPixmap* neotankR;
+
+	QPixmap* bcopterB;
+	QPixmap* bcopterR;
+
+	QPixmap* bomberB;
+	QPixmap* bomberR;
+
+	QPixmap* fighterB;
+	QPixmap* fighterR;
+
+	QPixmap* antiairB;
+	QPixmap* antiairR;
+
 	// Buildings
     QPixmap* factoryB;
     QPixmap* factoryR;
