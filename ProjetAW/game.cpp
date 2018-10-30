@@ -216,8 +216,8 @@ void Game::nextTurn(){
 	for (at = buildings.begin(); at != buildings.end(); ++at) {capture(*at);}  //génère les changement de capture points à la fin du tour
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
-		if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1));}
-		if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin()));}
+        if((getPlayerwhoplays()==*(it))&&(it != players.end()-1)){setPlayerwhoplays(*(it+1)); break;}
+        if((getPlayerwhoplays()==*(it))&&(it == players.end()-1)){setPlayerwhoplays(*(players.begin())); break;}
 	}
 	cashIncome(playerwhoplays); //génère le cash des batiments -à la fin du tour- <- changé au début du tour du joueur qui va commencer à jouer maintenant, comme dans advance wars
 	for (Unit* u : units) {
