@@ -46,6 +46,8 @@ bool Unit::getCanMove() { return canMove; }
 
 int Unit::getMovementPoints() { return movementPoints; }
 
+int Unit::getMovementType() { return movementType;}
+
 int Unit::getCost(){return cost;}
 
 int Unit::getChartDamage(int u1, int u2)

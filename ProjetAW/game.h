@@ -67,6 +67,12 @@ private:
     std::vector<Buildings*> buildings;
 	Map* map;
     int tour;
+    int movementCostsPerTerrain[5][6] =	{{1,2,1,1,0,0},
+                                        {1,1,1,1,0,0},
+                                        {1,0,2,1,0,0},
+                                        {2,0,3,1,0,0},
+                                        {1,1,1,1,1,0}};
+
 };
 
 #endif // GAME_H

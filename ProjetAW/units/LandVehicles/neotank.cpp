@@ -13,6 +13,7 @@ NeoTank::NeoTank(int xi, int yi, Player* owner)
    canMove = false;
    canAttack = false;
    movementPoints = 6; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=4;
    cost=22000;
    std::pair<int,int> dir(0,1);
 }

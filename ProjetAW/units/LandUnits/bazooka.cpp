@@ -13,6 +13,7 @@ Bazooka::Bazooka(int xi, int yi, Player* owner)
    canMove = false;
    canAttack = false;
    movementPoints = 2; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=2;
    cost=3000;
    std::pair<int,int> dir(0,1);
 }

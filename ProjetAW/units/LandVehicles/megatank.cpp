@@ -13,6 +13,7 @@ MegaTank::MegaTank(int xi, int yi, Player* owner)
    canMove = false;
    canAttack = false;
    movementPoints = 4; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=4;
    cost=28000;
    std::pair<int,int> dir(0,1);
 }

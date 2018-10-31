@@ -5,7 +5,7 @@
 class Cell
 {
 protected:
-	int posX, posY, type, dir, defense;
+    int posX, posY, type,defense,moveType;
 
 public:
     Cell(int posX,int posY,int t);
@@ -16,6 +16,7 @@ public:
     int getPosX();
 	int getPosY();
 	int getDefense();
+    int getMoveType();
 
 };
 

@@ -13,6 +13,7 @@ Infantery::Infantery(int xi, int yi, Player* owner)
    canMove = false;
    canAttack = false;
    movementPoints = 3; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=1;
    cost=1000;
    std::pair<int,int> dir(0,1);
 }
