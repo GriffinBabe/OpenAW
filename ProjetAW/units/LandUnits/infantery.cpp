@@ -13,6 +13,7 @@ Infantery::Infantery(int xi, int yi, Player* owner)
    canMove = true; // Should be false, but let true until player's turns are implemented
    canAttack = false;
    movementPoints = 3; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=1;
    cost=1000;
    std::pair<int,int> dir(0,1);
 }

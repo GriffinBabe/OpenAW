@@ -13,6 +13,7 @@ BCopter::BCopter(int xi, int yi, Player* owner)
    canMove = true; // Should be false, but let true until player's turns are implemented
    canAttack = false;
    movementPoints = 6; // can be found here => http://awbw.amarriner.com/units.php
+   movementType=5;
    cost=9000;
    std::pair<int,int> dir(0,1);
 }

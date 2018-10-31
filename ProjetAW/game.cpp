@@ -83,6 +83,11 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 	if (u->getOwner() != this->playerwhoplays) {
 		return false;
 	}
+    // u->getMovementPoints();
+    // u->getMovementType();
+    //c.getMoveType();
+
+
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
 		return false;
