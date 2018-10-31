@@ -184,13 +184,13 @@ void MainWindow::selectElement()
 					return;
 				}
 			}
-			if (this->game->checkBuildingOnPos(cursorX, cursorY)) {
-				Buildings* b = this->game->getBuildingOnPos(cursorX,cursorY);
-				if (b->getID() == 1) { // FactoryBuilding
-					this->selectedBuildings = b; // This is a downcast
-					this->menu->setType(b, 5); // We set a Factory Menu
-					return;
-				}
+		}
+		if (this->game->checkBuildingOnPos(cursorX, cursorY)) {
+			Buildings* b = this->game->getBuildingOnPos(cursorX,cursorY);
+			if (b->getID() == 1) { // FactoryBuilding
+				this->selectedBuildings = b; // This is a downcast
+				this->menu->setType(b, 5); // We set a Factory Menu
+				return;
 			}
 		} else {
 			this->menu->setType(this->selectedUnit, 3);

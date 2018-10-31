@@ -5,6 +5,11 @@ Buildings::Buildings()
 
 }
 
+Buildings::~Buildings()
+{
+	delete this;
+}
+
 void Buildings::setCpoint(int a){capturepoint = a;}
 
 int Buildings::getCpoint(){return this->capturepoint;}

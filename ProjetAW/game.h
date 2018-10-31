@@ -39,7 +39,7 @@ public:
 	void moveUnit(Unit* u, std::pair<int,int> pos);
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
-	bool canBuildFactory(FactoryBuilding* f, int unitID);
+	bool canBuildFactory(Buildings* f, int unitID);
 	void cashIncome(Player* p);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);

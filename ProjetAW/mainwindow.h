@@ -46,7 +46,7 @@ private:
 
 	int cursorX, cursorY;
 	Unit* selectedUnit;
-	FactoryBuilding* selectedFactory;
+	Buildings* selectedBuildings;
 	void cursorUp();
 	void cursorDown();
 	void cursorLeft();
