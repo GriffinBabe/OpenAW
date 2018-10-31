@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
 	game.addUnit(u3);
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
+	Buildings* b = game.getBuildingOnPos(7,2);
+	b->setOwner(p);
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

@@ -10,7 +10,7 @@ MdTank::MdTank(int xi, int yi, Player* owner)
    id = 6; // used for view
    x = xi;
    y = yi;
-   canMove = true; // Should be false, but let true until player's turns are implemented
+   canMove = false;
    canAttack = false;
    movementPoints = 5; // can be found here => http://awbw.amarriner.com/units.php
    cost=16000;

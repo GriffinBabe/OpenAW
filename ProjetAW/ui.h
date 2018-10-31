@@ -12,9 +12,9 @@ public:
 	UI();
 	void moveMenu(QPainter* p, Unit* u);
 	void mapMenu(QPainter* p);
-	void unitMenu(QPainter* p, Unit* u);
+	void unitMenu(QPainter* p);
 	void attackMenu(QPainter* p, Unit* u);
-	void paint(QPainter* p, Unit* u);
+	void paint(QPainter* p, Unit* u, Buildings* b);
 
 	void cursorDown();
 	void cursorUp();

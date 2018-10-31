@@ -114,7 +114,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 			this->menu->setType(this->selectedUnit, 1);
 		}
 	}
-	this->menu->paint(&painter,this->selectedUnit);
+	this->menu->paint(&painter,this->selectedUnit, this->selectedBuildings);
 	painter.drawText(20,20,"Player who plays: "+
 					QString::fromStdString(this->game->getPlayerwhoplays()->getUsername())
 					 +" Money: "+QString::number(this->game->getPlayerwhoplays()->getMoney()));
@@ -187,9 +187,14 @@ void MainWindow::selectElement()
 		}
 		if (this->game->checkBuildingOnPos(cursorX, cursorY)) {
 			Buildings* b = this->game->getBuildingOnPos(cursorX,cursorY);
-			if (b->getID() == 1) { // FactoryBuilding
-				this->selectedBuildings = b; // This is a downcast
-				this->menu->setType(b, 5); // We set a Factory Menu
+			if (b->getOwner()==this->game->getLocalPlayer()) {
+				if (b->getID() == 1) { // FactoryBuilding
+					this->selectedBuildings = b; // This is a downcast
+					this->menu->setType(b, 5); // We set a Factory Menu
+					return;
+				}
+			} else {
+				this->menu->setType(this->selectedUnit,0);
 				return;
 			}
 		} else {
@@ -223,6 +228,11 @@ void MainWindow::selectElement()
 		this->game->attack(this->selectedUnit,this->menu->getSelectedAttackableUnit(),true); // Game.attack(Unit* u, Unit* u2);
 		return;
 	}
+	else if (menu->getType() == 5) {
+		this->menu->setType(this->selectedUnit, 0);
+		this->action(this->menu->getSelectedBox()->getAction());
+		return;
+	}
 
 }
 
@@ -241,11 +251,55 @@ void MainWindow::action(int id)
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==0) { // wait - do nothing
 		this->selectedUnit = nullptr;
+		this->selectedBuildings = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==1) { //attack
 		this->menu->setType(this->selectedUnit, 4);
 	} else if (id==3) { // pass turn
 		this->game->nextTurn();
+	} else if (id==4) { // new infantery
+		this->game->createUnit(new Infantery(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==5) { // new infantery
+		this->game->createUnit(new Bazooka(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==6) { // new infantery
+		this->game->createUnit(new Recon(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==7) { // new infantery
+		this->game->createUnit(new AntiAir(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==8) { // new infantery
+		this->game->createUnit(new Tank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==9) { // new infantery
+		this->game->createUnit(new MdTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==10) { // new infantery
+		this->game->createUnit(new MegaTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==11) { // new infantery
+		this->game->createUnit(new NeoTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==12) { // new infantery
+		this->game->createUnit(new BCopter(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==13) { // new infantery
+		this->game->createUnit(new Bomber(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
+	}
+	else if (id==12) { // new infantery
+		this->game->createUnit(new Fighter(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->selectedBuildings = nullptr;
 	}
 }
 

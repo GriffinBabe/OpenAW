@@ -40,16 +40,15 @@ void UI::moveMenu(QPainter* p, Unit* u) {
 }
 
 /*
- * This menu get opened once the unit moved, it can now do several actions as attack, capture a city, nothing
+ * This menu shows the possibility of a unit, or a building
  */
-void UI::unitMenu(QPainter* p, Unit* u) {
+void UI::unitMenu(QPainter* p) {
 	p->fillRect(this->selectedBox->getPosX()-10, this->selectedBox->getPosY()-10,
 				this->selectedBox->getWidth()+10, this->selectedBox->getHeight()+10, Qt::red);
 	for (MenuBox* box : *this->menuBoxes) {
 		p->drawPixmap(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight(), *box->getImage());
 	}
 }
-
 
 /*
  * This menu puts a target on every attackablue unit
@@ -66,15 +65,15 @@ void UI::attackMenu(QPainter *p, Unit *u)
 
 }
 
-void UI::paint(QPainter *p, Unit *u)
+void UI::paint(QPainter *p, Unit *u, Buildings* b)
 {
 	p->setPen(Qt::black);
 	if (menuType == 0) {
 		return; //nothing to paint here
 	} else if (menuType == 1) { //move menu
 		moveMenu(p,u);
-	} else if (menuType == 2) { //unit menu
-		unitMenu(p,u);
+	} else if (menuType == 2 || menuType == 5) { //unit or factory menu
+		unitMenu(p);
 	} else if (menuType == 4) { //attack menu
 		attackMenu(p,u);
 	} else if (menuType == 3) {
@@ -211,7 +210,7 @@ Unit *UI::getSelectedAttackableUnit()
 
 void UI::cursorDown() {
 	int newPos = cursorPos;
-	if (menuType == 2 || menuType == 3) {
+	if (menuType == 2 || menuType == 3 || menuType == 5) {
 		if (++newPos < this->menuBoxes->size()) { // Unit menu has only two options (for the moment): attack and wait
 			cursorPos++;
 			this->selectedBox = this->menuBoxes->at(cursorPos);
@@ -228,7 +227,7 @@ void UI::cursorUp() {
 	int newPos = cursorPos;
 	if (--newPos >= 0) {
 		cursorPos--;
-		if (menuType == 2 || menuType == 3) {
+		if (menuType == 2 || menuType == 3 || menuType == 5) {
 			this->selectedBox = this->menuBoxes->at(cursorPos);
 		} else if (menuType == 4) {
 			if (this->attackableUnits->size() > 0) {

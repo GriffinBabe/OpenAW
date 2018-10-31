@@ -10,7 +10,7 @@ MegaTank::MegaTank(int xi, int yi, Player* owner)
    id = 7; // used for view
    x = xi;
    y = yi;
-   canMove = true; // Should be false, but let true until player's turns are implemented
+   canMove = false;
    canAttack = false;
    movementPoints = 4; // can be found here => http://awbw.amarriner.com/units.php
    cost=28000;

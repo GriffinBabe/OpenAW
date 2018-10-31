@@ -12,6 +12,7 @@ public:
     Unit();
     Unit(Player player);
     Player* getOwner()const;
+	void setOwner(Player* ow);
     int getHealth();
     int getDisp();
     void setHealth(int a);

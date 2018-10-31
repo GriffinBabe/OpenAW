@@ -10,7 +10,7 @@ Fighter::Fighter(int xi, int yi, Player* owner)
    id = 10; // used for view
    x = xi;
    y = yi;
-   canMove = true; // Should be false, but let true until player's turns are implemented
+   canMove = false;
    canAttack = false;
    movementPoints = 9; // can be found here => http://awbw.amarriner.com/units.php
    cost=20000;

@@ -9,6 +9,11 @@ Unit::Unit(Player player)
 
 Player* Unit::getOwner()const{return this->owner;}
 
+void Unit::setOwner(Player *ow)
+{
+	this->owner = ow;
+}
+
 void Unit::setHealth(int a){health = a;}
 
 int Unit::getPosX() { return x;}
