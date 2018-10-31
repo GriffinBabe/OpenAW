@@ -10,7 +10,7 @@ Infantery::Infantery(int xi, int yi, Player* owner)
    id = 1; // used for view
    x = xi;
    y = yi;
-   canMove = true; // Should be false, but let true until player's turns are implemented
+   canMove = false;
    canAttack = false;
    movementPoints = 3; // can be found here => http://awbw.amarriner.com/units.php
    movementType=1;

@@ -16,6 +16,9 @@
         <file>newrecon.png</file>
         <file>newbazooka.png</file>
         <file>newinfantery.png</file>
+        <file>newbcopter.png</file>
+        <file>newbomber.png</file>
+        <file>newfighter.png</file>
     </qresource>
     <qresource prefix="/Maps">
         <file>map1.txt</file>

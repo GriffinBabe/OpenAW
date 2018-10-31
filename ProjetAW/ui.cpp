@@ -40,16 +40,15 @@ void UI::moveMenu(QPainter* p, Unit* u) {
 }
 
 /*
- * This menu get opened once the unit moved, it can now do several actions as attack, capture a city, nothing
+ * This menu shows the possibility of a unit, or a building
  */
-void UI::unitMenu(QPainter* p, Unit* u) {
+void UI::unitMenu(QPainter* p) {
 	p->fillRect(this->selectedBox->getPosX()-10, this->selectedBox->getPosY()-10,
 				this->selectedBox->getWidth()+10, this->selectedBox->getHeight()+10, Qt::red);
 	for (MenuBox* box : *this->menuBoxes) {
 		p->drawPixmap(box->getPosX(), box->getPosY(), box->getWidth(), box->getHeight(), *box->getImage());
 	}
 }
-
 
 /*
  * This menu puts a target on every attackablue unit
@@ -66,15 +65,15 @@ void UI::attackMenu(QPainter *p, Unit *u)
 
 }
 
-void UI::paint(QPainter *p, Unit *u)
+void UI::paint(QPainter *p, Unit *u, Buildings* b)
 {
 	p->setPen(Qt::black);
 	if (menuType == 0) {
 		return; //nothing to paint here
 	} else if (menuType == 1) { //move menu
 		moveMenu(p,u);
-	} else if (menuType == 2) { //unit menu
-		unitMenu(p,u);
+	} else if (menuType == 2 || menuType == 5) { //unit or factory menu
+		unitMenu(p);
 	} else if (menuType == 4) { //attack menu
 		attackMenu(p,u);
 	} else if (menuType == 3) {
@@ -140,30 +139,44 @@ void UI::setType(Buildings *f, int t)
 		menuType = 0;
 		return;
 	}
-	if (menuType == 5) { // Factory Menu
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),1)) { // we downcast Buildings* b to FactoryBuilding* b
-			this->menuBoxes->push_back(new NewInfateryBox((width/2)-(swidth/2),(height/2)-(sheight*3),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),2)) {
-			this->menuBoxes->push_back(new NewBazookaBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),3)) {
-			this->menuBoxes->push_back(new NewReconBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),4)) {
-			this->menuBoxes->push_back(new NewAntiAirBox((width/2)-(swidth/2),(height/2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),5)) {
-			this->menuBoxes->push_back(new NewTankBox((width/2)-(swidth/2),(height/2)+(sheight*1),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),6)) {
-			this->menuBoxes->push_back(new NewMdTankBox((width/2)-(swidth/2),(height/2)+(sheight*2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),7)) {
-			this->menuBoxes->push_back(new NewMegaTankBox((width/2)-(swidth/2),(height/2)+(sheight*3),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),8)) {
-			this->menuBoxes->push_back(new NewNeoTankBox((width/2)-(swidth/2),(height/2)+(sheight*4),swidth,sheight));
+	if (menuType == 5) { // Unit Build Menu
+		if (f->getID() == 1) { // Factory
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),1)) { // we downcast Buildings* b to FactoryBuilding* b
+				this->menuBoxes->push_back(new NewInfateryBox((width/2)-(swidth/2),(height/2)-(sheight*3),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),2)) {
+				this->menuBoxes->push_back(new NewBazookaBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),3)) {
+				this->menuBoxes->push_back(new NewReconBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),4)) {
+				this->menuBoxes->push_back(new NewAntiAirBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),5)) {
+				this->menuBoxes->push_back(new NewTankBox((width/2)-(swidth/2),(height/2)+(sheight*1),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),6)) {
+				this->menuBoxes->push_back(new NewMdTankBox((width/2)-(swidth/2),(height/2)+(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),7)) {
+				this->menuBoxes->push_back(new NewMegaTankBox((width/2)-(swidth/2),(height/2)+(sheight*3),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),8)) {
+				this->menuBoxes->push_back(new NewNeoTankBox((width/2)-(swidth/2),(height/2)+(sheight*4),swidth,sheight));
+			}
+		} else if (f->getID() == 3) {// Airport
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f),9)) {
+				this->menuBoxes->push_back(new NewBCopterBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f), 10)) {
+				this->menuBoxes->push_back(new NewBomberBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+
+			}
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f), 11)) {
+				this->menuBoxes->push_back(new NewFighterBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+
+			}
 		}
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2),(height/2)+(sheight*5),swidth,sheight));
 		this->selectedBox = this->menuBoxes->at(0);
@@ -211,7 +224,7 @@ Unit *UI::getSelectedAttackableUnit()
 
 void UI::cursorDown() {
 	int newPos = cursorPos;
-	if (menuType == 2 || menuType == 3) {
+	if (menuType == 2 || menuType == 3 || menuType == 5) {
 		if (++newPos < this->menuBoxes->size()) { // Unit menu has only two options (for the moment): attack and wait
 			cursorPos++;
 			this->selectedBox = this->menuBoxes->at(cursorPos);
@@ -228,7 +241,7 @@ void UI::cursorUp() {
 	int newPos = cursorPos;
 	if (--newPos >= 0) {
 		cursorPos--;
-		if (menuType == 2 || menuType == 3) {
+		if (menuType == 2 || menuType == 3 || menuType == 5) {
 			this->selectedBox = this->menuBoxes->at(cursorPos);
 		} else if (menuType == 4) {
 			if (this->attackableUnits->size() > 0) {

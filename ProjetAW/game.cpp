@@ -164,8 +164,9 @@ Unit* Game::getUnitOnPos(int x, int y) {
     }
 }
 
-void Game::createUnit(Player* owner, std::pair<int,int> spawn){
-	this->units.push_back(new Infantery(3,3,owner)); //infantery pour le test, UNIT_TYPE dans le futur
+
+void Game::createUnit(Unit* u) {
+	units.push_back(u);
 }
 
 void Game::capture(Buildings* b){
@@ -221,6 +222,31 @@ bool Game::canBuildFactory(Buildings *b, int unitID)
 	return true;
 }
 
+bool Game::canBuildAirport(Buildings *b, int unitID)
+{
+	if (this->checkUnitOnPos(b->getPosX(),b->getPosY())) {
+		/* If there is a unit on the airport */
+		return false;
+	}
+	if (b->getOwner()==nullptr) {
+		return  false;
+	}
+	if (unitID == 9) {
+		if (b->getOwner()->getMoney() < 9000) {
+			return false;
+		}
+	} else if (unitID == 10) {
+		if (b->getOwner()->getMoney() < 22000) {
+			return false;
+		}
+	} else if (unitID == 11) {
+		if (b->getOwner()->getMoney() < 20000) {
+			return false;
+		}
+	}
+	return true;
+}
+
 bool Game::canCapture(Buildings* b) {
 	if (checkUnitOnPos(b->getPosX(),b->getPosY()) == false) {
 		return false;
@@ -249,7 +275,9 @@ bool Game::canCapture(Buildings* b) {
 void Game::cashIncome(Player* p){
     std::vector<Buildings*>::iterator it;
     for (it = buildings.begin(); it != buildings.end(); ++it) {
-        if(p == (*it)->getOwner()){p->setMoney(p->getMoney() + (*it)->getCash());}
+		if(p == (*it)->getOwner() && (*it)->getID() == 2){ // If the building is a city it has id == 2
+			p->setMoney(p->getMoney() + (*it)->getCash());
+		}
 
     }
 	// add to the owner of the building the amount of money allowed by the building

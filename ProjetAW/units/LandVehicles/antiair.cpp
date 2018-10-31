@@ -10,7 +10,7 @@ AntiAir::AntiAir(int xi, int yi, Player* owner)
    id = 4; // used for view
    x = xi;
    y = yi;
-   canMove = true; // Should be false, but let true until player's turns are implemented
+   canMove = false;
    canAttack = false;
    movementPoints = 6; // can be found here => http://awbw.amarriner.com/units.php
    movementType=4;

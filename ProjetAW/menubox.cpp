@@ -67,51 +67,72 @@ NextTurnBox::NextTurnBox(int x, int y, int w, int h) {
 
 NewInfateryBox::NewInfateryBox(int x, int y, int w, int h) {
 	posX = x; posY = y; width =w; height = h; title="New Infantery Box"; action = 4;
-	this->image = new QPixmap(":/Images/newInfantery.png");
+	this->image = new QPixmap(":/Images/newinfantery.png");
 }
 
 // -------------------------------------------------------------------------------------
 
 NewBazookaBox::NewBazookaBox(int x, int y, int w, int h) {
 	posX = x; posY = y; width =w; height = h; title="New Bazooka Box"; action = 5;
-	this->image = new QPixmap(":/Images/newBazooka.png");
+	this->image = new QPixmap(":/Images/newbazooka.png");
 }
 
 // -------------------------------------------------------------------------------------
 
 NewReconBox::NewReconBox(int x, int y, int w, int h) {
 	posX = x; posY = y; width =w; height = h; title="New Recon Box"; action = 6;
-	this->image = new QPixmap(":/Images/newRecon.png");
+	this->image = new QPixmap(":/Images/newrecon.png");
 }
 
 // -------------------------------------------------------------------------------------
 
+NewAntiAirBox::NewAntiAirBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 7;
+	this->image = new QPixmap(":/Images/newantiair.png");
+}
+// -------------------------------------------------------------------------------------
+
 NewTankBox::NewTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New Tank Box"; action = 7;
-	this->image = new QPixmap(":/Images/newTank.png");
+	posX = x; posY = y; width =w; height = h; title="New Tank Box"; action = 8;
+	this->image = new QPixmap(":/Images/newtank.png");
 }
 
 // -------------------------------------------------------------------------------------
 
 NewMdTankBox::NewMdTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New MdTank Box"; action = 8;
-	this->image = new QPixmap(":/Images/newMdTank.png");
+	posX = x; posY = y; width =w; height = h; title="New MdTank Box"; action = 9;
+	this->image = new QPixmap(":/Images/newmdtank.png");
 }
 // -------------------------------------------------------------------------------------
 
 NewMegaTankBox::NewMegaTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New MegaTank Box"; action = 9;
-	this->image = new QPixmap(":/Images/newMegaTank.png");
+	posX = x; posY = y; width =w; height = h; title="New MegaTank Box"; action = 10;
+	this->image = new QPixmap(":/Images/newmegatank.png");
 }
 // -------------------------------------------------------------------------------------
 
 NewNeoTankBox::NewNeoTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New NeoTank Box"; action = 10;
-	this->image = new QPixmap(":/Images/newNeoTank.png");
+	posX = x; posY = y; width =w; height = h; title="New NeoTank Box"; action = 11;
+	this->image = new QPixmap(":/Images/newneotank.png");
 }
 // -------------------------------------------------------------------------------------
 
-NewAntiAirBox::NewAntiAirBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 11;
-	this->image = new QPixmap(":/Images/newAntiAir.png");
+
+NewBCopterBox::NewBCopterBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New BCopter Box"; action = 12;
+	this->image = new QPixmap(":/Images/newbcopter.png");
+}
+
+// -------------------------------------------------------------------------------------
+
+NewBomberBox::NewBomberBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New Bomber Box"; action = 13;
+	this->image = new QPixmap(":/Images/newbomber.png");
+}
+
+// -------------------------------------------------------------------------------------
+
+NewFighterBox::NewFighterBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 14;
+	this->image = new QPixmap(":/Images/newfighter.png");
 }

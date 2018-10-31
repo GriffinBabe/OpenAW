@@ -5,6 +5,16 @@
 #include "player.h"
 #include "units/unit.h"
 #include "units/LandUnits/infantery.h"
+#include "units/LandUnits/bazooka.h"
+#include "units/LandVehicles/antiair.h"
+#include "units/LandVehicles/recon.h"
+#include "units/LandVehicles/tank.h"
+#include "units/LandVehicles/mdtank.h"
+#include "units/LandVehicles/megatank.h"
+#include "units/LandVehicles/neotank.h"
+#include "units/AirUnits/bcopter.h"
+#include "units/AirUnits/bomber.h"
+#include "units/AirUnits/fighter.h"
 #include "buildings/buildings.h"
 #include <vector>
 #include <string>
@@ -28,7 +38,7 @@ public:
 	Player* getLocalPlayer();
 
     //Model
-    void createUnit(Player* owner, std::pair<int,int> spawn);
+	void createUnit(Unit* u);
     bool checkUnitOnPos(int x , int y);
 	bool checkBuildingOnPos(int x, int y);
 	Buildings* getBuildingOnPos(int x, int y);
@@ -40,6 +50,7 @@ public:
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
 	bool canBuildFactory(Buildings* f, int unitID);
+	bool canBuildAirport(Buildings* b, int unitID);
 	void cashIncome(Player* p);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);

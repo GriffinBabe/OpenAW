@@ -98,4 +98,22 @@ public:
 		NewAntiAirBox(int x, int y, int w, int h);
 };
 
+class NewBCopterBox : public MenuBox
+{
+public:
+	NewBCopterBox(int x, int y, int w, int h);
+};
+
+class NewBomberBox : public MenuBox
+{
+public:
+	NewBomberBox(int x, int y, int w, int h);
+};
+
+class NewFighterBox : public MenuBox
+{
+public:
+	NewFighterBox(int x, int y, int w, int h);
+};
+
 #endif // MENUBOX_H
