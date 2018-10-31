@@ -139,30 +139,44 @@ void UI::setType(Buildings *f, int t)
 		menuType = 0;
 		return;
 	}
-	if (menuType == 5) { // Factory Menu
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),1)) { // we downcast Buildings* b to FactoryBuilding* b
-			this->menuBoxes->push_back(new NewInfateryBox((width/2)-(swidth/2),(height/2)-(sheight*3),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),2)) {
-			this->menuBoxes->push_back(new NewBazookaBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),3)) {
-			this->menuBoxes->push_back(new NewReconBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),4)) {
-			this->menuBoxes->push_back(new NewAntiAirBox((width/2)-(swidth/2),(height/2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),5)) {
-			this->menuBoxes->push_back(new NewTankBox((width/2)-(swidth/2),(height/2)+(sheight*1),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),6)) {
-			this->menuBoxes->push_back(new NewMdTankBox((width/2)-(swidth/2),(height/2)+(sheight*2),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),7)) {
-			this->menuBoxes->push_back(new NewMegaTankBox((width/2)-(swidth/2),(height/2)+(sheight*3),swidth,sheight));
-		}
-		if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),8)) {
-			this->menuBoxes->push_back(new NewNeoTankBox((width/2)-(swidth/2),(height/2)+(sheight*4),swidth,sheight));
+	if (menuType == 5) { // Unit Build Menu
+		if (f->getID() == 1) { // Factory
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),1)) { // we downcast Buildings* b to FactoryBuilding* b
+				this->menuBoxes->push_back(new NewInfateryBox((width/2)-(swidth/2),(height/2)-(sheight*3),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),2)) {
+				this->menuBoxes->push_back(new NewBazookaBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),3)) {
+				this->menuBoxes->push_back(new NewReconBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),4)) {
+				this->menuBoxes->push_back(new NewAntiAirBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),5)) {
+				this->menuBoxes->push_back(new NewTankBox((width/2)-(swidth/2),(height/2)+(sheight*1),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),6)) {
+				this->menuBoxes->push_back(new NewMdTankBox((width/2)-(swidth/2),(height/2)+(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),7)) {
+				this->menuBoxes->push_back(new NewMegaTankBox((width/2)-(swidth/2),(height/2)+(sheight*3),swidth,sheight));
+			}
+			if (this->game->canBuildFactory(dynamic_cast<FactoryBuilding*>(f),8)) {
+				this->menuBoxes->push_back(new NewNeoTankBox((width/2)-(swidth/2),(height/2)+(sheight*4),swidth,sheight));
+			}
+		} else if (f->getID() == 3) {// Airport
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f),9)) {
+				this->menuBoxes->push_back(new NewBCopterBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
+			}
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f), 10)) {
+				this->menuBoxes->push_back(new NewBomberBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+
+			}
+			if (this->game->canBuildAirport(dynamic_cast<AirportBuilding*>(f), 11)) {
+				this->menuBoxes->push_back(new NewFighterBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+
+			}
 		}
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2),(height/2)+(sheight*5),swidth,sheight));
 		this->selectedBox = this->menuBoxes->at(0);

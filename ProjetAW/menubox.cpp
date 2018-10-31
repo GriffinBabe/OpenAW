@@ -86,32 +86,53 @@ NewReconBox::NewReconBox(int x, int y, int w, int h) {
 
 // -------------------------------------------------------------------------------------
 
+NewAntiAirBox::NewAntiAirBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 7;
+	this->image = new QPixmap(":/Images/newantiair.png");
+}
+// -------------------------------------------------------------------------------------
+
 NewTankBox::NewTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New Tank Box"; action = 7;
+	posX = x; posY = y; width =w; height = h; title="New Tank Box"; action = 8;
 	this->image = new QPixmap(":/Images/newtank.png");
 }
 
 // -------------------------------------------------------------------------------------
 
 NewMdTankBox::NewMdTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New MdTank Box"; action = 8;
+	posX = x; posY = y; width =w; height = h; title="New MdTank Box"; action = 9;
 	this->image = new QPixmap(":/Images/newmdtank.png");
 }
 // -------------------------------------------------------------------------------------
 
 NewMegaTankBox::NewMegaTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New MegaTank Box"; action = 9;
+	posX = x; posY = y; width =w; height = h; title="New MegaTank Box"; action = 10;
 	this->image = new QPixmap(":/Images/newmegatank.png");
 }
 // -------------------------------------------------------------------------------------
 
 NewNeoTankBox::NewNeoTankBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New NeoTank Box"; action = 10;
+	posX = x; posY = y; width =w; height = h; title="New NeoTank Box"; action = 11;
 	this->image = new QPixmap(":/Images/newneotank.png");
 }
 // -------------------------------------------------------------------------------------
 
-NewAntiAirBox::NewAntiAirBox(int x, int y, int w, int h) {
-	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 11;
-	this->image = new QPixmap(":/Images/newantiair.png");
+
+NewBCopterBox::NewBCopterBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New BCopter Box"; action = 12;
+	this->image = new QPixmap(":/Images/newbcopter.png");
+}
+
+// -------------------------------------------------------------------------------------
+
+NewBomberBox::NewBomberBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New Bomber Box"; action = 13;
+	this->image = new QPixmap(":/Images/newbomber.png");
+}
+
+// -------------------------------------------------------------------------------------
+
+NewFighterBox::NewFighterBox(int x, int y, int w, int h) {
+	posX = x; posY = y; width =w; height = h; title="New AntiAir Box"; action = 14;
+	this->image = new QPixmap(":/Images/newfighter.png");
 }

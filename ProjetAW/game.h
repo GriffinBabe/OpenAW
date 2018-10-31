@@ -50,6 +50,7 @@ public:
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
 	bool canBuildFactory(Buildings* f, int unitID);
+	bool canBuildAirport(Buildings* b, int unitID);
 	void cashIncome(Player* p);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);

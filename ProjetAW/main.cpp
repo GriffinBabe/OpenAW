@@ -27,6 +27,11 @@ int main(int argc, char *argv[])
 	Buildings* b = game.getBuildingOnPos(7,2);
 	b->setOwner(p);
 
+	Buildings* b2 = game.getBuildingOnPos(0,8);
+	b2->setOwner(p);
+
+	p->setMoney(1000000);
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

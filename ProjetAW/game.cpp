@@ -217,6 +217,31 @@ bool Game::canBuildFactory(Buildings *b, int unitID)
 	return true;
 }
 
+bool Game::canBuildAirport(Buildings *b, int unitID)
+{
+	if (this->checkUnitOnPos(b->getPosX(),b->getPosY())) {
+		/* If there is a unit on the airport */
+		return false;
+	}
+	if (b->getOwner()==nullptr) {
+		return  false;
+	}
+	if (unitID == 9) {
+		if (b->getOwner()->getMoney() < 9000) {
+			return false;
+		}
+	} else if (unitID == 10) {
+		if (b->getOwner()->getMoney() < 22000) {
+			return false;
+		}
+	} else if (unitID == 11) {
+		if (b->getOwner()->getMoney() < 20000) {
+			return false;
+		}
+	}
+	return true;
+}
+
 bool Game::canCapture(Buildings* b) {
 	if (checkUnitOnPos(b->getPosX(),b->getPosY()) == false) {
 		return false;
