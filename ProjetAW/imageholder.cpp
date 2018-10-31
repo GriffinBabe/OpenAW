@@ -48,7 +48,7 @@ ImageHolder::ImageHolder()
     this->infanteryR = new QPixmap(":/Images/Units/infanteryR.png");
 
     this->bazookaB = new QPixmap(":/Images/Units/bazookaB.png");
-    this->bazookaB = new QPixmap(":/Images/Units/bazookaR.png");
+	this->bazookaR = new QPixmap(":/Images/Units/bazookaR.png");
 
 	this->reconB = new QPixmap(":/Images/Units/reconB.png");
 	this->reconR = new QPixmap(":/Images/Units/reconR.png");

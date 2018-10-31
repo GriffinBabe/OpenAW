@@ -38,7 +38,7 @@ public:
 	Player* getLocalPlayer();
 
     //Model
-	void createUnit(Unit* u);
+	void createUnit(Buildings* b, Player* p, int unitID);
     bool checkUnitOnPos(int x , int y);
 	bool checkBuildingOnPos(int x, int y);
 	Buildings* getBuildingOnPos(int x, int y);
@@ -49,8 +49,7 @@ public:
 	void moveUnit(Unit* u, std::pair<int,int> pos);
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
-	bool canBuildFactory(Buildings* f, int unitID);
-	bool canBuildAirport(Buildings* b, int unitID);
+	bool canBuild(Buildings* f, int unitID);
 	void cashIncome(Player* p);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);

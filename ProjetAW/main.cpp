@@ -12,25 +12,24 @@ int main(int argc, char *argv[])
 
     Game game;
 	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
-	Player* p2 = new Player("Stefano", 'R'); // Adds a red player
+	Player* p2 = new Player("Romain", 'R'); // Adds a red player
+	game.getBuildingOnPos(16,2)->setOwner(p);
+	game.getBuildingOnPos(4,14)->setOwner(p2);
+
+	game.getBuildingOnPos(16,4)->setOwner(p);
+	game.getBuildingOnPos(15,3)->setOwner(p);
+
+	game.getBuildingOnPos(4,12)->setOwner(p2);
+	game.getBuildingOnPos(5,13)->setOwner(p2);
+
+
     game.addPlayer(p);
 	game.addPlayer(p2);
-	Unit* u = new Infantery(4,2,p);
-	Unit* u2 = new Infantery(3,2,p2);
-	Unit* u3 = new Infantery(4,1,p2);
-	//Unit* u3 = new Infantery()
-    game.addUnit(u);
-	game.addUnit(u2);
-	game.addUnit(u3);
+
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
-	Buildings* b = game.getBuildingOnPos(7,2);
-	b->setOwner(p);
-
-	Buildings* b2 = game.getBuildingOnPos(0,8);
-	b2->setOwner(p);
-
-	p->setMoney(1000000);
+	p->setMoney(6000);
+	p2->setMoney(6000);
 
     QApplication a(argc, argv);
     MainWindow w;
