@@ -135,5 +135,14 @@ public:
 };
 
 
+class Bridge : public Cell
+{
+private:
+
+public:
+	Bridge(int x, int y, int id);
+};
+
+
 
 #endif // CELL_H

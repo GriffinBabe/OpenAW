@@ -87,10 +87,9 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
     // u->getMovementType();
     //c.getMoveType();
 
-
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
-		//return false; <=== REMOVED FOR TESTING PURPOSES
+		return false;
 	}
 	if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
 		// If there is a unit on this cell and this unit isn't the unit that we want to move
