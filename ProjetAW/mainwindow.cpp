@@ -258,49 +258,47 @@ void MainWindow::action(int id)
 	} else if (id==3) { // pass turn
 		this->game->nextTurn();
 	} else if (id==4) { // new infantery
-		this->game->createUnit(new Infantery(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 1);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==5) { // new Bazooka
-		this->game->createUnit(new Bazooka(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 2);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==6) { // new recon
-		this->game->createUnit(new Recon(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 3);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==7) { // new antiair
-		this->game->createUnit(new AntiAir(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 4);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==8) { // new tank
-		this->game->createUnit(new Tank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 5);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==9) { // new mdtank
-		this->game->createUnit(new MdTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 6);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==10) { // new megatank
-		this->game->createUnit(new MegaTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 7);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==11) { // new neotank
-		this->game->createUnit(new NeoTank(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 8);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==12) { // new bcopter
-		this->game->createUnit(new BCopter(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 9);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==13) { // new bomber
-		std::cout << "new bomber action" << std::endl;
-		this->game->createUnit(new Bomber(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 10);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==14) { // new fighter
-		std::cout << "new fighter action" << std::endl;
-		this->game->createUnit(new Fighter(this->selectedBuildings->getPosX(),this->selectedBuildings->getPosY(), this->selectedBuildings->getOwner()));
+		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 11);
 		this->selectedBuildings = nullptr;
 	}
 }

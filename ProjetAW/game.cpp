@@ -165,8 +165,40 @@ Unit* Game::getUnitOnPos(int x, int y) {
 }
 
 
-void Game::createUnit(Unit* u) {
-	units.push_back(u);
+void Game::createUnit(Buildings* b, Player* p, int unitID) {
+	Unit* u = nullptr;
+	switch(unitID) {
+		case 1:
+			u = new Infantery(b->getPosX(),b->getPosY(),p); break;
+		case 2:
+			u = new Bazooka(b->getPosX(),b->getPosY(),p); break;
+		case 3:
+			u = new Recon(b->getPosX(),b->getPosY(),p); break;
+		case 4:
+			u = new AntiAir(b->getPosX(),b->getPosY(),p); break;
+		case 5:
+			u = new Tank(b->getPosX(),b->getPosY(),p); break;
+		case 6:
+			u = new MdTank(b->getPosX(),b->getPosY(),p); break;
+		case 7:
+			u = new MegaTank(b->getPosX(),b->getPosY(),p); break;
+		case 8:
+			u = new NeoTank(b->getPosX(),b->getPosY(),p); break;
+		case 9:
+			u = new BCopter(b->getPosX(),b->getPosY(),p); break;
+		case 10:
+			u = new Bomber(b->getPosX(),b->getPosY(),p); break;
+		case 11:
+			u = new Fighter(b->getPosX(),b->getPosY(),p); break;
+	}
+	if (u==nullptr) { // No ID Match
+		throw "No ID Match in Unit creation";
+	}
+	if (canBuild(b, u->getID())) {
+		p->setMoney(p->getMoney() - u->getCost());
+		u->setOwner(p);
+		units.push_back(u);
+	}
 }
 
 void Game::capture(Buildings* b){
@@ -183,7 +215,7 @@ void Game::capture(Buildings* b){
 	//au batiment, si les points de capture passe à 0 ou moins, change l'owner du batiment et reset les capture points
 }
 
-bool Game::canBuildFactory(Buildings *b, int unitID)
+bool Game::canBuild(Buildings *b, int unitID)
 {
 	if (this->checkUnitOnPos(b->getPosX(),b->getPosY())) {
 		/* If there is a unit on the factory */
@@ -191,6 +223,16 @@ bool Game::canBuildFactory(Buildings *b, int unitID)
 	}
 	if (b->getOwner()==nullptr) {
 		return  false;
+	}
+	if (unitID >= 1 && unitID <= 8) {
+		if (b->getID()!=1) { // If we want to create a land unit and the building isn't a factory !
+			return false;
+		}
+	}
+	else if (unitID >= 9 && unitID <= 11) {
+		if (b->getID()!=3) { // If we want to create an air unit and the building isn't an airport !
+			return false;
+		}
 	}
 	if (unitID == 1) { // Infatery
 		if (b->getOwner()->getMoney() < 1000)
@@ -216,33 +258,20 @@ bool Game::canBuildFactory(Buildings *b, int unitID)
 	} else if (unitID == 8) { // NeoTank
 		if (b->getOwner()->getMoney() < 22000)
 			return  false;
-	} else {
-		return false; // Unknown ID -> can't build that
-	}
-	return true;
-}
-
-bool Game::canBuildAirport(Buildings *b, int unitID)
-{
-	if (this->checkUnitOnPos(b->getPosX(),b->getPosY())) {
-		/* If there is a unit on the airport */
-		return false;
-	}
-	if (b->getOwner()==nullptr) {
-		return  false;
-	}
-	if (unitID == 9) {
+	} else if (unitID == 9) { // Bcopter
 		if (b->getOwner()->getMoney() < 9000) {
 			return false;
 		}
-	} else if (unitID == 10) {
+	} else if (unitID == 10) { // bomber
 		if (b->getOwner()->getMoney() < 22000) {
 			return false;
 		}
-	} else if (unitID == 11) {
+	} else if (unitID == 11) { // fighter
 		if (b->getOwner()->getMoney() < 20000) {
 			return false;
 		}
+	} else {
+		return false; // Unknown ID -> can't build that
 	}
 	return true;
 }
@@ -263,6 +292,9 @@ bool Game::canCapture(Buildings* b) {
 		if (capturer->getOwner()->getTeamColor() != b->getOwner()->getTeamColor()) {
 			return false;
 		}
+	}
+	if (capturer->getOwner() == b->getOwner()) {
+		return false;
 	}
 	if (getUnitOnPos(b->getPosX(),b->getPosY())->getOwner() != this->playerwhoplays) {
 		// If the owner of the capture unit is not the current playing player, do nothing
