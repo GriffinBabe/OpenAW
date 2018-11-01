@@ -90,10 +90,14 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 
 	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
 		// If there is enough range, this is a simplified version and is going to be changed after
-		return false;
+		//return false; <=== REMOVED FOR TESTING PURPOSES
 	}
 	if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
 		// If there is a unit on this cell and this unit isn't the unit that we want to move
+		Unit* u2 = getUnitOnPos(c.getPosX(), c.getPosY()); // this is the unit on that place, we check that so we can fuse units!
+		if (u2->getOwner() == u->getOwner() && u2->getID() == u->getID() && u2->getHealth() + u->getHealth() <= 10 && u2->getHealth() < 10 ) {
+			return  true;
+		}
 		return false;
 	}
 	return true;
@@ -116,9 +120,19 @@ void Game::setLocalPlayer(Player *lp)
 void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 {
 	if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
-		u->setPos(pos.first,pos.second);
-		u->setCanMove(false); // The unit moved and can't move anymore.
-		u->setCanAttack(true);
+		/*
+		 *  There is a unit on that cell AND from unitCanMoveOnCell()
+		 *	we know we can move there => we are 100% sure this is a fusing action
+		 */
+		if (checkUnitOnPos(pos.first,pos.second) && (pos.first != u->getPosX() && pos.second != u->getPosY())) {
+			Unit* u2 = getUnitOnPos(pos.first,pos.second);
+			u2->setHealth(u2->getHealth() + u->getHealth());
+			units.erase(std::remove(units.begin(), units.end(), u), units.end());
+		} else { //Simple movement
+			u->setPos(pos.first,pos.second);
+			u->setCanMove(false); // The unit moved and can't move anymore.
+			u->setCanAttack(true);
+		}
 	} else {
 		std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
 	}
@@ -289,7 +303,7 @@ bool Game::canCapture(Buildings* b) {
 		return false;
 	}
 	if (b->getOwner() != nullptr) {
-		if (capturer->getOwner()->getTeamColor() != b->getOwner()->getTeamColor()) {
+		if (capturer->getOwner()->getTeamColor() == b->getOwner()->getTeamColor()) {
 			return false;
 		}
 	}
@@ -369,6 +383,29 @@ void Game::nextTurn(){
 	}
 }
 
+int Game::getPlayerCityCount(Player *p)
+{
+	int count = 0;
+	for (Buildings* b : this->buildings) {
+		if (b->getOwner()!=nullptr) {
+			if (b->getOwner()==p && b->getID()==2) { // Is a city and the owner is the given player
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+int Game::getPlayerUnitCount(Player* p) {
+	int count = 0;
+	for (Unit* u : this->units) {
+		if (u->getOwner() == p) {
+			count++;
+		}
+	}
+	return count;
+}
+
 /*
  * Unit u1 is the attacker, unit u2 is the defender. After the attack,
  * if the backfire is set on true and the defender is still alive, the function
@@ -403,6 +440,13 @@ int Game::getDamage(Unit *u1, Unit *u2)
 	if (u2->getID() == 9 || u2->getID() == 10 || u2->getID() == 11) { // If the defender U2 is an aerial unit
 		D_TR = 0;
 	}
-	int damage =  B * A_HP / 10 * (100 - D_TR * D_HP) / 100;
-	return damage/10;
+	float damage =  B * A_HP / 10 * (100 - D_TR * D_HP) / 100;
+	int totdmg = static_cast<int>(damage/10); // Everything after , is deleted
+	float remaining = damage/10 - static_cast<int>(damage/10); // We get the remaining value after ,
+	if (remaining >= .5f) {
+		totdmg++; // We round up if the remaining value after , is 0,5 or bigger !
+	}
+	std::cout << "Damage fight from " << u1->getOwner()->getUsername() << " to " << u2->getOwner()->getUsername() << ": " << damage/10 << std::endl;
+	std::cout << "int converted damage: " << totdmg << std::endl;
+	return totdmg;
 }

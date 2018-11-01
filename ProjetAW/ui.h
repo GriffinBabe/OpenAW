@@ -28,7 +28,11 @@ public:
 	void setType(Buildings* f, int t);
 
 	void clearMenuBoxes();
+	void selectBox(MenuBox* box);
 
+	void moveCursor(int x, int y);
+
+	std::vector<MenuBox*>* getMenuBoxes();
 	MenuBox *getSelectedBox();
 	Unit *getSelectedAttackableUnit();
 

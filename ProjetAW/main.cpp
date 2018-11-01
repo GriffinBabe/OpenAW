@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
-	p->setMoney(6000);
-	p2->setMoney(6000);
+	p->setMoney(10000000);
+	p2->setMoney(1000000);
 
     QApplication a(argc, argv);
     MainWindow w;

@@ -56,6 +56,9 @@ public:
     Player* getPlayerwhoplays();
 	void nextTurn();
 
+	int getPlayerCityCount(Player* p);
+	int getPlayerUnitCount(Player* p);
+
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
 

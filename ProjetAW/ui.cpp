@@ -97,7 +97,10 @@ void UI::setType(Unit* u, int t)
 	}
 	else if (menuType == 2) {//Unit menu
 		if (u->getCanAttack()) {
-			this->menuBoxes->push_back(new AttackBox((width/2)-(swidth/2),(height/2)-(sheight*1.5),swidth,sheight));
+			std::vector<Unit*>* un = this->game->getAttackableUnits(u);
+			if (un->size() > 0) { //The option is not available if there is no attackable units nearby
+				this->menuBoxes->push_back(new AttackBox((width/2)-(swidth/2),(height/2)-(sheight*1.5),swidth,sheight));
+			}
 		}
 		Buildings* build = this->game->getBuildingOnPos(u->getPosX(), u->getPosY()); // !! MIGHT BE NULLPTR
 		if (build != nullptr) {
@@ -210,6 +213,35 @@ void UI::clearMenuBoxes()
 	cursorPos = 0;
 	delete(this->menuBoxes);
 	this->menuBoxes = new std::vector<MenuBox*>();
+}
+
+void UI::selectBox(MenuBox *box)
+{
+	this->selectedBox = box;
+}
+
+void UI::moveCursor(int x, int y)
+{
+	if (menuType!=4) {
+		for (MenuBox* b : *this->menuBoxes) {
+			if (b->getPosX() <= x && b->getPosX() + b->getWidth() >= x && b->getPosY() <= y && b->getPosY() + b->getHeight() >= y) {
+				this->selectedBox = b;
+				return;
+			}
+		}
+	} else {
+		for (Unit* a : *this->attackableUnits) {
+			if (a->getPosX()*cellDim <= x && (a->getPosX()+1)*cellDim >= x && a->getPosY()*cellDim <= y && (a->getPosY()+1)*cellDim >= y) {
+				this->selectedAttackableUnit = a;
+				return;
+			}
+		}
+	}
+}
+
+std::vector<MenuBox *> *UI::getMenuBoxes()
+{
+	return this->menuBoxes;
 }
 
 MenuBox *UI::getSelectedBox()
