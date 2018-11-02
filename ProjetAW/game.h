@@ -45,7 +45,7 @@ public:
     Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 	void setLocalPlayer(Player* lp);
-	bool unitCanMoveOnCell(Unit* u, Cell c);
+    bool unitCanMoveOnCell(Unit* u, Cell c);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
@@ -68,13 +68,14 @@ private:
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;
+    std::vector<std::pair<int,int>> unitRange(Unit *u);
 	Map* map;
     int tour;
-    int movementCostsPerTerrain[5][6] =	{{1,2,1,1,0,0},
-                                        {1,1,1,1,0,0},
-                                        {1,0,2,1,0,0},
-                                        {2,0,3,1,0,0},
-                                        {1,1,1,1,1,0}};
+    int movementCostsPerTerrain[5][6] =	{{1,2,1,1,100,100},
+                                        {1,1,1,1,100,100},
+                                        {1,100,2,1,100,100},
+                                        {2,100,3,1,100,100},
+                                        {1,1,1,1,1,100}};
 
 };
 

@@ -83,15 +83,8 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 	if (u->getOwner() != this->playerwhoplays) {
 		return false;
 	}
-    // u->getMovementPoints();
-    // u->getMovementType();
-    //c.getMoveType();
 
-	if (sqrt( pow(c.getPosX() - u->getPosX(), 2) + pow(c.getPosY() - u->getPosY(), 2)) > u->getMovementPoints()) {
-		// If there is enough range, this is a simplified version and is going to be changed after
-		return false;
-	}
-	if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
+    if ( (checkUnitOnPos(c.getPosX(), c.getPosY())) && (c.getPosX()!=u->getPosX() || c.getPosY()!= u->getPosY())) {
 		// If there is a unit on this cell and this unit isn't the unit that we want to move
 		Unit* u2 = getUnitOnPos(c.getPosX(), c.getPosY()); // this is the unit on that place, we check that so we can fuse units!
 		if (u2->getOwner() == u->getOwner() && u2->getID() == u->getID() && u2->getHealth() + u->getHealth() <= 10 && u2->getHealth() < 10 ) {
@@ -99,9 +92,100 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 		}
 		return false;
 	}
-	return true;
+
+    //On récupère de la fonction unitRange une liste de toutes les cases accessibles
+    //en fonction du terrain et de l'unité. On la compare avec la position de la cellule c
+    std::vector<std::pair<int,int>> reachableSquares;
+
+    reachableSquares=unitRange(u);
+
+    bool isInTheList=false;
+    for (int i=0;i<reachableSquares.size();i++){
+        if(reachableSquares[i].first==c.getPosX() && reachableSquares[i].second==c.getPosY()){
+            isInTheList=true;
+
+        }
+
+    }
+    return isInTheList;
 }
 
+std::vector<std::pair<int,int>> Game::unitRange(Unit *u){
+    int Xcenter=u->getPosX();
+    int Ycenter=u->getPosY();
+    int nbMoves=u->getMovementPoints();
+    int unitType=u->getMovementType();
+
+
+    std::vector<std::pair<int,int>> reachableSquares;
+    nbMoves+=1;
+
+    //right
+    for (int i=0;i<=u->getMovementPoints();i++){
+        if (Xcenter+i<map->getSizeX()&& Xcenter-i>=0){
+            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter+i,Ycenter).getMoveType()-1];
+
+            if(cost==100 || (nbMoves-cost)<0){
+                break;
+            }
+            nbMoves-=cost;
+            reachableSquares.push_back(std::pair<int,int>(Xcenter+i,Ycenter));
+        }
+
+
+    }
+    //down
+    nbMoves=u->getMovementPoints();
+    nbMoves+=1;
+    for (int i=0;i<=u->getMovementPoints();i++){
+        if (Ycenter+i<map->getSizeY()&& Ycenter-i>=0){
+            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter,Ycenter+i).getMoveType()-1];
+
+            if(cost==100 || (nbMoves-cost)<0){
+                break;
+            }
+            nbMoves-=cost;
+            reachableSquares.push_back(std::pair<int,int>(Xcenter,Ycenter+i));
+        }
+
+
+    }
+
+    //up
+    nbMoves=u->getMovementPoints();
+    nbMoves+=1;
+    for (int i=0;i<=u->getMovementPoints();i++){
+        if (Ycenter+i<map->getSizeY()&& Ycenter-i>=0){
+            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter,Ycenter-i).getMoveType()-1];
+            std::cout<<cost<<std::endl;
+            if(cost==100 || (nbMoves-cost)<0){
+                break;
+            }
+            nbMoves-=cost;
+            reachableSquares.push_back(std::pair<int,int>(Xcenter,Ycenter-i));
+        }
+
+
+    }
+    //left
+    nbMoves=u->getMovementPoints();
+    nbMoves+=1;
+    for (int i=0;i<=u->getMovementPoints();i++){
+        if (Xcenter+i<map->getSizeX()&& Xcenter-i>=0){
+            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter-i,Ycenter).getMoveType()-1];
+
+            if(cost==100 || (nbMoves-cost)<0){
+                break;
+            }
+            nbMoves-=cost;
+            reachableSquares.push_back(std::pair<int,int>(Xcenter-i,Ycenter));
+        }
+
+
+    }
+
+    return reachableSquares;
+}
 Player *Game::getLocalPlayer()
 {
 	return this->localPlayer;
@@ -118,7 +202,7 @@ void Game::setLocalPlayer(Player *lp)
 
 void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 {
-	if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
+    if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
 		/*
 		 *  There is a unit on that cell AND from unitCanMoveOnCell()
 		 *	we know we can move there => we are 100% sure this is a fusing action
