@@ -189,9 +189,10 @@ void MainWindow::tick() {
 	}
 }
 
-void MainWindow::setGame(Game *game)
+void MainWindow::setGame(Game *game, std::string ip)
 {
 	this->game = game;
+	this->client = new NetworkClient(this->game, ip);
 	this->menu->setGame(game);
 	resize();
 	std::cout << "Game Set in View/Controller" << std::endl;

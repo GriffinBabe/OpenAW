@@ -24,6 +24,7 @@ class Game
 public:
 	//Model
 	Game();
+	Game(std::string mapPath, int startMoney); // This one is launched by the server
 	void addPlayer(Player* p);
     void addUnit(Unit* u);
     void addBuilding(Buildings* b);
@@ -70,6 +71,7 @@ private:
     std::vector<Buildings*> buildings;
 	Map* map;
     int tour;
+	int startMoney;
     int movementCostsPerTerrain[5][6] =	{{1,2,1,1,0,0},
                                         {1,1,1,1,0,0},
                                         {1,0,2,1,0,0},

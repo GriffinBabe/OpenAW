@@ -9,6 +9,7 @@
 #include "game.h"
 #include "imageholder.h"
 #include "ui.h"
+#include "network.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,7 +28,7 @@ public:
 	void wheelEvent(QWheelEvent *event);
 	void keyPressEvent(QKeyEvent *event);
 
-	void setGame(Game* game);
+	void setGame(Game* game, std::string IP);
 
 public slots:
 	void tick();
@@ -37,6 +38,9 @@ private:
 	QTimer timer;
 	void resize();
 	int gcd(int a, int b); // Greatest common divisor, used for cell size
+
+	//Network !
+	NetworkClient* client;
 
 	UI* menu;
 	Game* game;

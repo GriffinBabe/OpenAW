@@ -5,11 +5,18 @@
 
 Game::Game()
 {
-	this->map = new Map(":/Maps/map1.txt");
+	std::cout << "[Game Model] Game Initialised without map or startMoney" << std::endl;
 	std::vector<Player> players; // Initialises new player vector
 	std::vector<Unit*> units;
-	this->buildings = *map->getBuildings(); // Buildings are loaded into the map and the gathered by the game
-	std::cout << "[Game Model] Game Initialised" << std::endl;
+}
+
+Game::Game(std::string mapPath, int startMoney) : startMoney(startMoney)
+{
+	std::cout << "[Game Model] Game Initialised with a map and startMoney" << std::endl;
+	this->map = new Map(mapPath);
+	std::vector<Player> players;
+	std::vector<Unit*> units;
+	this->buildings = *map->getBuildings();
 }
 
 void Game::addPlayer(Player* p)

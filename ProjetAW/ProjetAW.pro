@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -49,7 +49,8 @@ SOURCES += \
     units/AirUnits/bcopter.cpp \
     units/AirUnits/fighter.cpp \
     units/AirUnits/bomber.cpp \
-    menubox.cpp
+    menubox.cpp \
+    network.cpp
 
 
 HEADERS += \
@@ -80,7 +81,8 @@ HEADERS += \
     units/AirUnits/bcopter.h \
     units/AirUnits/fighter.h \
     units/AirUnits/bomber.h \
-    menubox.h
+    menubox.h \
+    network.h
 
 
 FORMS += \
