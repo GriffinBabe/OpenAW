@@ -6,7 +6,7 @@
 #include <QResource>
 #include <QPixmap>
 
-int MainWindow::cellDim = 64; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 100; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -49,7 +49,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 	QPainter painter(this);
 	QFont font = painter.font();
-	font.setPointSize(cellDim/2);
+    font.setPointSize(cellDim/4);
 	painter.setPen(Qt::black);
 	painter.setFont(font);
 
@@ -115,7 +115,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 		}
 	}
 	this->menu->paint(&painter,this->selectedUnit, this->selectedBuildings);
-	painter.drawText(20,20,"Player who plays: "+
+    painter.drawText(cellDim,cellDim,"Player who plays: "+
 					QString::fromStdString(this->game->getPlayerwhoplays()->getUsername())
 					 +" Money: "+QString::number(this->game->getPlayerwhoplays()->getMoney()));
 }
