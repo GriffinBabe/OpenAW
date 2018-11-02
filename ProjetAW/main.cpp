@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
 	 */
 	else if (argPresent("client", allArgs)) {
 		std::cout << "Launching game as Client only" << std::endl;
+		Game game(); // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 
 	}
 

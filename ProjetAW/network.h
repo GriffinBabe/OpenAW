@@ -39,7 +39,7 @@ protected:
 private:
 	Player* player;
 	Game* game;
-	QTcpServer* socket;
+	QTcpSocket* socket;
 };
 
 

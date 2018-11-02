@@ -32,6 +32,13 @@ Session::Session(Player* p, Game* g, QTcpSocket* s) {
 	this->socket = s;
 }
 
+void Session::run()
+{
+	while (true) {
+
+	}
+}
+
 
 
 // ---------------------------------------------------------------------------------------------------------
