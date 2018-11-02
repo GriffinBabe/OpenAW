@@ -83,6 +83,8 @@ Reefs::Reefs(int x, int y, int id):Cell(x,y,id){
     moveType=5;
 }
 
-
-
-
+Bridge::Bridge(int x, int y, int id):Cell(x,y,id)
+{
+	defense = 0;
+	moveType = 4;
+}

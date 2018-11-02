@@ -85,8 +85,10 @@ Cell Map::getNewCell(int j,int i, int id) {
         return sea;
     }else if(id==33){
         Reefs reefs(j,i,id);
-		std::cout<<reefs.getPosX()<<";"<<reefs.getPosY()<<std::endl;
 		return reefs;
+	} else if (id==26 || id==27) {
+		Bridge bridge(j,i,id);
+		return bridge;
     }else {
         Grass grass(j,i,1);
         return grass;

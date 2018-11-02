@@ -38,7 +38,7 @@ void MainWindow::resize() {
 	 */
 	int height = size().height(); // Is a pointer so it can be modified later
 	int width = size().width();
-	height = this->game->getMap()->getSizeY()*cellDim;
+	height = this->game->getMap()->getSizeY()*cellDim + cellDim;
 	width = this->game->getMap()->getSizeX()*cellDim;
 	setFixedHeight(height);
 	setFixedWidth(width);
@@ -115,19 +115,60 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 		}
 	}
 	this->menu->paint(&painter,this->selectedUnit, this->selectedBuildings);
+
     painter.drawText(cellDim,cellDim,"Player who plays: "+
 					QString::fromStdString(this->game->getPlayerwhoplays()->getUsername())
 					 +" Money: "+QString::number(this->game->getPlayerwhoplays()->getMoney()));
+
+
+	painter.fillRect(0,this->size().height()-cellDim,this->size().width(),cellDim,QColor(240,240,150,1));
+	painter.drawRect(0,this->size().height()-cellDim,this->size().width(),cellDim);
+	QFont font1;
+	font1.setPixelSize(cellDim/1.5);
+	if (this->game->getLocalPlayer()->getTeamColor() == 'R') {
+		painter.setPen(Qt::red);
+	} else {
+		painter.setPen(Qt::blue);
+	}
+	painter.setFont(font1);
+	painter.drawText(cellDim,this->size().height()-cellDim/3,QString::fromStdString(this->game->getLocalPlayer()->getUsername()));
+	painter.setPen(Qt::black);
+
+	painter.drawText(this->size().width()/3,this->size().height()-cellDim/3,"|");
+	painter.drawText(this->size().width()/3+cellDim,this->size().height()-cellDim/3,"Money: "+QString::number(this->game->getLocalPlayer()->getMoney()));
+
+	painter.drawText(2*this->size().width()/3,this->size().height()-cellDim/3,"|");
+	painter.drawText(2*this->size().width()/3+cellDim,this->size().height()-cellDim/3,"C: "+QString::number(this->game->getPlayerCityCount(this->game->getLocalPlayer())));
+
+	painter.drawText(5*this->size().width()/6,this->size().height()-cellDim/3,"|");
+	painter.drawText(5*this->size().width()/6+cellDim,this->size().height()-cellDim/3,"U: "+QString::number(this->game->getPlayerUnitCount(this->game->getLocalPlayer())));
+
+
+
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
+	std::cout << event->button() << std::endl;
 	if (event->button()==1) {
+		selectElement();
+	} else if (event->button()==2) {
+		noSelectedElement();
+	} else if (event->button()==4) {
 		selectElement();
 	}
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 	setCursor(event->x(), event->y());
+}
+
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+	if (event->delta() > 0) { // scroll up
+		this->cursorUp();
+	} else if (event->delta() < 0) { // scroll down
+		this->cursorDown();
+	}
 }
 
 
@@ -205,8 +246,16 @@ void MainWindow::selectElement()
 	else if (menu->getType() == 1) { // Move menu
 		if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
 			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
-			this->menu->setType(this->selectedUnit, 2);
-			return;
+			if (std::find(this->game->getUnits()->begin(), this->game->getUnits()->end(), this->selectedUnit) != this->game->getUnits()->end()) {
+				// If *this->selectedUnit is still in the vector or it has been deleted because of fusion
+				this->menu->setType(this->selectedUnit, 2);
+				return;
+			} else {
+				/* selectedUnit doesn't exists anymore*/
+				std::cout << "Unit fused" << std::endl;
+				this->noSelectedElement();
+				return this->menu->setType(this->selectedUnit, 0); // Putain trop le swag je vais deux choses en une seule ligne
+			}
 		} else {
 			this->menu->setType(this->selectedUnit, 0);
 			this->selectedUnit = nullptr;
@@ -240,7 +289,11 @@ void MainWindow::noSelectedElement()
 {
 	this->selectedUnit = nullptr;
 	this->selectedBuildings = nullptr;
-	this->menu->setType(this->selectedUnit, 0);
+	if (this->menu->getType()==0) {
+		this->menu->setType(this->selectedUnit,3);
+	} else {
+		this->menu->setType(this->selectedUnit, 0);
+	}
 }
 
 void MainWindow::action(int id)
@@ -310,6 +363,9 @@ void MainWindow::setCursor(int x, int y)
 {
 	cursorX = x/cellDim;
 	cursorY = y/cellDim;
+	if (this->menu->getType() == 2 || this->menu->getType()==3 || this->menu->getType()==4 || this->menu->getType() == 5) { // unit menu, map menu
+		this->menu->moveCursor(x,y);
+	}
 }
 
 void MainWindow::cursorDown() {
