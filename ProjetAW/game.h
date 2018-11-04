@@ -55,12 +55,12 @@ public:
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
 	void nextTurn();
-
-	int getPlayerCityCount(Player* p);
+    int getPlayerCityCount(Player* p);
 	int getPlayerUnitCount(Player* p);
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
+
 
 private:
 	Player* localPlayer;
@@ -68,7 +68,9 @@ private:
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;
-    std::vector<std::pair<int,int>> unitRange(Unit *u);
+    std::vector<std::pair<int,int>> reachableSquares;
+    void recursiveMoveLoop(int nbMoves,int nextX,int nextY,Unit *u);
+
 	Map* map;
     int tour;
     int movementCostsPerTerrain[5][6] =	{{1,2,1,1,100,100},

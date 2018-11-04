@@ -59,7 +59,7 @@ std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
 	std::vector<Cell>::iterator it2;
 	for (it=cells.begin(); it != cells.end(); ++it) {
 		for (it2 = it->begin(); it2 != it->end(); ++it2) { //it2 is technically a cell
-			if (unitCanMoveOnCell(u,(*it2))) {
+            if (unitCanMoveOnCell(u,(*it2))) {
 				moveCells.push_back(std::pair<int,int>((*it2).getPosX(),(*it2).getPosY()));
 			}
 		}
@@ -93,11 +93,10 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 		return false;
 	}
 
-    //On récupère de la fonction unitRange une liste de toutes les cases accessibles
-    //en fonction du terrain et de l'unité. On la compare avec la position de la cellule c
-    std::vector<std::pair<int,int>> reachableSquares;
+    reachableSquares.clear();
+    recursiveMoveLoop((u->getMovementPoints()+1),u->getPosX(),u->getPosY(),u);
 
-    reachableSquares=unitRange(u);
+    //On compare toutes les positions accessibles avec la position de la cellule ciblée
 
     bool isInTheList=false;
     for (int i=0;i<reachableSquares.size();i++){
@@ -105,86 +104,28 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
             isInTheList=true;
 
         }
-
     }
     return isInTheList;
 }
 
-std::vector<std::pair<int,int>> Game::unitRange(Unit *u){
-    int Xcenter=u->getPosX();
-    int Ycenter=u->getPosY();
-    int nbMoves=u->getMovementPoints();
-    int unitType=u->getMovementType();
+void Game::recursiveMoveLoop(int nbMoves, int nextX,int nextY, Unit *u){
+    if ((nextX<map->getSizeX()) && (nextY<map->getSizeY()) && (nextX>=0) && (nextY>=0)){
+        int cost=movementCostsPerTerrain[u->getMovementType()-1][map->getCellAt(nextX,nextY).getMoveType()-1];
+        nbMoves-=cost;
 
+        if (nbMoves>=0 && (checkUnitOnPos(nextX,nextY)==false || (nextX==u->getPosX() && nextY==u->getPosY()))){
+            //up
+            recursiveMoveLoop(nbMoves,nextX,nextY-1,u);
+            //down
+            recursiveMoveLoop(nbMoves,nextX,nextY+1,u);
+            //left
+            recursiveMoveLoop(nbMoves,nextX-1,nextY,u);
+            //right
+            recursiveMoveLoop(nbMoves,nextX+1,nextY,u);
 
-    std::vector<std::pair<int,int>> reachableSquares;
-    nbMoves+=1;
-
-    //right
-    for (int i=0;i<=u->getMovementPoints();i++){
-        if (Xcenter+i<map->getSizeX()&& Xcenter-i>=0){
-            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter+i,Ycenter).getMoveType()-1];
-
-            if(cost==100 || (nbMoves-cost)<0){
-                break;
-            }
-            nbMoves-=cost;
-            reachableSquares.push_back(std::pair<int,int>(Xcenter+i,Ycenter));
+            reachableSquares.push_back(std::pair<int,int>(nextX,nextY));
         }
-
-
     }
-    //down
-    nbMoves=u->getMovementPoints();
-    nbMoves+=1;
-    for (int i=0;i<=u->getMovementPoints();i++){
-        if (Ycenter+i<map->getSizeY()&& Ycenter-i>=0){
-            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter,Ycenter+i).getMoveType()-1];
-
-            if(cost==100 || (nbMoves-cost)<0){
-                break;
-            }
-            nbMoves-=cost;
-            reachableSquares.push_back(std::pair<int,int>(Xcenter,Ycenter+i));
-        }
-
-
-    }
-
-    //up
-    nbMoves=u->getMovementPoints();
-    nbMoves+=1;
-    for (int i=0;i<=u->getMovementPoints();i++){
-        if (Ycenter+i<map->getSizeY()&& Ycenter-i>=0){
-            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter,Ycenter-i).getMoveType()-1];
-            std::cout<<cost<<std::endl;
-            if(cost==100 || (nbMoves-cost)<0){
-                break;
-            }
-            nbMoves-=cost;
-            reachableSquares.push_back(std::pair<int,int>(Xcenter,Ycenter-i));
-        }
-
-
-    }
-    //left
-    nbMoves=u->getMovementPoints();
-    nbMoves+=1;
-    for (int i=0;i<=u->getMovementPoints();i++){
-        if (Xcenter+i<map->getSizeX()&& Xcenter-i>=0){
-            int cost=movementCostsPerTerrain[unitType-1][map->getCellAt(Xcenter-i,Ycenter).getMoveType()-1];
-
-            if(cost==100 || (nbMoves-cost)<0){
-                break;
-            }
-            nbMoves-=cost;
-            reachableSquares.push_back(std::pair<int,int>(Xcenter-i,Ycenter));
-        }
-
-
-    }
-
-    return reachableSquares;
 }
 Player *Game::getLocalPlayer()
 {

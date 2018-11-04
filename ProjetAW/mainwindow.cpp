@@ -244,7 +244,7 @@ void MainWindow::selectElement()
 		}
 	}
 	else if (menu->getType() == 1) { // Move menu
-		if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
+        if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
 			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
 			if (std::find(this->game->getUnits()->begin(), this->game->getUnits()->end(), this->selectedUnit) != this->game->getUnits()->end()) {
 				// If *this->selectedUnit is still in the vector or it has been deleted because of fusion
