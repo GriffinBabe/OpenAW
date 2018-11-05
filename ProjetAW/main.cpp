@@ -32,54 +32,31 @@ int main(int argc, char *argv[])
 	 */
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
 		std::cout << "Launching game as Server + Client" << std::endl;
-		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs)));
-		Network network(&game); // This is a server
-		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0));
+		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs))); // starts a new gale setting the map file path and the starting money
+		Network network(&game); // Launches the server
+		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
 
 		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress
+		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
 	}
+
 	/*
 	 * In this case we are running a client, we will get all game inforamtions from server
+	 * But we already create a player and add it to the players vector
 	 */
 	else if (argPresent("client", allArgs)) {
 		std::cout << "Launching game as Client only" << std::endl;
-		Game game(); // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
-
-	}
-
-	/*
-	 * This is the local game dev mode
-	 */
-	else {
-		Game game;
-		Player* p = new Player("P1", 'B'); // Adds a blue player
-		Player* p2 = new Player("P2", 'R'); // Adds a red player
-		game.getBuildingOnPos(16,2)->setOwner(p);
-		game.getBuildingOnPos(4,14)->setOwner(p2);
-
-		game.getBuildingOnPos(16,4)->setOwner(p);
-		game.getBuildingOnPos(15,3)->setOwner(p);
-
-		game.getBuildingOnPos(4,12)->setOwner(p2);
-		game.getBuildingOnPos(5,13)->setOwner(p2);
-
-
+		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
+		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
+																									 // Maybe it's not a good idea as the server never approved for this player to come into the model
 		game.addPlayer(p);
-		game.addPlayer(p2);
-
-		game.setLocalPlayer(p); // GriffinBabe is the local Player
-
-		p->setMoney(6000);
-		p2->setMoney(6000);
 
 		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();
-		w.setGame(&game);
-		return a.exec();
+		w.setGame(&game, "localhost"); // We let localhost for testing purposes
 	}
 }
