@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
 	game.getBuildingOnPos(16,4)->setOwner(p);
 	game.getBuildingOnPos(15,3)->setOwner(p);
+    game.getBuildingOnPos(20,8)->setOwner(p);
 
 	game.getBuildingOnPos(4,12)->setOwner(p2);
 	game.getBuildingOnPos(5,13)->setOwner(p2);
