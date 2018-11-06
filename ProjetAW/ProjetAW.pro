@@ -50,7 +50,9 @@ SOURCES += \
     units/AirUnits/fighter.cpp \
     units/AirUnits/bomber.cpp \
     menubox.cpp \
-    network.cpp
+    networking/network.cpp \
+    networking/session.cpp \
+    networking/networkclient.cpp
 
 
 HEADERS += \
@@ -82,7 +84,9 @@ HEADERS += \
     units/AirUnits/fighter.h \
     units/AirUnits/bomber.h \
     menubox.h \
-    network.h
+    networking/network.h \
+    networking/session.h \
+    networking/networkclient.h
 
 
 FORMS += \

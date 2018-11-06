@@ -9,7 +9,7 @@
 #include "game.h"
 #include "imageholder.h"
 #include "ui.h"
-#include "network.h"
+#include "networking/network.h"
 
 namespace Ui {
 class MainWindow;
