@@ -13,6 +13,10 @@ public:
 	virtual ~Session();
 	void send(); // Sends a message
 
+public slots:
+	void onData();
+	void onDisconnection();
+
 private:
 	Player* player;
 	Game* game;

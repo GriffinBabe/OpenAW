@@ -17,7 +17,6 @@ public:
 
 public slots:
 	void onNewConnection();
-	void onData(); // When receiving some datan this method is called
 
 private:
 	QTcpServer* server;

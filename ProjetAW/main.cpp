@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <iostream>
+#include "networking/network.h"
 
 bool argPresent(std::string arg, std::vector<std::string> args) {
 	// Copies all arguments into a container of strings
@@ -35,12 +36,15 @@ int main(int argc, char *argv[])
 		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs))); // starts a new gale setting the map file path and the starting money
 		Network network(&game); // Launches the server
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
+		std::cout << getValue("username", allArgs) << std::endl;
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
+		game.setLocalPlayer(p);
 
 		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();
 		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
+		return a.exec();
 	}
 
 	/*
@@ -58,5 +62,8 @@ int main(int argc, char *argv[])
 		MainWindow w;
 		w.show();
 		w.setGame(&game, "localhost"); // We let localhost for testing purposes
+		return a.exec();
 	}
+
+	return 0;
 }

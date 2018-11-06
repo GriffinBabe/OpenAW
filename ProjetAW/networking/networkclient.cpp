@@ -5,8 +5,13 @@ NetworkClient::NetworkClient(Game* g, std::string ip)
 {
 	std::cout << "[Client] Client initialised" << std::endl;
 	this->socket = new QTcpSocket();
-	connect(this->socket, SIGNAL(connected()), this, SLOT(this.onConnected())); // connects the SIGNAL connected() to the slot onConnected()
+	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
 	this->socket->connectToHost(QString::fromStdString(ip), 2049);
+
+}
+
+NetworkClient::~NetworkClient()
+{
 
 }
 
@@ -20,7 +25,6 @@ void NetworkClient::onConnected()
 void NetworkClient::onData()
 {
 	std::cout << "[Client] Receiving data" << std::endl;
-	QByteArray data =
 }
 
 void NetworkClient::onDisconnected()

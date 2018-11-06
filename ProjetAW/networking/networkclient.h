@@ -9,6 +9,7 @@ class NetworkClient : public QObject // To use signals, slots
 	Q_OBJECT
 public:
 	NetworkClient(Game* g, std::string ip);
+	virtual ~NetworkClient();
 
 public slots:
 	void onConnected();
