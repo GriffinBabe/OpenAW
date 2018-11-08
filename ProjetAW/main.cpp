@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 	game.getBuildingOnPos(15,3)->setOwner(p);
     game.getBuildingOnPos(20,8)->setOwner(p);
 
+
 	game.getBuildingOnPos(4,12)->setOwner(p2);
 	game.getBuildingOnPos(5,13)->setOwner(p2);
 
@@ -29,8 +30,8 @@ int main(int argc, char *argv[])
 
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
-	p->setMoney(10000000);
-	p2->setMoney(1000000);
+    p->setMoney(1000000);
+    p2->setMoney(6000);
 
     QApplication a(argc, argv);
     MainWindow w;

@@ -58,8 +58,8 @@ std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
     std::vector<std::vector<Cell>>::iterator it;
     std::vector<Cell>::iterator it2;
     reachableSquares.clear();
-    //reachableSquares.push_back(std::pair<int,int>(u->getPosX(),u->getPosY()));
-    recursiveMoveLoop((u->getMovementPoints()+1),u->getPosX(),u->getPosY(),u);
+    int moveCostOnCell=movementCostsPerTerrain[u->getMovementType()-1][map->getCellAt(u->getPosX(),u->getPosY()).getMoveType()-1];
+    recursiveMoveLoop((u->getMovementPoints()+moveCostOnCell),u->getPosX(),u->getPosY(),u,"init");
     for (it=cells.begin(); it != cells.end(); ++it) {
         for (it2 = it->begin(); it2 != it->end(); ++it2) { //it2 is technically a cell
             if (unitCanMoveOnCell(u,(*it2))) {
@@ -110,27 +110,28 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
     return isInTheList;
 }
 
-void Game::recursiveMoveLoop(int nbMoves, int nextX,int nextY, Unit *u){
+void Game::recursiveMoveLoop(int nbMoves, int nextX,int nextY, Unit *u,std::string dir){
     if ((nextX<map->getSizeX()) && (nextY<map->getSizeY()) && (nextX>=0) && (nextY>=0)){
         int cost=movementCostsPerTerrain[u->getMovementType()-1][map->getCellAt(nextX,nextY).getMoveType()-1];
         nbMoves-=cost;
 
         if (nbMoves>=0 && (checkUnitOnPos(nextX,nextY)==false || (nextX==u->getPosX() && nextY==u->getPosY()))){
             //up
-            recursiveMoveLoop(nbMoves,nextX,nextY-1,u);
-            //down
-            recursiveMoveLoop(nbMoves,nextX,nextY+1,u);
-            //left
-            recursiveMoveLoop(nbMoves,nextX-1,nextY,u);
-            //right
-            recursiveMoveLoop(nbMoves,nextX+1,nextY,u);
-            /*
-            for(int i=0;i<reachableSquares.size();i++){
-                if((nextX==reachableSquares[i].first && nextY==reachableSquares[i].second)==false){
-                    reachableSquares.push_back(std::pair<int,int>(nextX,nextY));
-                }
+            if (dir!="down"){
+                recursiveMoveLoop(nbMoves,nextX,nextY-1,u,"up");
             }
-            */
+            //down
+            if (dir!="up"){
+                recursiveMoveLoop(nbMoves,nextX,nextY+1,u,"down");
+            }
+            //left
+            if (dir!="right"){
+                recursiveMoveLoop(nbMoves,nextX-1,nextY,u,"left");
+            }
+            //right
+            if (dir!="left"){
+                recursiveMoveLoop(nbMoves,nextX+1,nextY,u,"right");
+            }
             reachableSquares.push_back(std::pair<int,int>(nextX,nextY));
         }
     }

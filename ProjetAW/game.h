@@ -69,7 +69,7 @@ private:
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;
     std::vector<std::pair<int,int>> reachableSquares;
-    void recursiveMoveLoop(int nbMoves,int nextX,int nextY,Unit *u);
+    void recursiveMoveLoop(int nbMoves,int nextX,int nextY,Unit *u,std::string dir);
 
 	Map* map;
     int tour;
