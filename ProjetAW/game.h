@@ -50,7 +50,7 @@ public:
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
 	bool canBuild(Buildings* f, int unitID);
-	void cashIncome(Player* p);
+    void cashIncome(Player* p,bool unitRepaired);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
@@ -60,6 +60,7 @@ public:
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
+    bool repairUnit(Player* p);
 
 
 private:

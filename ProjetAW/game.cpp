@@ -351,11 +351,17 @@ bool Game::canCapture(Buildings* b) {
 }
 
 
-void Game::cashIncome(Player* p){
+void Game::cashIncome(Player* p,bool unitRepaired){
     std::vector<Buildings*>::iterator it;
     for (it = buildings.begin(); it != buildings.end(); ++it) {
         if(p == (*it)->getOwner() && (*it)->getID() == 2){ // If the building is a city it has id == 2
-            p->setMoney(p->getMoney() + (*it)->getCash());
+            if (unitRepaired==false){
+                p->setMoney(p->getMoney() + (*it)->getCash());
+            }
+            if (unitRepaired==true){
+                p->setMoney(p->getMoney() + (0.9*(*it)->getCash()));
+            }
+
         }
 
     }
@@ -407,7 +413,8 @@ void Game::nextTurn(){
             break;
         }
     }
-    cashIncome(playerwhoplays); //génère le cash des batiments -à la fin du tour- <- changé au début du tour du joueur qui va commencer à jouer maintenant, comme dans advance wars
+    bool repairCost=repairUnit(playerwhoplays);
+    cashIncome(playerwhoplays,repairCost); //génère le cash des batiments -à la fin du tour- <- changé au début du tour du joueur qui va commencer à jouer maintenant, comme dans advance wars
     for (Unit* u : units) {
         if (u->getOwner() == this->playerwhoplays) {
             u->setCanMove(true);
@@ -482,4 +489,52 @@ int Game::getDamage(Unit *u1, Unit *u2)
     std::cout << "Damage fight from " << u1->getOwner()->getUsername() << " to " << u2->getOwner()->getUsername() << ": " << damage/10 << std::endl;
     std::cout << "int converted damage: " << totdmg << std::endl;
     return totdmg;
+}
+
+//Repair the allied units on allied cities at the end of the turn
+bool Game::repairUnit(Player* p)
+{
+    bool unitRepaired=false;
+    std::vector<Unit*>::iterator it;
+    for (it = units.begin(); it != units.end(); ++it) {
+        if(p == (*it)->getOwner()){
+            for (Buildings* b : this->buildings) {
+                if (b->getOwner()!=nullptr) {
+
+                    // Is a city or factory and the owner is the given player and the unit is not a plane
+                    if (b->getOwner()==p && (b->getID()==2 ||b->getID()==1)&&(*it)->getMovementType()!=5) {
+                        //Is the player at the same position that the city and is he hurt
+                        if ((*it)->getPosX()==b->getPosX()&& (*it)->getPosY()==b->getPosY() && (*it)->getHealth()<10){
+
+                            (*it)->setHealth((*it)->getHealth()+2);
+
+                            if((*it)->getHealth()>10){ //Max Life is 10
+                                (*it)->setHealth(10);
+                            }
+                            unitRepaired=true;
+                        }
+                    }
+                    // Is a airport and the owner is the given player and the unit is a plane
+
+                    if (b->getOwner()==p && (b->getID()==3)&&(*it)->getMovementType()==5){
+                        //Is the player at the same position that the city and is he hurt
+                        if ((*it)->getPosX()==b->getPosX()&& (*it)->getPosY()==b->getPosY() && (*it)->getHealth()<10){
+
+                            (*it)->setHealth((*it)->getHealth()+2);
+
+                            if((*it)->getHealth()>10){ //Max Life is 10
+                                (*it)->setHealth(10);
+                            }
+                            unitRepaired=true;
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+    }
+    return unitRepaired;
 }

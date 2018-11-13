@@ -6,7 +6,7 @@ FactoryBuilding::FactoryBuilding(int x, int y)
 	id = 1;
 	posX = x;
 	posY = y;
-	cash = 1000;
+    cash = 1000;
 	capturepoint = 20;
 
 }
