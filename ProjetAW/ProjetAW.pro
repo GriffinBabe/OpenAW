@@ -49,7 +49,8 @@ SOURCES += \
     units/AirUnits/bcopter.cpp \
     units/AirUnits/fighter.cpp \
     units/AirUnits/bomber.cpp \
-    menubox.cpp
+    menubox.cpp \
+    ia.cpp
 
 
 HEADERS += \
@@ -80,7 +81,8 @@ HEADERS += \
     units/AirUnits/bcopter.h \
     units/AirUnits/fighter.h \
     units/AirUnits/bomber.h \
-    menubox.h
+    menubox.h \
+    ia.h
 
 
 FORMS += \
