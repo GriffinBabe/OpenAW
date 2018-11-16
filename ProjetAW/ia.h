@@ -8,7 +8,7 @@ public:
     IA(int level, Player* p);
     void movement(Unit* u);
     void action();
-
+    std::pair<int,int> nextToTarget(std::vector<std::pair<int,int>> m ,std::pair<int,int> t);
 
 private:
     int level; //niveau de difficulté
