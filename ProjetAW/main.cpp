@@ -6,7 +6,7 @@
 bool argPresent(std::string arg, std::vector<std::string> args) {
 	// Copies all arguments into a container of strings
 	for (std::string str : args) {
-		if (arg.compare(str)) {
+		if (!arg.compare(str)) {
 			return true;
 		}
 	}
@@ -20,13 +20,16 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 			return str.substr(str.find(delimiter) + 1, str.length()-1);
 		}
 	}
+	std::cout << "Can't find: " << arg << std::endl;
 	throw "Argument inexistant.";
 }
 
 int main(int argc, char *argv[])
 {
 	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
-
+	for (std::string str : allArgs) {
+		std::cout << str << std::endl;
+	}
 	/*
 	 * In this case we are running a server, we will load the map from a file and we will have our mainwindow to connect to "localhost"
 	 */
@@ -50,7 +53,7 @@ int main(int argc, char *argv[])
 	 * In this case we are running a client, we will get all game inforamtions from server
 	 * But we already create a player and add it to the players vector
 	 */
-	else if (argPresent("client", allArgs)) {
+	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
 		std::cout << "Launching game as Client only" << std::endl;
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters

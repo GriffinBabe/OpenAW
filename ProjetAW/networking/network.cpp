@@ -6,8 +6,12 @@ Network::Network(Game *g)
 {
 	this->game = g;
 	this->sessions = new std::vector<Session*>;
-	this->server = new QTcpServer(); // Creates a server
-	connect(this->server, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+	this->server = new QTcpServer(this); // Creates a server
+	qDebug() << connect(this->server, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+	if (!server->listen(QHostAddress::Any, 2090)) {
+		std::cout << "[Server] Error while listening" << std::endl;
+		throw "Error while listening";
+	}
 	std::cout << "[Server] Network intialised" << std::endl;
 }
 
@@ -38,6 +42,7 @@ void Network::onNewConnection() {
 	std::cout << "[Server] new connection received" << std::endl;
 	QTcpSocket* socket = this->server->nextPendingConnection(); // Gets a socket from the last pending connection
 
+	/* TODO: Here we are going to ask for username, stuff and give game informations */
 
 	Session* session = new Session(new Player("test", 'T'), this->game, socket);
 	connect(socket, SIGNAL(readyRead()), session, SLOT(session.onData())); // Calls onData() in this socket when readyRead() is called in socket
