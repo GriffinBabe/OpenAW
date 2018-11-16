@@ -23,7 +23,6 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	throw "Argument inexistant.";
 }
 
-
 int main(int argc, char *argv[])
 {
 	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
@@ -57,7 +56,6 @@ int main(int argc, char *argv[])
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
 																									 // Maybe it's not a good idea as the server never approved for this player to come into the model
 		game.addPlayer(p);
-
 		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();

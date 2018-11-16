@@ -54,7 +54,8 @@ City::City(int x, int y, int id):Cell(x,y,id){
     moveType=4;
 }
 Factory::Factory(int x, int y, int id):Cell(x,y,id) {
-	defense = 3;
+
+    defense = 3;
     moveType=4;
 }
 Airport::Airport(int x, int y, int id):Cell(x,y,id){

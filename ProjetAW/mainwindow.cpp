@@ -6,7 +6,7 @@
 #include <QResource>
 #include <QPixmap>
 
-int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 64; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -49,7 +49,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 	QPainter painter(this);
 	QFont font = painter.font();
-	font.setPointSize(cellDim/2);
+    font.setPointSize(cellDim/4);
 	painter.setPen(Qt::black);
 	painter.setFont(font);
 
@@ -116,6 +116,11 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 	}
 	this->menu->paint(&painter,this->selectedUnit, this->selectedBuildings);
 
+    painter.drawText(cellDim,cellDim,"Player who plays: "+
+					QString::fromStdString(this->game->getPlayerwhoplays()->getUsername())
+					 +" Money: "+QString::number(this->game->getPlayerwhoplays()->getMoney()));
+
+
 	painter.fillRect(0,this->size().height()-cellDim,this->size().width(),cellDim,QColor(240,240,150,1));
 	painter.drawRect(0,this->size().height()-cellDim,this->size().width(),cellDim);
 	QFont font1;
@@ -137,6 +142,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 	painter.drawText(5*this->size().width()/6,this->size().height()-cellDim/3,"|");
 	painter.drawText(5*this->size().width()/6+cellDim,this->size().height()-cellDim/3,"U: "+QString::number(this->game->getPlayerUnitCount(this->game->getLocalPlayer())));
+
 
 
 }
@@ -238,7 +244,7 @@ void MainWindow::selectElement()
 		}
 	}
 	else if (menu->getType() == 1) { // Move menu
-		if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
+        if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
 			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
 			if (std::find(this->game->getUnits()->begin(), this->game->getUnits()->end(), this->selectedUnit) != this->game->getUnits()->end()) {
 				// If *this->selectedUnit is still in the vector or it has been deleted because of fusion

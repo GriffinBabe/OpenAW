@@ -46,22 +46,23 @@ public:
     Unit* getUnitOnPos(int x, int y);
 	Map* getMap();
 	void setLocalPlayer(Player* lp);
-	bool unitCanMoveOnCell(Unit* u, Cell c);
+    bool unitCanMoveOnCell(Unit* u, Cell c);
 	void moveUnit(Unit* u, std::pair<int,int> pos);
 	bool canCapture(Buildings* b);
 	void capture(Buildings* b);
 	bool canBuild(Buildings* f, int unitID);
-	void cashIncome(Player* p);
+    void cashIncome(Player* p,bool unitRepaired);
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
 	void nextTurn();
-
-	int getPlayerCityCount(Player* p);
+    int getPlayerCityCount(Player* p);
 	int getPlayerUnitCount(Player* p);
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
+    bool repairUnit(Player* p);
+
 
 private:
 	Player* localPlayer;
@@ -69,14 +70,17 @@ private:
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;
+    std::vector<std::pair<int,int>> reachableSquares;
+    void recursiveMoveLoop(int nbMoves,int nextX,int nextY,Unit *u,std::string dir);
+
 	Map* map;
     int tour;
 	int startMoney;
-    int movementCostsPerTerrain[5][6] =	{{1,2,1,1,0,0},
-                                        {1,1,1,1,0,0},
-                                        {1,0,2,1,0,0},
-                                        {2,0,3,1,0,0},
-                                        {1,1,1,1,1,0}};
+    int movementCostsPerTerrain[5][6] =	{{1,2,1,1,100,100},
+                                        {1,1,1,1,100,100},
+                                        {1,100,2,1,100,100},
+                                        {2,100,3,1,100,100},
+                                        {1,1,1,1,1,100}};
 
 };
 
