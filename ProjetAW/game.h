@@ -19,6 +19,7 @@
 #include <vector>
 #include <string>
 
+
 class Game
 {
 public:
@@ -27,6 +28,7 @@ public:
 	void addPlayer(Player* p);
     void addUnit(Unit* u);
     void addBuilding(Buildings* b);
+
 	Player* getPlayerByUsername(std::string username);
 
 	//Controller & View
@@ -66,6 +68,7 @@ public:
 private:
 	Player* localPlayer;
     Player* playerwhoplays;
+
 	std::vector<Unit*> units;
 	std::vector<Player*> players;
     std::vector<Buildings*> buildings;

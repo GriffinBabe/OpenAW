@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-
 class Player
 		/*
 		 * Player doesn't include units, all player/units interaction are in the unit or game class

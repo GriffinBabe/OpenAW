@@ -2,10 +2,15 @@
 #include <cstdlib>
 #include <tgmath.h>
 
-IA::IA(int l, Player* p)
+IA::IA(int l, Player* p, Game* g)
 {
  level = l;            //c'est l'ia de NIVEAU BASIQUE
  player = p;
+ game = g;
+}
+
+void IA::play(){
+    if(getPlayerwhoplays()==player){action();}
 }
 
 void IA::action(){
@@ -34,17 +39,15 @@ void IA::movement(Unit* u){
             break;
         }
         if (checkBuildingOnPos(p.first,p.second) && (u->getID()==1)||(u->getID()==2)){ //si n'a pas attaqué ce tour check si batiment accessible
-                moveUnit(u,p);                         // s'y déplace
-                capture(getBuildingOnPos(p.first,p.second)); //le capture si possible
-
+            moveUnit(u,p);                         // s'y déplace
+            capture(getBuildingOnPos(p.first,p.second)); //le capture si possible
+            break;
         }
-
-
-        }
+    }
      //il faudrait rajouter par la suite CheckBuildingOnPos , CheckRoadOnPos, etc.. avec des priorités d'action
      //garder en tête que ça reste le level  1 de l'IA --> actions de base
      //on implémentera des fonctions plus poussées (liste d'action d'etc...) au niveau 2 et 3
-    }
+}
 
 std::pair<int,int> IA::nextToTarget(std::vector<std::pair<int,int>> m, std::pair<int,int> t){
    int x = t.first;

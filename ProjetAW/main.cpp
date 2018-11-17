@@ -11,8 +11,10 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
 
     Game game;
+
 	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
 	Player* p2 = new Player("Romain", 'R'); // Adds a red player
+    IA* ia1 = new IA(1,p2,&game); //crée une IA pour le joueur 2 (temporaire)
 	game.getBuildingOnPos(16,2)->setOwner(p);
 	game.getBuildingOnPos(4,14)->setOwner(p2);
 
