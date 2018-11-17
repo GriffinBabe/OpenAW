@@ -9,12 +9,19 @@ IA::IA(int l, Player* p)
 }
 
 void IA::action(){
-     std::vector<Unit*>* units= getUnits();
-     for(Unit* u : *units){            //check les unités que l'ia possède
-         if(u->getOwner() == player){
-             movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
-         }
-     }
+    std::vector<Buildings*>* buildings = getBuildings();
+    for(Buildings* b : *buildings){
+        if(b->getOwner() == player){
+            createUnit(b,player,1); // si possible crée (une infanterie pour l'instant)
+        }
+    }
+
+    std::vector<Unit*>* units= getUnits();
+    for(Unit* u : *units){            //check les unités que l'ia possède
+        if(u->getOwner() == player){
+            movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+        }
+    }
 }
 
 void IA::movement(Unit* u){
@@ -22,13 +29,23 @@ void IA::movement(Unit* u){
     for(std::pair<int,int> p : move ){
         if (checkUnitOnPos(p.first,p.second)){   //regarde si il y a une unité sur cette position
             std::pair<int,int>pos = nextToTarget(move,p);
-            u->setPos(pos.first,pos.second);
+            moveUnit(u,pos);
+            attack(u,getUnitOnPos(p.first,p.second),false); //attaque si possible
+            break;
+        }
+        if (checkBuildingOnPos(p.first,p.second) && (u->getID()==1)||(u->getID()==2)){ //si n'a pas attaqué ce tour check si batiment accessible
+                moveUnit(u,p);                         // s'y déplace
+                capture(getBuildingOnPos(p.first,p.second)); //le capture si possible
+
+        }
+
+
         }
      //il faudrait rajouter par la suite CheckBuildingOnPos , CheckRoadOnPos, etc.. avec des priorités d'action
      //garder en tête que ça reste le level  1 de l'IA --> actions de base
      //on implémentera des fonctions plus poussées (liste d'action d'etc...) au niveau 2 et 3
     }
-}
+
 std::pair<int,int> IA::nextToTarget(std::vector<std::pair<int,int>> m, std::pair<int,int> t){
    int x = t.first;
    int y = t.second;
