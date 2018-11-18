@@ -12,6 +12,7 @@ IA::IA(int l, Player* p, Game* g)
 
 void IA::play(){ //temporaire
     if(game->getPlayerwhoplays()==player){action();}
+    std::cout << "l'ia joue" << std::endl;
 }
 
 void IA::action(){
