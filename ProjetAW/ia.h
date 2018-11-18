@@ -18,7 +18,8 @@ private:
     int level; //niveau de difficulté
     Player* player; //joueur contrôlé par l'ia
     Game* game;
-
+    int maxUnitForMoney(bool AirType);
+    int nextToAnEnnemy(std::pair<int,int> p);
 
 };
 

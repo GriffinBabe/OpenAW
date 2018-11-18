@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
 
 	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
 	Player* p2 = new Player("Romain", 'R'); // Adds a red player
+    //IA* ia1 = new IA(1,p,&game); //crée une IA pour le joueur 1 (temporaire pour test)
+    //p->setIA(ia1);
     IA* ia2 = new IA(1,p2,&game); //crée une IA pour le joueur 2 (temporaire pour test)
     p2->setIA(ia2);
 
@@ -23,7 +25,7 @@ int main(int argc, char *argv[])
 
 	game.getBuildingOnPos(16,4)->setOwner(p);
 	game.getBuildingOnPos(15,3)->setOwner(p);
-    game.getBuildingOnPos(20,8)->setOwner(p);
+    //game.getBuildingOnPos(20,8)->setOwner(p);
 
 
 	game.getBuildingOnPos(4,12)->setOwner(p2);
@@ -35,7 +37,7 @@ int main(int argc, char *argv[])
 
 	game.setLocalPlayer(p); // GriffinBabe is the local Player
 
-    p->setMoney(1000000);
+    p->setMoney(6000);
     p2->setMoney(6000);
 
     QApplication a(argc, argv);

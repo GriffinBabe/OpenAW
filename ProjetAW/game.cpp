@@ -210,6 +210,7 @@ Unit* Game::getUnitOnPos(int x, int y) {
             return *it;
         }
     }
+    return nullptr;
 }
 
 
