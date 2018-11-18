@@ -13,20 +13,21 @@ IA::IA(int l, Player* p, Game* g)
 void IA::play(){ //temporaire
     if(game->getPlayerwhoplays()==player){action();}
     std::cout << "l'ia joue" << std::endl;
+    game->nextTurn();
 }
 
 void IA::action(){
-    std::vector<Buildings*>* buildings = game->getBuildings();
-    for(Buildings* b : *buildings){
-        if(b->getOwner() == player){
-            game->createUnit(b,player,1); // si possible crée (une infanterie pour l'instant)
-        }
-    }
-
     std::vector<Unit*>* units= game->getUnits();
     for(Unit* u : *units){            //check les unités que l'ia possède
         if(u->getOwner() == player){
             movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+        }
+    }
+
+    std::vector<Buildings*>* buildings = game->getBuildings();
+    for(Buildings* b : *buildings){
+        if(b->getOwner() == player){
+            game->createUnit(b,player,1); // si possible crée (une infanterie pour l'instant)
         }
     }
 }
@@ -41,8 +42,10 @@ void IA::movement(Unit* u){
             break;
         }
         if (game->checkBuildingOnPos(p.first,p.second) && (u->getID()==1)||(u->getID()==2)){ //si n'a pas attaqué ce tour check si batiment accessible
-            game->moveUnit(u,p);                         // s'y déplace
-            game->capture(game->getBuildingOnPos(p.first,p.second)); //le capture si possible
+            if(u->getCanMove()){
+                game->moveUnit(u,p);                         // s'y déplace
+                game->capture(game->getBuildingOnPos(p.first,p.second));//le capture si possible
+            }
             break;
         }
     }
