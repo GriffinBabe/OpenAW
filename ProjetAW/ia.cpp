@@ -1,4 +1,5 @@
 #include "ia.h"
+#include "game.h"
 #include <cstdlib>
 #include <tgmath.h>
 
@@ -9,19 +10,19 @@ IA::IA(int l, Player* p, Game* g)
  game = g;
 }
 
-void IA::play(){
-    if(getPlayerwhoplays()==player){action();}
+void IA::play(){ //temporaire
+    if(game->getPlayerwhoplays()==player){action();}
 }
 
 void IA::action(){
-    std::vector<Buildings*>* buildings = getBuildings();
+    std::vector<Buildings*>* buildings = game->getBuildings();
     for(Buildings* b : *buildings){
         if(b->getOwner() == player){
-            createUnit(b,player,1); // si possible crée (une infanterie pour l'instant)
+            game->createUnit(b,player,1); // si possible crée (une infanterie pour l'instant)
         }
     }
 
-    std::vector<Unit*>* units= getUnits();
+    std::vector<Unit*>* units= game->getUnits();
     for(Unit* u : *units){            //check les unités que l'ia possède
         if(u->getOwner() == player){
             movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
@@ -30,17 +31,17 @@ void IA::action(){
 }
 
 void IA::movement(Unit* u){
-    std::vector<std::pair<int,int>> move = getMoveCells(u); //obtiens la liste des positions possible
+    std::vector<std::pair<int,int>> move = game->getMoveCells(u); //obtiens la liste des positions possible
     for(std::pair<int,int> p : move ){
-        if (checkUnitOnPos(p.first,p.second)){   //regarde si il y a une unité sur cette position
+        if (game->checkUnitOnPos(p.first,p.second)){   //regarde si il y a une unité sur cette position
             std::pair<int,int>pos = nextToTarget(move,p);
-            moveUnit(u,pos);
-            attack(u,getUnitOnPos(p.first,p.second),false); //attaque si possible
+            game->moveUnit(u,pos);
+            game->attack(u,game->getUnitOnPos(p.first,p.second),false); //attaque si possible
             break;
         }
-        if (checkBuildingOnPos(p.first,p.second) && (u->getID()==1)||(u->getID()==2)){ //si n'a pas attaqué ce tour check si batiment accessible
-            moveUnit(u,p);                         // s'y déplace
-            capture(getBuildingOnPos(p.first,p.second)); //le capture si possible
+        if (game->checkBuildingOnPos(p.first,p.second) && (u->getID()==1)||(u->getID()==2)){ //si n'a pas attaqué ce tour check si batiment accessible
+            game->moveUnit(u,p);                         // s'y déplace
+            game->capture(game->getBuildingOnPos(p.first,p.second)); //le capture si possible
             break;
         }
     }

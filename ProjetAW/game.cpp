@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ia.h"
 #include <iostream>
 #include <math.h>
 #include <algorithm>
@@ -421,6 +422,10 @@ void Game::nextTurn(){
             u->setCanAttack(false);
         }
     }
+    if(getPlayerwhoplays()->getIA() != NULL){
+       getPlayerwhoplays()->getIA()->play();
+    } //si le joueur à qui c'est le tour est contrôlé
+      // par une ia, lance l'action de l'ia
 }
 
 int Game::getPlayerCityCount(Player *p)

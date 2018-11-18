@@ -1,6 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
+#include "ia.h"
 #include <vector>
 #include <string>
 class Player
@@ -10,12 +10,14 @@ class Player
 {
 public:
 	Player(std::string name, char tc);
-	Player(std::string name, char tc, int IALvl);
+    void setIA(IA* ia);
+    IA* getIA();
 	std::string getUsername();
 	char getTeamColor();
     int getMoney();
     void setMoney(int m);
 private:
+    IA* ia;
 	std::string username;
 	int money;
 	char teamColor;

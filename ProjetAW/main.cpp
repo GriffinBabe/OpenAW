@@ -12,9 +12,12 @@ int main(int argc, char *argv[])
 
     Game game;
 
+
 	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
 	Player* p2 = new Player("Romain", 'R'); // Adds a red player
-    IA* ia1 = new IA(1,p2,&game); //crée une IA pour le joueur 2 (temporaire)
+    IA* ia2 = new IA(1,p2,&game); //crée une IA pour le joueur 2 (temporaire pour test)
+    p2->setIA(ia2);
+
 	game.getBuildingOnPos(16,2)->setOwner(p);
 	game.getBuildingOnPos(4,14)->setOwner(p2);
 
