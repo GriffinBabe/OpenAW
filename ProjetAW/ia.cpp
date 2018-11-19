@@ -16,7 +16,7 @@ void IA::play(){ //temporaire
     if(game->getPlayerwhoplays()==player){action();}
     std::cout << "l'ia joue" << std::endl;
     //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    game->nextTurn();
+    //game->nextTurn();
 }
 
 void IA::action(){
