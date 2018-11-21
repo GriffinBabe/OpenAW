@@ -2,11 +2,12 @@
 #include <QApplication>
 #include <iostream>
 #include "networking/network.h"
+#include <stdexcept>
 
 bool argPresent(std::string arg, std::vector<std::string> args) {
 	// Copies all arguments into a container of strings
 	for (std::string str : args) {
-		if (!arg.compare(str)) {
+		if (arg == str) {
 			return true;
 		}
 	}
@@ -16,12 +17,11 @@ bool argPresent(std::string arg, std::vector<std::string> args) {
 std::string getValue(std::string arg, std::vector<std::string> args) {
 	std::string delimiter = "=";
 	for (std::string str : args) {
-		if (arg.compare(str.substr(0, str.find(delimiter)))==0) { // This one seems to return the opposite value, LIKE WHAT THE FUCK
+		if (arg == str.substr(0, str.find(delimiter))) { // This one seems to return the opposite value, LIKE WHAT THE FUCK
 			return str.substr(str.find(delimiter) + 1, str.length()-1);
 		}
 	}
-	std::cout << "Can't find: " << arg << std::endl;
-	throw "Argument inexistant.";
+	throw std::invalid_argument("Can't find argument: "+arg);
 }
 
 int main(int argc, char *argv[])
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 	 */
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
 		std::cout << "Launching game as Server + Client" << std::endl;
+		QApplication a(argc, argv);
 		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs))); // starts a new gale setting the map file path and the starting money
 		Network network(&game); // Launches the server
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
 		game.setLocalPlayer(p);
 
-		QApplication a(argc, argv);
+
 		MainWindow w;
 		w.show();
 		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
@@ -55,11 +56,11 @@ int main(int argc, char *argv[])
 	 */
 	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
 		std::cout << "Launching game as Client only" << std::endl;
+		QApplication a(argc, argv);
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
 																									 // Maybe it's not a good idea as the server never approved for this player to come into the model
 		game.addPlayer(p);
-		QApplication a(argc, argv);
 		MainWindow w;
 		w.show();
 		w.setGame(&game, "localhost"); // We let localhost for testing purposes

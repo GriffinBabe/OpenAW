@@ -22,7 +22,6 @@ private:
 	QTcpServer* server;
 	std::vector<Session*>* sessions;
 	Game* game;
-	bool suicide_pill; // If suicide_pill is on, the run loop will stop
 };
 
 #endif // SERVER_H

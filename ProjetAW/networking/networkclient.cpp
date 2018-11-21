@@ -5,7 +5,7 @@ NetworkClient::NetworkClient(Game* g, std::string ip)
 {
 	this->socket = new QTcpSocket();
 	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-	this->socket->connectToHost(QString::fromStdString(ip), 2090); // connects to the server
+	this->socket->connectToHost(QString::fromStdString(ip), 2049); // connects to the server
 }
 
 NetworkClient::~NetworkClient()
