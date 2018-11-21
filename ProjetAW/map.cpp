@@ -9,7 +9,7 @@
 #include "buildings/factorybuilding.h"
 #include "buildings/airportbuilding.h"
 
-Map::Map(std::string mapPath)
+Map::Map(int mapId)
 {
    /*Ouverture du Fichier et récupération des données
     Le lien du fichier est ":/Maps/map1.txt"
@@ -19,7 +19,9 @@ Map::Map(std::string mapPath)
     std::vector<std::vector<int>> data;
 	this->buildings = new std::vector<Buildings*>;
 
-    QString path = QString::fromStdString(mapPath);
+	//:/Maps/map1.txt
+	QString path = QString::fromStdString(":/Maps/"+mapPath+".txt");
+
     QFile file(path);
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
@@ -46,7 +48,7 @@ Map::Map(std::string mapPath)
         for (int x = 0; x < data.size(); x++) {
 			this->cells->at(y).push_back(getNewCell(y,x,data[x][y]));
         }
-    }
+	}
 }
 
 Cell Map::getNewCell(int j,int i, int id) {

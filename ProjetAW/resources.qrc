@@ -21,7 +21,7 @@
         <file>newfighter.png</file>
     </qresource>
     <qresource prefix="/Maps">
-        <file>map1.txt</file>
+        <file>25087.txt</file>
     </qresource>
     <qresource prefix="/Images/Terrain">
         <file>grass.png</file>

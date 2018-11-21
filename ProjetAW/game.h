@@ -24,7 +24,7 @@ class Game
 public:
 	//Model
 	Game();
-	Game(std::string mapPath, int startMoney); // This one is launched by the server
+	Game(int mapId, int startMoney, int inc); // This one is launched by the server
 	void addPlayer(Player* p);
     void addUnit(Unit* u);
     void addBuilding(Buildings* b);
@@ -63,6 +63,9 @@ public:
 	int getDamage(Unit* u1, Unit* u2);
     bool repairUnit(Player* p);
 
+	void setIncome(int inc);
+	void setMap(int id);
+	int getMapId();
 
 private:
 	Player* localPlayer;
@@ -74,8 +77,10 @@ private:
     void recursiveMoveLoop(int nbMoves,int nextX,int nextY,Unit *u,std::string dir);
 
 	Map* map;
+	int mapId;
     int tour;
 	int startMoney;
+	int income; // Money received per city
     int movementCostsPerTerrain[5][6] =	{{1,2,1,1,100,100},
                                         {1,1,1,1,100,100},
                                         {1,100,2,1,100,100},

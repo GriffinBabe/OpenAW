@@ -11,6 +11,8 @@ public:
 	NetworkClient(Game* g, std::string ip);
 	virtual ~NetworkClient();
 
+	void sendJson(QJsonObject obj);
+
 public slots:
 	void onConnected();
 	void onData();
@@ -20,6 +22,9 @@ private:
 	Game* game;
 	bool suicide_pill;
 	QTcpSocket* socket;
+
+	int currentSize;
+	bool isConfigured;
 };
 
 #endif // NETWORKCLIENT_H

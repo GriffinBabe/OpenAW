@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
 		std::cout << "Launching game as Server + Client" << std::endl;
 		QApplication a(argc, argv);
-		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs))); // starts a new gale setting the map file path and the starting money
+		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
 		Network network(&game); // Launches the server
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
 		std::cout << getValue("username", allArgs) << std::endl;

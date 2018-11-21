@@ -22,7 +22,7 @@ private:
 	std::vector<Buildings*>* buildings; // We need to create the buildings here then the game will gather the vector
 	// with a getter here
 public:
-    Map(std::string mapPath);
+	Map(int mapId);
     int getSizeX();
     int getSizeY();
     Cell getCellAt(int x, int y);

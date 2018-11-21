@@ -10,13 +10,27 @@ Game::Game()
 	std::vector<Unit*> units;
 }
 
-Game::Game(std::string mapPath, int startMoney) : startMoney(startMoney)
+Game::Game(int mapId, int startMoney, int inc) : mapId(mapId), startMoney(startMoney)
 {
 	std::cout << "[Game Model] Game Initialised with a map and startMoney" << std::endl;
-	this->map = new Map(mapPath);
+	income = inc;
+	this->map = new Map(mapId);
 	std::vector<Player> players;
 	std::vector<Unit*> units;
 	this->buildings = *map->getBuildings();
+}
+
+
+void Game::setMap(int id)
+{
+	this->mapId = id;
+	this->map = new Map(id);
+	this->buildings = *map->getBuildings();
+}
+
+int Game::getMapId()
+{
+	return mapId;
 }
 
 void Game::addPlayer(Player* p)
@@ -363,10 +377,10 @@ void Game::cashIncome(Player* p,bool unitRepaired){
     for (it = buildings.begin(); it != buildings.end(); ++it) {
         if(p == (*it)->getOwner() && (*it)->getID() == 2){ // If the building is a city it has id == 2
             if (unitRepaired==false){
-                p->setMoney(p->getMoney() + (*it)->getCash());
+				p->setMoney(p->getMoney() + income);
             }
             if (unitRepaired==true){
-                p->setMoney(p->getMoney() + (0.9*(*it)->getCash()));
+				p->setMoney(p->getMoney() + (0.9*income));
             }
 
         }
@@ -543,5 +557,10 @@ bool Game::repairUnit(Player* p)
         }
 
     }
-    return unitRepaired;
+	return unitRepaired;
+}
+
+void Game::setIncome(int inc)
+{
+	income = inc;
 }

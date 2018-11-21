@@ -11,7 +11,7 @@ class Session : public QObject // Uses SIGNAL, SLOTS
 public:
 	Session(Player* p, Game* g, QTcpSocket* s);
 	virtual ~Session();
-	void send(); // Sends a message
+	void sendJson(QJsonObject obj); // Sends a message
 
 public slots:
 	void onData();
