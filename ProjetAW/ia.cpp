@@ -29,15 +29,21 @@ void IA::action(){
 
         }
     }
-
     std::vector<Buildings*>* buildings = game->getBuildings();
     for(Buildings* b : *buildings){
         if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
-            if (game->getPlayerCityCount(player)<8){
+            if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
+                            game->createUnit(b,player,maxUnitForMoney(true));//Crée une unité dans un aéroport en premier lieu
+            }
+        }
+    }
+    for(Buildings* b : *buildings){
+        if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+            if (game->getPlayerCityCount(player)<10){
                 game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
             }
             else if(player->getMoney()>Infantery(1,1,player).getCost()){
-                game->createUnit(b,player,maxUnitForMoney(b->getID()==3)); //Crée une unité correspondant au type du batiment(aéroport ou usine)
+                game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
             }
 
         }
@@ -84,6 +90,20 @@ void IA::movement(Unit* u){
 
 
         }
+
+        //Le joueur contine la capture s'il est déjà sur une ville neutre ou alliée
+        if(u->getCanMove()){
+            if (game->checkBuildingOnPos(u->getPosX(),u->getPosY()) && ((u->getID()==1)||(u->getID()==2))){
+                if(game->getBuildingOnPos(u->getPosX(),u->getPosY())->getOwner()!=player){
+                    p.first=u->getPosX();
+                    p.second=u->getPosY();
+                    game->moveUnit(u,p);
+                    game->capture(game->getBuildingOnPos(p.first,p.second));
+                break;
+                }
+            }
+
+        }
         if(u->getCanMove()){
             if (game->checkBuildingOnPos(p.first,p.second) && ((u->getID()==1)||(u->getID()==2))){ //si n'a pas attaqué ce tour check si batiment accessible
                 if(game->getBuildingOnPos(p.first,p.second)->getOwner()!=player){ //L'unité ne se déplace pas sur une ville qu'elle possède déjà
@@ -100,6 +120,7 @@ void IA::movement(Unit* u){
 
     //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace aléatoirement
     if (u->getCanMove()){
+        srand(time(NULL));
         int a1=rand()%(move.size());
         game->moveUnit(u,move[a1]);
 
@@ -112,37 +133,40 @@ void IA::movement(Unit* u){
 //Renvoie l'id de la meilleure unité terrestre que l'on puisse produire en fonction de son argent restant
 int IA::maxUnitForMoney(bool AirType){
     int money=player->getMoney();
+    srand(time(NULL));
+    std::cout<<rand()%2<<std::endl;
     if (AirType==true){
-        if (money>Bomber(1,1,player).getCost()){
+        if (money>Bomber(1,1,player).getCost() && rand()%2==1){
             return 11;
-        }if (money>Fighter(1,1,player).getCost()){
+        }if (money>Fighter(1,1,player).getCost()&& rand()%2==0){
             return 10;
         }if (money>BCopter(1,1,player).getCost()){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()){
+        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1){
             return 8;
-        }if (money>MegaTank(1,1,player).getCost()){
+        }if (money>MegaTank(1,1,player).getCost()&& rand()%2==0){
             return 7;
-        }if (money>MdTank(1,1,player).getCost()){
+        }if (money>MdTank(1,1,player).getCost()&& rand()%2==1){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%2==0){
             return 4;
-        }if (money>Tank(1,1,player).getCost()){
+        }if (money>Tank(1,1,player).getCost()&& rand()%2==1){
             return 5;
-        }if (money>Recon(1,1,player).getCost()){
+        }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
             return 3;
-        }if (money>Bazooka(1,1,player).getCost()){
+        }if (money>Bazooka(1,1,player).getCost()&& rand()%2==1){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
             return 1;
         }
     }else{
         std::cout<<"Erreur, le montant devrait permettre de créer une unité ci-dessus"<<std::endl;
+        return 100;
     }
-
 }
+
 //Vérie s'il y a un ennemi accessible après un déplacement et renvoie la position de celui-ci
 int IA::nextToAnEnnemy(std::pair<int,int> p){
 

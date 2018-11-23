@@ -236,9 +236,9 @@ void Game::createUnit(Buildings* b, Player* p, int unitID) {
         case 9:
             u = new BCopter(b->getPosX(),b->getPosY(),p); break;
         case 10:
-            u = new Bomber(b->getPosX(),b->getPosY(),p); break;
-        case 11:
             u = new Fighter(b->getPosX(),b->getPosY(),p); break;
+        case 11:
+            u = new Bomber(b->getPosX(),b->getPosY(),p); break;
     }
     if (u==nullptr) { // No ID Match
         throw "No ID Match in Unit creation";
