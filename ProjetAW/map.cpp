@@ -63,15 +63,15 @@ Cell Map::getNewCell(int j,int i, int id) {
         return mountain;
     }else if(id==34 || id==125 || id==95){
         City city(j,i,id);
-		this->buildings->push_back(new CityBuilding(j,i));
+		this->buildings->push_back(new CityBuilding(j,i,id));
         return city;
 	} else if (id==35 || id==92 || id== 123) {
 		Factory factory(j,i,id);
-		this->buildings->push_back(new FactoryBuilding(j,i));
+		this->buildings->push_back(new FactoryBuilding(j,i,id));
 		return factory;
     }else if (id==36) {
         Airport airport(j,i,id);
-        this->buildings->push_back(new AirportBuilding(j,i));
+		this->buildings->push_back(new AirportBuilding(j,i,id));
         return airport;
     }else if(id==3){
         Woods woods(j,i,id);

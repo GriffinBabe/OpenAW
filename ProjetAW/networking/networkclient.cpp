@@ -63,27 +63,37 @@ void NetworkClient::onData()
 		this->game->setMap(json["map"].toInt());
 
 
-		posX = json["x"].toInt();
-		posY = json["y"].toInt();
-		update();
-		isConfigured = true;
-		myTurn = true;
-	} else {
-		int oldX = json["oldX"].toInt();
-		int oldY = json["oldY"].toInt();
-		int newX = json["newX"].toInt();
-		int newY = json["newY"].toInt();
+		int first = json["firstplayer"].toInt(); // We get the value of the first player
+		int second = json["secondplayer"].toInt();
 
-		if(!(posX == oldX && posY == oldY)) {
-			std::cerr << "ERROR" << std::endl;
-			destroy();
-			return;
+		std::string who = json["youplay"].toString().toStdString();
+
+		Player* newOwner1 = this->game->getPlayerByTeamcolor('B');
+		Player* newOwner2 = this->game->getPlayerByTeamcolor('R');
+
+		if (first == 5) {
+			this->game->giveBuildingsTo(newOwner1, 95);
+			this->game->giveBuildingsTo(newOwner1, 92);
+		} else if (first == 10) {
+			this->game->giveBuildingsTo(newOwner1, 123);
+			this->game->giveBuildingsTo(newOwner1, 125);
 		}
 
-		posX = newX;
-		posY = newY;
-		myTurn = true;
-		update();
+		if (second == 5) {
+			this->game->giveBuildingsTo(newOwner2, 95);
+			this->game->giveBuildingsTo(newOwner2, 92);
+		} else if (second == 10) {
+			this->game->giveBuildingsTo(newOwner2, 123);
+			this->game->giveBuildingsTo(newOwner2, 125);
+		}
+
+		if (who == "firstplayer") {
+			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('B'));
+		} else if (who == "secondplayer") {
+			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('R'));
+		}
+
+		isConfigured = true;
 	}
 }
 

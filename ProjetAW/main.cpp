@@ -36,12 +36,19 @@ int main(int argc, char *argv[])
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
 		std::cout << "Launching game as Server + Client" << std::endl;
 		QApplication a(argc, argv);
-		Game game(getValue("map", allArgs), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
+		Game game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
 		Network network(&game); // Launches the server
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
+		Player* p2;
+		if (getValue("teamColor", allArgs).at(0) == 'B') {
+			p2 = new Player("otherplayer", 'R');
+		} else {
+			p2 = new Player("otherplayer", 'B');
+		}
 		std::cout << getValue("username", allArgs) << std::endl;
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
 		game.setLocalPlayer(p);
+		game.addPlayer(p2);
 
 
 		MainWindow w;
@@ -60,7 +67,15 @@ int main(int argc, char *argv[])
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
 																									 // Maybe it's not a good idea as the server never approved for this player to come into the model
+		Player* p2;
+		if (getValue("teamColor", allArgs).at(0) == 'B') {
+			p2 = new Player("otherplayer", 'R');
+		} else {
+			p2 = new Player("otherplayer", 'B');
+		}
 		game.addPlayer(p);
+		game.setLocalPlayer(p);
+		game.addPlayer(p2);
 		MainWindow w;
 		w.show();
 		w.setGame(&game, "localhost"); // We let localhost for testing purposes

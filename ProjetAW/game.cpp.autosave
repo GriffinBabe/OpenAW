@@ -474,7 +474,14 @@ int Game::getPlayerUnitCount(Player* p) {
             count++;
         }
     }
-    return count;
+	return count;
+}
+
+void Game::giveBuildingsTo(Player *p, int id)
+{
+	for (Buildings* b : this->buildings) {
+		if (b->getID())
+	}	
 }
 
 /*

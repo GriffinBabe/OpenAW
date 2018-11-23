@@ -1,6 +1,6 @@
 #include "factorybuilding.h"
 
-FactoryBuilding::FactoryBuilding(int x, int y)
+FactoryBuilding::FactoryBuilding(int x, int y, int cellID)
 {
 	owner = nullptr;
 	id = 1;
@@ -8,5 +8,5 @@ FactoryBuilding::FactoryBuilding(int x, int y)
 	posY = y;
     cash = 1000;
 	capturepoint = 20;
-
+	cellId = cellID;
 }

@@ -29,3 +29,8 @@ void Buildings::setOwner(Player* newowner){owner = newowner;}
 Player* Buildings::getOwner(){return this->owner;}
 
 int Buildings::getID(){return this->id;}
+
+int Buildings::getCellID()
+{
+	return cellId;
+}

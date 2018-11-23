@@ -55,9 +55,11 @@ public:
 	bool attackable(Unit* u, Unit* unit, bool defensemode); // can u attack unit ?
 	void setPlayerwhoplays(Player* p);
     Player* getPlayerwhoplays();
+	Player *getPlayerByTeamcolor(char tc);
 	void nextTurn();
     int getPlayerCityCount(Player* p);
 	int getPlayerUnitCount(Player* p);
+	void giveBuildingsTo(Player* p, int id);
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);

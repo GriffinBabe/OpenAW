@@ -19,7 +19,8 @@ public:
     int getCash();
     void setOwner(Player* owner);
     Player* getOwner();
-    int getID();
+	int getID();
+	int getCellID();
 protected:
     int posX;
     int posY;
@@ -27,6 +28,7 @@ protected:
     int capturepoint;
     int cash;
 	int id; // 1 = factory, 2 = city NOTE that those are different IDs than cells id/data
+	int cellId;
 };
 
 #endif // BUILDINGS_H

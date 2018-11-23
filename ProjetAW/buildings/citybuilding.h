@@ -6,7 +6,7 @@
 class CityBuilding : public Buildings // renamed from "city" to "citybuilding" because of a cell with the same name
 {
 public:
-	CityBuilding(int x,int y);
+	CityBuilding(int x,int y, int cellID);
 };
 
 #endif // CITY_H

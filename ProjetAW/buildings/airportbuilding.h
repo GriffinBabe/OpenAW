@@ -5,7 +5,7 @@
 class AirportBuilding : public Buildings // renamed from "airport" to "airportbuilding" because of a cell with the same name
 {
 public:
-    AirportBuilding(int x, int y);
+	AirportBuilding(int x, int y, int cellID);
 };
 
 #endif // AIRPORT_H
