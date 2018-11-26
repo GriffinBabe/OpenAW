@@ -20,6 +20,8 @@ private:
     Game* game;
     int maxUnitForMoney(bool AirType);
     int nextToAnEnnemy(std::pair<int,int> p);
+    Buildings* closestBuilding(Unit* u);
+    Unit* closestEnnemyUnit(Unit* u);
 
 };
 

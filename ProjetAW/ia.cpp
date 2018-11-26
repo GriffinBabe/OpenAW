@@ -7,9 +7,9 @@
 
 IA::IA(int l, Player* p, Game* g)
 {
- level = l;            //c'est l'ia de NIVEAU BASIQUE
- player = p;
- game = g;
+ level = l;            //level=0 : IA inactive
+ player = p;            //level=1 :IA basique
+ game = g;             //level=2 :IA greedy
 }
 
 void IA::play(){ //temporaire
@@ -21,32 +21,42 @@ void IA::play(){ //temporaire
 
 void IA::action(){
     //std::this_thread::sleep_for(std::chrono::milliseconds(1000));//Ajout de temps entre chaque action
+    //IA inactive
+    if  (level==0){
 
-    std::vector<Unit*>* units= game->getUnits();
-    for(Unit* u : *units){            //check les unités que l'ia possède
-        if(u->getOwner() == player){
-            movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+    }
+    //IA Basique
+    if (level==1){
+        std::vector<Unit*>* units= game->getUnits();
+        for(Unit* u : *units){            //check les unités que l'ia possède
+            if(u->getOwner() == player){
+                movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
 
+            }
+        }
+        std::vector<Buildings*>* buildings = game->getBuildings();
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
+                    game->createUnit(b,player,maxUnitForMoney(true));//Crée une unité dans un aéroport en premier lieu
+                }
+            }
+        }
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if (game->getPlayerCityCount(player)<10){
+                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
+                }
+                else if(player->getMoney()>Infantery(1,1,player).getCost()){
+                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                }
+
+            }
         }
     }
-    std::vector<Buildings*>* buildings = game->getBuildings();
-    for(Buildings* b : *buildings){
-        if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
-            if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
-                            game->createUnit(b,player,maxUnitForMoney(true));//Crée une unité dans un aéroport en premier lieu
-            }
-        }
-    }
-    for(Buildings* b : *buildings){
-        if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
-            if (game->getPlayerCityCount(player)<10){
-                game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
-            }
-            else if(player->getMoney()>Infantery(1,1,player).getCost()){
-                game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
-            }
+    //IA Greedy
+    if (level==2){
 
-        }
     }
 }
 
@@ -191,4 +201,29 @@ int IA::nextToAnEnnemy(std::pair<int,int> p){
     }
 
 }
+//Retourne le bâtiment le plus proche qui ne soit pas capturé ou contrôlé par l'ennemi
+Buildings* IA::closestBuilding(Unit* u){
+    std::vector<Buildings*>* buildings = game->getBuildings();
+    int minimumDistance=100;
+    Buildings* building;
+    for(Buildings* b : *buildings){
+        int distance=sqrt((u->getPosX()-b->getPosX())^2+(u->getPosY()-b->getPosY())^2);
+        if (distance<minimumDistance){
+            minimumDistance=distance;
+            Buildings* building=b;
+        }
+
+
+    }
+    return building;
+}
+//Retourne l'unité ennemie la plus proche
+Unit* IA::closestEnnemyUnit(Unit* u){
+    std::vector<Unit*>* units= game->getUnits();
+    for(Unit* u : *units){
+
+    }
+
+}
+
 
