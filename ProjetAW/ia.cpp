@@ -144,21 +144,27 @@ void IA::movement(Unit* u){
     //}
 
     if (u->getCanMove()){
-        double distB = sqrt((u->getPosX() - closestBuilding(u)->getPosX())^2 +(u->getPosY() - closestBuilding(u)->getPosY())^2 );
-        double distU = sqrt((u->getPosX() - closestEnnemyUnit(u)->getPosX())^2 +(u->getPosY() - closestEnnemyUnit(u)->getPosY())^2 );
-        if(distU<distB){
+        Unit* e = closestEnnemyUnit(u);
+        Buildings* b = closestBuilding(u);
+        double distB = sqrt((u->getPosX() - b->getPosX())^2 +(u->getPosY() - b->getPosY())^2 );
+        double distU = sqrt((u->getPosX() - e->getPosX())^2 +(u->getPosY() - e->getPosY())^2 );
+        std::cout<<"distub"<<distB<<distU<<std::endl;
+        if(distU<=distB){
             //se déplace en direction de l'unité la plus proche
-            Unit* e = closestEnnemyUnit(u);
+            std::cout<<"se déplace vers unité"<<std::endl;
             adobjunit(e);
+            std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
             game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
         }
-        else if(distB<distU && ((u->getID()==1)||(u->getID()==2))){
-            Buildings* b = closestBuilding(u);
+        if(distB<distU && ((u->getID()==1)||(u->getID()==2))){
+            std::cout<< "on se deplace vert un batiment" <<std::endl;
             adobjbuild(b);
+            std::cout<<b->getPosX()<<b->getPosY()<<std::endl;
             //se déplace en direction du batiment objectif
             game->moveUnit(u,getClosestAccessible(u,b->getPosX(),b->getPosY()));
         }
     }
+    resetObj();
 }
 
 //Renvoie l'id de la meilleure unité terrestre que l'on puisse produire en fonction de son argent restant
@@ -225,40 +231,61 @@ int IA::nextToAnEnnemy(std::pair<int,int> p){
 //Retourne le bâtiment le plus proche qui ne soit pas capturé ou contrôlé par l'ennemi
 Buildings* IA::closestBuilding(Unit* u){
     std::vector<Buildings*>* buildings = game->getBuildings();
-    int minimumDistance=100;
+    double minimumDistance=1000;
     Buildings* building;
     for(Buildings* b : *buildings){
-        int distance=sqrt((u->getPosX()-b->getPosX())^2+(u->getPosY()-b->getPosY())^2);
+        std::cout<<b->getOwner()<<"b"<<std::endl;
+        double distance=sqrt((u->getPosX()-b->getPosX())^2+(u->getPosY()-b->getPosY())^2);
         if (distance<minimumDistance && b->getOwner() != player && checkifobj(b)){ //vérifie si le batiment n'est pas contrôlé par le joueur et qu'il ne soit pas déjà un objectif
             minimumDistance=distance;
-            Buildings* building=b;
+            building=b;
+
         }
 
 
     }
+
     return building;
+
 }
 //Retourne l'unité ennemie la plus proche
 Unit* IA::closestEnnemyUnit(Unit* u){
-    int minimumDistance=100;
+    double minimumDistance=1000;
+    Unit* unit;
     std::vector<Unit*>* units= game->getUnits();
     for(Unit* un : *units){
-        int distance=sqrt((u->getPosX()-un->getPosX())^2+(u->getPosY()-un->getPosY())^2);
-        if (distance<minimumDistance && un->getOwner()!= player){
-            minimumDistance=distance;
-            Unit* unit = un;
+
+        if(un->getOwner() != player){
+           double distance=sqrt((u->getPosX()-un->getPosX())^2+(u->getPosY()-un->getPosY())^2);
+
+            if (distance<minimumDistance){
+                minimumDistance=distance;
+                unit = un;
+            }
         }
-    return un;
+    return unit;
     }
 
 }
 
+
+
 void IA::adobjunit(Unit* u){
-    objunit->push_back(u);
+    if(objunit->size() == 1){
+        u = objunit->at(0);
+    }
+    else{
+         objunit->push_back(u);
+    }
 }
 
 void IA::adobjbuild(Buildings* b){
-    objbuild->push_back(b);
+    if(objbuild->size() ==1){
+        b = objbuild->at(0);
+    }
+    else{
+        objbuild->push_back(b);
+    }
 }
 
 std::vector<Unit*>* IA::getObjunit(){
@@ -276,18 +303,20 @@ void IA::resetObj(){
 
 bool IA::checkifobj(Buildings* build){
     std::vector<Buildings*>* obj= getObjbuild();
-    for(Buildings* b: *obj ){
-        if(build == b){return false;}
+    if(obj != NULL){
+        for(Buildings* b: *obj ){
+            if(build == b){return false;}
+        }
     }
     return true;
 }
 
 std::pair<int,int> IA::getClosestAccessible(Unit* u, int x, int y){
     std::vector<std::pair<int,int>> move = game->getMoveCells(u);
-    int min = 100;
+    double min = 100;
     std::pair<int,int> wheretomove;
     for(std::pair<int,int> p: move){
-        int dist = sqrt((p.first - x)^2 + (p.second - y)^2);
+        double dist = sqrt((p.first - x)^2 + (p.second - y)^2);
         if(dist<min){
             min = dist;
             wheretomove = p;
