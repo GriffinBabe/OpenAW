@@ -17,8 +17,8 @@ public:
 
     void adobjunit(Unit* objunit);   //rajoute un objectif à la liste
     void adobjbuild(Buildings* objbuild);
-    std::vector<Unit*>* getObjunit();  //retourne la liste des objectifs
-    std::vector<Buildings*>* getObjbuild();
+    std::vector<Unit*> getObjunit();  //retourne la liste des objectifs
+    std::vector<Buildings*> getObjbuild();
     void resetObj(); //réinialise les listes d'objectifs
     bool checkifobj(Buildings* b);
     std::pair<int,int> getClosestAccessible(Unit* u,int x, int y); //position la plus proche de la cible
@@ -31,8 +31,8 @@ private:
     int nextToAnEnnemy(std::pair<int,int> p);
     Buildings* closestBuilding(Unit* u);
     Unit* closestEnnemyUnit(Unit* u);
-    std::vector<Unit*>* objunit; //Liste des objectifs unités ennemis
-    std::vector<Buildings*>* objbuild; //liste des objectifs batiments ennemis
+    std::vector<Unit*> objunit; //Liste des objectifs unités ennemis
+    std::vector<Buildings*> objbuild; //liste des objectifs batiments ennemis
 };
 
 #endif // IA_H
