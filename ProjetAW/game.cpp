@@ -154,18 +154,25 @@ void Game::setLocalPlayer(Player *lp)
 void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 {
     if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
+
         /*
          *  There is a unit on that cell AND from unitCanMoveOnCell()
          *	we know we can move there => we are 100% sure this is a fusing action
          */
         if (checkUnitOnPos(pos.first,pos.second) && (pos.first != u->getPosX() && pos.second != u->getPosY())) {
+            ;
             Unit* u2 = getUnitOnPos(pos.first,pos.second);
             u2->setHealth(u2->getHealth() + u->getHealth());
             units.erase(std::remove(units.begin(), units.end(), u), units.end());
         } else { //Simple movement
+
             u->setPos(pos.first,pos.second);
+
             u->setCanMove(false); // The unit moved and can't move anymore.
+
             u->setCanAttack(true);
+
+
         }
     } else {
         std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
