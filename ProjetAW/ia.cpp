@@ -49,8 +49,8 @@ void IA::action(){
         }
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
-                if (game->getPlayerCityCount(player)<10){
-                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
+                if (game->getPlayerCityCount(player)<5){
+                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes,crée une infanterie
                 }
                 else if(player->getMoney()>Infantery(1,1,player).getCost()){
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
@@ -136,6 +136,7 @@ void IA::movement(Unit* u){
 
      }
 
+    //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace vers un objectif
 
     if (u->getCanMove()){
         Unit* e = closestEnnemyUnit(u);
@@ -170,8 +171,7 @@ void IA::movement(Unit* u){
         }
     }
 
-    //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace en direction d'un objectif
-
+    //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace aléatoirement
 
     if (u->getCanMove()){
         srand(time(NULL));
@@ -345,7 +345,8 @@ std::pair<int,int> IA::getClosestAccessible(Unit* u, int x, int y){
     std::pair<int,int> wheretomove;
     for(std::pair<int,int> p: move){
         double dist = sqrt((p.first - x)^2 + (p.second - y)^2);
-        if(dist<min){
+        if(dist<min && game->checkUnitOnPos(p.first,p.second) == false &&
+                game->checkBuildingOnPos(p.first,p.second) == false ){
             min = dist;
             wheretomove = p;
         }
