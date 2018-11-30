@@ -61,7 +61,9 @@ void IA::action(){
                 else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>10){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
-
+                else if(player->getMoney()>6000 && game->getPlayerCityCount(player)>16){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                }
             }
         }
 
@@ -296,7 +298,7 @@ Unit* IA::closestEnnemyUnit(Unit* u){ //WIP
            //double distance=sqrt((u->getPosX()-un->getPosX())^2+(u->getPosY()-un->getPosY())^2);
            double distance = sqrt(dux+duy);
            std::cout<< u->getPosX() << " y " << u->getPosY() <<std::endl;
-           if (distance<minimumDistance){
+           if (distance<minimumDistance && niceattack(u,un)){
                std::cout<<"U own OK " << distance << std::endl;
                minimumDistance=distance;
                closestunit = un;
@@ -384,4 +386,20 @@ bool IA::checkifblinde(){
         }
     }
     return b;
+}
+
+bool IA::niceattack(Unit* a, Unit* v){
+    int ida = a->getID();
+    int idv = v->getID();
+    if(ida!=2&&ida!=10&&ida!=1&&ida!=4&&(idv==9||idv==10||idv==11)){
+        return false;
+    }
+    if(ida==1&&idv!=1&&idv!=2&&idv!=3&&idv!=4&&idv!=9){
+        return false;
+    }
+    if((ida==4||ida==10)&&idv!=9&&idv!=10&&idv!=11){
+        return false;
+    }
+    std::cout<<"datniceattack"<<std::endl;
+    return true;
 }

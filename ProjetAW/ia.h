@@ -24,6 +24,7 @@ public:
     std::pair<int,int> getClosestAccessible(Unit* u,int x, int y); //position la plus proche de la cible
     bool checkifair();
     bool checkifblinde();
+    bool niceattack(Unit* attacker, Unit* victime); //check si c'est une bonne idée d'attaquée la cible et vérifie les règles
 private:
     int level; //niveau de difficulté
     Player* player; //joueur contrôlé par l'ia
