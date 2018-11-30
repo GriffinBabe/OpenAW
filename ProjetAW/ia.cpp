@@ -43,7 +43,10 @@ void IA::action(){
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
-                    game->createUnit(b,player,maxUnitForMoney(true));//Crée une unité dans un aéroport en premier lieu
+                    int id = maxUnitForMoney(true);
+                    if(id != 100){
+                        game->createUnit(b,player,id);//Crée une unité dans un aéroport en premier lieu
+                    }
                 }
             }
         }
@@ -52,7 +55,10 @@ void IA::action(){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes,crée une infanterie
                 }
-                else if(player->getMoney()>Infantery(1,1,player).getCost()){
+                else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
+                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                }
+                else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>10){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
 
@@ -187,36 +193,39 @@ int IA::maxUnitForMoney(bool AirType){
     int money=player->getMoney();
     srand(time(NULL));
     std::cout<<rand()%2<<std::endl;
+    bool air = checkifair();
+    bool blinde = checkifblinde();
     if (AirType==true){
-        if (money>Bomber(1,1,player).getCost() && rand()%2==1){
+        if (money>Bomber(1,1,player).getCost() && (rand()%2==1 || blinde)){
             return 11;
-        }if (money>Fighter(1,1,player).getCost()&& rand()%2==0){
+        }if (money>Fighter(1,1,player).getCost()&& rand()%2==0 && air){
             return 10;
-        }if (money>BCopter(1,1,player).getCost()){
+        }if (money>BCopter(1,1,player).getCost() && rand()%1==1 && blinde){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1){
+        if (money>NeoTank(1,1,player).getCost()&& rand()%1==1 && blinde){
             return 8;
-        }if (money>MegaTank(1,1,player).getCost()&& rand()%2==0){
+        }if (money>MegaTank(1,1,player).getCost() && rand()%1==0 && blinde){
             return 7;
-        }if (money>MdTank(1,1,player).getCost()&& rand()%2==1){
+        }if (money>MdTank(1,1,player).getCost()&& (rand()%2==1 || blinde )){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()&& rand()%2==0){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%1==0 && air){
             return 4;
-        }if (money>Tank(1,1,player).getCost()&& rand()%1==1){
+        }if (money>Tank(1,1,player).getCost() &&rand()%2==0 ){
             return 5;
         }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
             return 3;
-        }if (money>Bazooka(1,1,player).getCost()){
+        }if (money>Bazooka(1,1,player).getCost() && rand()%1==0 && blinde){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
             return 1;
         }
-    }else{
+
+    }
         std::cout<<"Erreur, le montant devrait permettre de créer une unité ci-dessus"<<std::endl;
         return 100;
-    }
+
 }
 
 //Vérie s'il y a un ennemi accessible après un déplacement et renvoie la position de celui-ci
@@ -352,4 +361,27 @@ std::pair<int,int> IA::getClosestAccessible(Unit* u, int x, int y){
         }
     }
     return wheretomove;
+}
+//vérifie si l'énnemi a des unités aériennes
+bool IA::checkifair(){
+    bool b = false;
+    std::vector<Unit*>* units= game->getUnits();
+    for(Unit* un : *units){
+        if(un->getOwner() != player && ((un->getID()==11)||(un->getID()==10)||(un->getID()==9)) ){
+            b = true ;
+
+        }
+    }
+    return b;
+}
+
+bool IA::checkifblinde(){
+    bool b = false;
+    std::vector<Unit*>* units= game->getUnits();
+    for(Unit* un : *units){
+        if(un->getOwner() != player && ((un->getID()==5)||(un->getID()==6)||(un->getID()==7)) ){
+            b = true ;
+        }
+    }
+    return b;
 }

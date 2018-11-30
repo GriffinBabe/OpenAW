@@ -22,7 +22,8 @@ public:
     void resetObj(); //réinialise les listes d'objectifs
     bool checkifobj(Buildings* b);
     std::pair<int,int> getClosestAccessible(Unit* u,int x, int y); //position la plus proche de la cible
-
+    bool checkifair();
+    bool checkifblinde();
 private:
     int level; //niveau de difficulté
     Player* player; //joueur contrôlé par l'ia
