@@ -4,6 +4,7 @@
 Tank::Tank(int xi, int yi, Player* owner)
 {
    this->owner = owner;
+	this->name = "tank";
    health = 10;
    damage = 1;
    disp = 1;

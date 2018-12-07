@@ -5,7 +5,7 @@
 class FactoryBuilding : public Buildings // renamed from "factory" to "factorybuilding" because of a cell with the same name
 {
 public:
-	FactoryBuilding(int x, int y);
+	FactoryBuilding(int x, int y, int cellID);
 };
 
 #endif // FACTORY_H

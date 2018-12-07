@@ -4,6 +4,7 @@
 Bomber::Bomber(int xi, int yi, Player* owner)
 {
    this->owner = owner;
+	this->name = "bomber";
    health = 10;
    damage = 1;
    disp = 1;

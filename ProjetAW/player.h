@@ -14,7 +14,10 @@ public:
 	Player(std::string name, char tc, int IALvl);
 	std::string getUsername();
 	char getTeamColor();
+	int getCountry();
+	void setCountry(int c);
     int getMoney();
+	int country;
     void setMoney(int m);
 private:
 	std::string username;

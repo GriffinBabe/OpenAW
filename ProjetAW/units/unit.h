@@ -33,13 +33,14 @@ public:
     int getCost();
 
 	int getChartDamage(int u1, int u2); // Where u1 is attacker id and u2 is attacker id;
-
+	std::string getName();
 
 protected:
     Player* owner;
     int id, health, damage, disp, x, y, movementPoints,movementType,cost;
 	bool canAttack;
 	bool canMove;
+	std::string name;
     std::pair<int,int> dir;
     int damageChart[11][11] =	{{55,45,12,5,5,1,1,1,7,0,0},
                                  {65,55,85,65,55,15,5,15,9,0,0},

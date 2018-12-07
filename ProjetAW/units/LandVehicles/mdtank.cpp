@@ -4,6 +4,7 @@
 MdTank::MdTank(int xi, int yi, Player* owner)
 {
    this->owner = owner;
+	this->name = "mdtank";
    health = 10;
    damage = 1;
    disp = 1;

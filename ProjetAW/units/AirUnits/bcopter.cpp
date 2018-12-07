@@ -4,6 +4,7 @@
 BCopter::BCopter(int xi, int yi, Player* owner)
 {
    this->owner = owner;
+	this->name = "bcopter";
    health = 10;
    damage = 1;
    disp = 1;

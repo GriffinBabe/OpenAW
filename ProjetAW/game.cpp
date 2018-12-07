@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <algorithm>
+#include <exception>
 
 Game::Game()
 {
@@ -31,6 +32,72 @@ void Game::setMap(int id)
 int Game::getMapId()
 {
 	return mapId;
+}
+
+int Game::getUnitIDbyName(std::string s)
+{
+	if (s=="infantry") {
+		return 1;
+	} else if (s=="bazooka") {
+		return 2;
+	} else if (s=="recon") {
+		return 3;
+	} else if (s=="antiair") {
+		return 4;
+	} else if (s=="tank") {
+		return 5;
+	} else if (s=="mdtank") {
+		return 6;
+	} else if (s=="megatank") {
+		return 7;
+	} else if (s=="neotank") {
+		return 8;
+	} else if (s=="bcopter") {
+		return 9;
+	} else if (s=="fighter") {
+		return 10;
+	} else if (s=="bomber") {
+		return 11;
+	} else {
+		throw std::invalid_argument("Invalid Name for unit: "+s);
+	}
+}
+
+std::string Game::getUnitNamebyID(int id)
+{
+	switch(id) {
+		case 1: return "infantry";
+		case 2: return "bazooka";
+		case 3: return "recon";
+		case 4: return "antiair";
+		case 5: return "tank";
+		case 6: return "mdtank";
+		case 7: return "megatank";
+		case 8: return "neotank";
+		case 9: return "bcopter";
+		case 10: return "fighter";
+		case 11: return "bomber";
+	}
+	throw std::invalid_argument("Invalid Id for name: "+id);
+}
+
+bool Game::moveWillFuse(Unit *u, int x, int y)
+{
+	if (unitCanMoveOnCell(u,this->map->getCellAt(x, y))) {
+		/*
+		 *  There is a unit on that cell AND from unitCanMoveOnCell()
+		 *	we know we can move there => we are 100% sure this is a fusing action
+		 */
+		if (checkUnitOnPos(x,y) && (x != u->getPosX() && y != u->getPosY())) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int Game::getIncome()
+{
+	return this->income;
 }
 
 void Game::addPlayer(Player* p)
@@ -266,7 +333,41 @@ void Game::createUnit(Buildings* b, Player* p, int unitID) {
         p->setMoney(p->getMoney() - u->getCost());
         u->setOwner(p);
         units.push_back(u);
-    }
+	}
+}
+
+void Game::createUnit(Player *p, int posX, int posY, int unitID)
+{
+	Unit* u = nullptr;
+	switch(unitID) {
+		case 1:
+			u = new Infantery(posX,posY,p); break;
+		case 2:
+			u = new Bazooka(posX,posY,p); break;
+		case 3:
+			u = new Recon(posX, posY, p); break;
+		case 4:
+			u = new AntiAir(posX, posY, p); break;
+		case 5:
+			u = new Tank(posX, posY,p); break;
+		case 6:
+			u = new MdTank(posX, posY, p); break;
+		case 7:
+			u = new MegaTank(posX, posY, p); break;
+		case 8:
+			u = new NeoTank(posX, posY, p); break;
+		case 9:
+			u = new BCopter(posX, posY, p); break;
+		case 10:
+			u = new Bomber(posX, posY, p); break;
+		case 11:
+			u = new Fighter(posX, posY, p); break;
+	}
+	if (u == nullptr) {
+		throw std::invalid_argument("Invalid ID given when creating unit!");
+	}
+	u->setOwner(p);
+	units.push_back(u);
 }
 
 void Game::capture(Buildings* b){
@@ -474,7 +575,26 @@ int Game::getPlayerUnitCount(Player* p) {
             count++;
         }
     }
-    return count;
+	return count;
+}
+
+void Game::giveBuildingsTo(Player *p, int id)
+{
+	for (Buildings* b : this->buildings) {
+		if (b->getID() == id) {
+			b->setOwner(p);
+		}
+	}
+}
+
+Player *Game::getPlayerByCountry(int country)
+{
+	for (Player* p : players) {
+		if (p->getCountry() == country) {
+			return p;
+		}
+	}
+	std::invalid_argument("No Player was found with country: "+country);
 }
 
 /*

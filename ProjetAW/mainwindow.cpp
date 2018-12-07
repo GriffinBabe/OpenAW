@@ -286,11 +286,17 @@ void MainWindow::selectElement()
 
 void MainWindow::noSelectedElement()
 {
-	this->selectedUnit = nullptr;
-	this->selectedBuildings = nullptr;
-	if (this->menu->getType()==0) {
+	if (this->menu->getType()==2) { // unit menu
+		this->selectedUnit->setCanAttack(false);
+		this->selectedUnit = nullptr;
+		this->selectedBuildings = nullptr;
+	} else if (this->menu->getType()==0) {
+		this->selectedUnit = nullptr;
+		this->selectedBuildings = nullptr;
 		this->menu->setType(this->selectedUnit,3);
 	} else {
+		this->selectedUnit = nullptr;
+		this->selectedBuildings = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	}
 }
@@ -302,6 +308,8 @@ void MainWindow::action(int id)
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==0) { // wait - do nothing
+		this->selectedUnit->setCanAttack(false); // Can't attack anymore
+		// TODO: Sends to the server the action
 		this->selectedUnit = nullptr;
 		this->selectedBuildings = nullptr;
 		this->menu->setType(this->selectedUnit, 0);

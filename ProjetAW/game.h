@@ -40,6 +40,7 @@ public:
 
     //Model
 	void createUnit(Buildings* b, Player* p, int unitID);
+	void createUnit(Player* p, int posX, int posY, int unitID);
     bool checkUnitOnPos(int x , int y);
 	bool checkBuildingOnPos(int x, int y);
 	Buildings* getBuildingOnPos(int x, int y);
@@ -60,6 +61,7 @@ public:
     int getPlayerCityCount(Player* p);
 	int getPlayerUnitCount(Player* p);
 	void giveBuildingsTo(Player* p, int id);
+	Player *getPlayerByCountry(int country);
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
@@ -68,6 +70,12 @@ public:
 	void setIncome(int inc);
 	void setMap(int id);
 	int getMapId();
+
+	int getUnitIDbyName(std::string s);
+	std::string getUnitNamebyID(int id);
+	bool moveWillFuse(Unit* u, int x, int y);
+
+	int getIncome();
 
 private:
 	Player* localPlayer;

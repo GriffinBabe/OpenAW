@@ -13,6 +13,12 @@ public:
 
 	void sendJson(QJsonObject obj);
 
+	void moveWait(Unit* u, int x, int y, bool fuse);
+	void moveAttack(Unit* u, int x, int y, int ax, int ay);
+	void moveCapture(Unit* u, int x, int y);
+	void build(Buildings* b, int id);
+	void endOfTurn();
+
 public slots:
 	void onConnected();
 	void onData();

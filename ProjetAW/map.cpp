@@ -20,7 +20,7 @@ Map::Map(int mapId)
 	this->buildings = new std::vector<Buildings*>;
 
 	//:/Maps/map1.txt
-	QString path = QString::fromStdString(":/Maps/"+mapPath+".txt");
+	QString path = QString::fromStdString(":/Maps/"+std::to_string(mapId)+".txt");
 
     QFile file(path);
     if (file.open(QIODevice::ReadOnly)) {

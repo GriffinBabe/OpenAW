@@ -55,3 +55,8 @@ int Unit::getChartDamage(int u1, int u2)
 	return damageChart[u1-1][u2-1];
 }
 
+std::string Unit::getName()
+{
+	return this->name;
+}
+
