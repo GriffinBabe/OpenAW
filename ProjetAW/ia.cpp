@@ -151,17 +151,18 @@ void IA::movement(Unit* u){
         Buildings* b = closestBuilding(u);
         std::cout<<"closestbuildingOk"<< std::endl;
 
+        if(e!=NULL && b!=NULL){
+            double dux = (u->getPosX() - e->getPosX())*(u->getPosX() - e->getPosX()); //temporaire bug avec ^2
+            double duy = (u->getPosY() - e->getPosY())*(u->getPosY() - e->getPosY());
 
-        double dux = (u->getPosX() - e->getPosX())*(u->getPosX() - e->getPosX()); //temporaire bug avec ^2
-        double duy = (u->getPosY() - e->getPosY())*(u->getPosY() - e->getPosY());
-
-        double dbx = (u->getPosX() - b->getPosX())*(u->getPosX() - b->getPosX());
-        double dby = (u->getPosY() - b->getPosY())*(u->getPosY() - b->getPosY());
-        //double distB = sqrt((u->getPosX() - b->getPosX())^2 +(u->getPosY() - b->getPosY())^2 );
-        //double distU = sqrt((u->getPosX() - e->getPosX())^2 +(u->getPosY() - e->getPosY())^2 );
-        double distB = sqrt (dbx+dby);
-        double distU = sqrt (dux + duy);
+            double dbx = (u->getPosX() - b->getPosX())*(u->getPosX() - b->getPosX());
+            double dby = (u->getPosY() - b->getPosY())*(u->getPosY() - b->getPosY());
+            //double distB = sqrt((u->getPosX() - b->getPosX())^2 +(u->getPosY() - b->getPosY())^2 );
+            //double distU = sqrt((u->getPosX() - e->getPosX())^2 +(u->getPosY() - e->getPosY())^2 );
+            double distB = sqrt (dbx+dby);
+            double distU = sqrt (dux + duy);
         std::cout<<"distbu "<<distB<<" "<<distU<<std::endl;
+
 
         if(distU<=distB){   //WIP
             //se déplace en direction de l'unité la plus proche
@@ -176,12 +177,14 @@ void IA::movement(Unit* u){
             std::cout<<"addedobj"<<std::endl;
             //se déplace en direction du batiment objectif
             game->moveUnit(u,getClosestAccessible(u,b->getPosX(),b->getPosY()));
+         }
         }
     }
 
     //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace aléatoirement
 
     if (u->getCanMove()){
+        std::cout<<"randoooooom"<<std::endl;
         srand(time(NULL));
         int a1=rand()%(move.size());
         game->moveUnit(u,move[a1]);
@@ -202,23 +205,23 @@ int IA::maxUnitForMoney(bool AirType){
             return 11;
         }if (money>Fighter(1,1,player).getCost()&& rand()%2==0 && air){
             return 10;
-        }if (money>BCopter(1,1,player).getCost() && rand()%1==1 && blinde){
+        }if (money>BCopter(1,1,player).getCost() && rand()%2==1 && blinde){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()&& rand()%1==1 && blinde){
+        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1 && blinde){
             return 8;
-        }if (money>MegaTank(1,1,player).getCost() && rand()%1==0 && blinde){
+        }if (money>MegaTank(1,1,player).getCost() && rand()%2==0 && blinde){
             return 7;
         }if (money>MdTank(1,1,player).getCost()&& (rand()%2==1 || blinde )){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()&& rand()%1==0 && air){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%2==0 && air){
             return 4;
         }if (money>Tank(1,1,player).getCost() &&rand()%2==0 ){
             return 5;
         }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
             return 3;
-        }if (money>Bazooka(1,1,player).getCost() && rand()%1==0 && blinde){
+        }if (money>Bazooka(1,1,player).getCost() && rand()%2==0 && blinde){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
             return 1;
