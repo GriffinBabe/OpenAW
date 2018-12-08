@@ -58,10 +58,10 @@ void IA::action(){
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
-                else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>10){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>= 10 && game->getPlayerCityCount(player) < 15 ){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
-                else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>=15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
             }
@@ -156,18 +156,19 @@ void IA::movement(Unit* u){
         double distB = sqrt (pow(u->getPosX() - b->getPosX(),2) + pow(u->getPosY() - b->getPosY(),2));
         double distU = 100;
         if(e!=NULL){
-             distU = sqrt (pow(u->getPosX() - e->getPosX(),2) + pow(u->getPosY() - e->getPosY(),2));
-        }
-
-        std::cout<<"distbu "<<distB<<" "<<distU<<std::endl;
+            distU = sqrt (pow(u->getPosX() - e->getPosX(),2) + pow(u->getPosY() - e->getPosY(),2));
 
 
-        if(distU<=distB ||((u->getID()!=1)&&(u->getID()!=2))){
-            //se déplace en direction de l'unité la plus proche
-            std::cout<<"se déplace vers unité"<<std::endl;
-            adobjunit(e);
-            std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
-            game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
+            std::cout<<"distbu "<<distB<<" "<<distU<<std::endl;
+
+
+            if(distU<=distB ||((u->getID()!=1)&&(u->getID()!=2))){
+                //se déplace en direction de l'unité la plus proche
+                std::cout<<"se déplace vers unité"<<std::endl;
+                adobjunit(e);
+                std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
+                game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
+            }
         }
 
         if(distB<distU && ((u->getID()==1)||(u->getID()==2))){
@@ -200,27 +201,27 @@ int IA::maxUnitForMoney(bool AirType){
     bool air = checkifair();
     bool blinde = checkifblinde();
     if (AirType==true){
-        if (money>Bomber(1,1,player).getCost() && rand()%2==1 && blinde){
+        if (money>Bomber(1,1,player).getCost() && ((rand()%3==1 && blinde)||(rand()%5==1))){
             return 11;
-        }if (money>Fighter(1,1,player).getCost()&& rand()%2==0 && air){
+        }if (money>Fighter(1,1,player).getCost()&& rand()%3==1 && air){
             return 10;
-        }if (money>BCopter(1,1,player).getCost() && rand()%2==1 && blinde){
+        }if (money>BCopter(1,1,player).getCost() && rand()%3==1){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1 && blinde){
+        if (money>NeoTank(1,1,player).getCost()&& ((rand()%2==1 && blinde)||(rand()%5==1))){
             return 8;
-        }if (money>MegaTank(1,1,player).getCost() && rand()%2==0 && blinde){
+        }if (money>MegaTank(1,1,player).getCost() && rand()%2==1 && blinde){
             return 7;
         }if (money>MdTank(1,1,player).getCost()&& rand()%2==1 && blinde){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()&& rand()%3==0 && air){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%5==1 && air){
             return 4;
-        }if (money>Tank(1,1,player).getCost() &&rand()%2==0 ){
+        }if (money>Tank(1,1,player).getCost() && rand()%2==1 ){
             return 5;
-        }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
+        }if (money>Recon(1,1,player).getCost()&& ((rand()%2==1 && blinde==false)||(rand()%4==0 && blinde))){
             return 3;
-        }if (money>Bazooka(1,1,player).getCost() && rand()%2==0 && blinde){
+        }if (money>Bazooka(1,1,player).getCost() && rand()%2==1 && blinde){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
             return 1;
@@ -387,7 +388,7 @@ bool IA::checkifblinde(){
 bool IA::niceattack(Unit* a, Unit* v){
     int ida = a->getID();
     int idv = v->getID();
-    if(ida!=2&&ida!=10&&ida!=1&&ida!=4&&(idv==9||idv==10||idv==11)){
+    if(ida!=10&&ida!=4 && (idv==10||idv==11)){
         return false;
     }
     if(ida==1&&idv!=1&&idv!=2&&idv!=3&&idv!=4&&idv!=9){
@@ -396,6 +397,10 @@ bool IA::niceattack(Unit* a, Unit* v){
     if((ida==4||ida==10)&&idv!=9&&idv!=10&&idv!=11){
         return false;
     }
+    if(ida==idv && a->getHealth() < v->getHealth()){
+        return false;
+    }
+
     std::cout<<"datniceattack"<<std::endl;
     return true;
 }

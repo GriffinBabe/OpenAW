@@ -405,8 +405,40 @@ void Game::setPlayerwhoplays(Player* p){playerwhoplays=p;}
 
 Player* Game::getPlayerwhoplays(){return this->playerwhoplays;}
 
+bool Game::checkgameover(){
+    std::vector<Unit*>* units = getUnits();
+    int u=0;
+    int ut=0;
+    for(Unit* u: *units){
+        ut++;
+        if(u->getOwner()!=playerwhoplays){
+            u++;
+        }
+    }
+    std::vector<Buildings*>* building = getBuildings();
+    int b=0;
+    int f=0;
+    for(Buildings* b: *building){
+        if(b->getOwner()!=playerwhoplays){
+            b++;
+            if(b->getID()==1||b->getID()==3){
+                f++;
+            }
+        }
+    }
+    //if((b==0 && ut !=0)||(f==0 && u==0 && ut != 0)){ //si le joueur qui joue a prit tous les batiments OU toutes les usines
+       // return true;
+    //}
+
+    return false;
+}
 
 void Game::nextTurn(){
+    if(checkgameover()){
+        //call function for Game Over title
+        std::cout<<"GAME OVER"<<std::endl;
+        return;
+    }
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
         if (getPlayerwhoplays()==*(it) && it != players.end()-1){
