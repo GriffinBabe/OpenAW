@@ -9,7 +9,8 @@
 #include "game.h"
 #include "imageholder.h"
 #include "ui.h"
-#include "networking/networkclient.h"
+
+class NetworkClient;
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ public:
 	void keyPressEvent(QKeyEvent *event);
 
 	void setGame(Game* game, std::string IP);
+	void setGame2();
 
 public slots:
 	void tick();

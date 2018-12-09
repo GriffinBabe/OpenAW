@@ -4,11 +4,13 @@
 #include "game.h"
 #include <QTcpSocket>
 
+class MainWindow;
+
 class NetworkClient : public QObject // To use signals, slots
 {
 	Q_OBJECT
 public:
-	NetworkClient(Game* g, std::string ip);
+	NetworkClient(Game* g, std::string ip, MainWindow* w);
 	virtual ~NetworkClient();
 
 	void sendJson(QJsonObject obj);
@@ -27,6 +29,7 @@ public slots:
 private:
 	Game* game;
 	bool suicide_pill;
+	MainWindow* mw;
 	QTcpSocket* socket;
 
 	int currentSize;

@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QResource>
 #include <QPixmap>
+#include "networking/networkclient.h"
 
 int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
 
@@ -198,10 +199,15 @@ void MainWindow::tick() {
 void MainWindow::setGame(Game *game, std::string ip)
 {
 	this->game = game;
-	this->client = new NetworkClient(this->game, ip);
-	this->menu->setGame(game);
+	this->client = new NetworkClient(this->game, ip, this);
+	std::cout << "NetworkClient initialization finished." << std::endl;
+}
+
+void MainWindow::setGame2()
+{
+	this->menu->setGame(this->game);
 	resize();
-	std::cout << "Game Set in View/Controller" << std::endl;
+	std::cout << "Game set in view/controller" << std::endl;
 	gameSet = true;
 }
 

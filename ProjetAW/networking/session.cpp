@@ -118,4 +118,5 @@ void Session::configure()
 		unit.insert("y", u->getPosY());
 		units << unit; // Inserts the new unit in the units list
 	}
+	sendJson(obj);
 }

@@ -5,11 +5,16 @@
 #include <QDataStream>
 #include <QByteArray>
 #include <QJsonArray>
+#include "mainwindow.h"
 
-NetworkClient::NetworkClient(Game* g, std::string ip)
+NetworkClient::NetworkClient(Game* g, std::string ip, MainWindow* w)
 {
+	std::cout << "Initialising networkclient" << std::endl;
+	this->game = g;
+	this->mw = w; // stores the mainwindow
 	this->socket = new QTcpSocket();
 	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
+	std::cout << "Now trying to connect to ip: " <<  ip << std::endl;
 	this->socket->connectToHost(QString::fromStdString(ip), 2049); // connects to the server
 }
 
@@ -106,6 +111,7 @@ void NetworkClient::onData()
 		}
 
 		isConfigured = true;
+		this->mw->setGame2(); // Whe know the map, this launches the rendering
 	} else { // if it is configured
 		if (json.contains(QString("move"))) {
 			int unitX = json["move"].toArray().at(0).toInt();

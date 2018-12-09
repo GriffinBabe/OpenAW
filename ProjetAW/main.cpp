@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 		game.addPlayer(p2);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "localhost"); // We let localhost for testing purposes
+		w.setGame(&game, "localhost"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
 
