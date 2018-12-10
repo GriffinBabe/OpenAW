@@ -60,10 +60,10 @@ void IA::action(){
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
-                else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>10){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>= 10 && game->getPlayerCityCount(player) < 15 ){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
-                else if(player->getMoney()>6000 && game->getPlayerCityCount(player)>16){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>=15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
                 }
             }
@@ -74,7 +74,7 @@ void IA::action(){
     }
     //IA Greedy
     if (level==2){
-
+      //l'ia qu'on a fait mais en bcp plus conne --> elle regarde juste parmis les cases accessibles le meilleur choix
     }
 }
 
@@ -154,36 +154,39 @@ void IA::movement(Unit* u){
         std::cout<<"closestbuildingOk"<< std::endl;
 
 
-        double dux = (u->getPosX() - e->getPosX())*(u->getPosX() - e->getPosX()); //temporaire bug avec ^2
-        double duy = (u->getPosY() - e->getPosY())*(u->getPosY() - e->getPosY());
 
-        double dbx = (u->getPosX() - b->getPosX())*(u->getPosX() - b->getPosX());
-        double dby = (u->getPosY() - b->getPosY())*(u->getPosY() - b->getPosY());
-        //double distB = sqrt((u->getPosX() - b->getPosX())^2 +(u->getPosY() - b->getPosY())^2 );
-        //double distU = sqrt((u->getPosX() - e->getPosX())^2 +(u->getPosY() - e->getPosY())^2 );
-        double distB = sqrt (dbx+dby);
-        double distU = sqrt (dux + duy);
-        std::cout<<"distbu "<<distB<<" "<<distU<<std::endl;
+        double distB = sqrt (pow(u->getPosX() - b->getPosX(),2) + pow(u->getPosY() - b->getPosY(),2));
+        double distU = 100;
+        if(e!=NULL){
+            distU = sqrt (pow(u->getPosX() - e->getPosX(),2) + pow(u->getPosY() - e->getPosY(),2));
 
-        if(distU<=distB){   //WIP
-            //se déplace en direction de l'unité la plus proche
-            std::cout<<"se déplace vers unité"<<std::endl;
-            adobjunit(e);
-            std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
-            game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
+
+            std::cout<<"distbu "<<distB<<" "<<distU<<std::endl;
+
+
+            if(distU<=distB ||((u->getID()!=1)&&(u->getID()!=2))){
+                //se déplace en direction de l'unité la plus proche
+                std::cout<<"se déplace vers unité"<<std::endl;
+                adobjunit(e);
+                std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
+                game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
+            }
         }
-        if(distB<distU && ((u->getID()==1)||(u->getID()==2))){ //fonctionne
 
+        if(distB<distU && ((u->getID()==1)||(u->getID()==2))){
             adobjbuild(b);
             std::cout<<"addedobj"<<std::endl;
             //se déplace en direction du batiment objectif
             game->moveUnit(u,getClosestAccessible(u,b->getPosX(),b->getPosY()));
-        }
+         }
+
     }
 
     //Si après toutes ces conditions, l'unité peut encore se déplacer, elle se déplace aléatoirement
+    //gardé pour test, on peut delete
 
     if (u->getCanMove()){
+        std::cout<<"randoooooom"<<std::endl;
         srand(time(NULL));
         int a1=rand()%(move.size());
         game->moveUnit(u,move[a1]);
@@ -200,26 +203,27 @@ int IA::maxUnitForMoney(bool AirType){
     bool air = checkifair();
     bool blinde = checkifblinde();
     if (AirType==true){
-        if (money>Bomber(1,1,player).getCost() && (rand()%2==1 || blinde)){
+        if (money>Bomber(1,1,player).getCost() && ((rand()%3==1 && blinde)||(rand()%5==1))){
             return 11;
-        }if (money>Fighter(1,1,player).getCost()&& rand()%2==0 && air){
+        }if (money>Fighter(1,1,player).getCost()&& rand()%3==1 && air){
             return 10;
-        }if (money>BCopter(1,1,player).getCost() && rand()%2==1 && blinde){
+        }if (money>BCopter(1,1,player).getCost() && rand()%3==1){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1 && blinde){
-//            return 8;
-        }if (money>MegaTank(1,1,player).getCost() && rand()%2==0 && blinde){
+        if (money>NeoTank(1,1,player).getCost()&& ((rand()%2==1 && blinde)||(rand()%5==1))){
+            return 8;
+        }if (money>MegaTank(1,1,player).getCost() && rand()%2==1 && blinde){
             return 7;
-        }if (money>MdTank(1,1,player).getCost()&& (rand()%2==1 || blinde )){
+        }if (money>MdTank(1,1,player).getCost()&& rand()%2==1 && blinde){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()&& rand()%2==0 && air){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%5==1 && air){
             return 4;
-        }if (money>Tank(1,1,player).getCost() &&rand()%2==0 ){
+        }if (money>Tank(1,1,player).getCost() && rand()%2==1 ){
             return 5;
-        }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
+        }if (money>Recon(1,1,player).getCost()&& ((rand()%2==1 && blinde==false)||(rand()%4==0 && blinde))){
             return 3;
+
         }if (money>Bazooka(1,1,player).getCost() && rand()%2==0 && blinde){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
@@ -262,10 +266,9 @@ Buildings* IA::closestBuilding(Unit* u){
     double minimumDistance=1000;
     Buildings* building = NULL;
     for(Buildings* b : *buildings){
-        double dux = (u->getPosX() - b->getPosX())*(u->getPosX() - b->getPosX());//temporaire bug avec ^2
-        double duy = (u->getPosY() - b->getPosY())*(u->getPosY() - b->getPosY());
-        double distance = sqrt(dux+duy);
-        //double distance=sqrt((u->getPosX()-b->getPosX())^2+(u->getPosY()-b->getPosY())^2);
+
+        double distance = sqrt(pow(u->getPosX() - b->getPosX(),2)+pow(u->getPosY() - b->getPosY(),2));
+
         if (distance<minimumDistance && b->getOwner() != player && checkifobj(b)){ //vérifie si le batiment n'est pas contrôlé par le joueur et qu'il ne soit pas déjà un objectif
             minimumDistance=distance;
             building=b;
@@ -273,10 +276,9 @@ Buildings* IA::closestBuilding(Unit* u){
     }
     if(building == NULL){
         for(Buildings* b : *buildings){//pour éviter de retourner un NULL si tous les batiment ssont déjà obj, temporaire
-            double dux = (u->getPosX() - b->getPosX())*(u->getPosX() - b->getPosX());//temporaire bug avec ^2
-            double duy = (u->getPosY() - b->getPosY())*(u->getPosY() - b->getPosY());
-            double distance = sqrt(dux+duy);
-            //double distance=sqrt((u->getPosX()-b->getPosX())^2+(u->getPosY()-b->getPosY())^2);
+
+            double distance = sqrt(pow(u->getPosX() - b->getPosX(),2)+pow(u->getPosY() - b->getPosY(),2));
+
             if (distance<minimumDistance && b->getOwner() != player){ //vérifie si le batiment n'est pas contrôlé par le joueur et qu'il ne soit pas déjà un objectif
                 minimumDistance=distance;
                 building=b;
@@ -295,10 +297,7 @@ Unit* IA::closestEnnemyUnit(Unit* u){ //WIP
     for(Unit* un : *units){
 
         if(un->getOwner() != player){
-           double dux = (u->getPosX() - un->getPosX())*(u->getPosX() - un->getPosX());//temporaire bug avec ^2
-           double duy = (u->getPosY() - un->getPosY())*(u->getPosY() - un->getPosY());
-           //double distance=sqrt((u->getPosX()-un->getPosX())^2+(u->getPosY()-un->getPosY())^2);
-           double distance = sqrt(dux+duy);
+           double distance = sqrt(pow(u->getPosX() - un->getPosX(),2)+pow(u->getPosY() - un->getPosY(),2));
            std::cout<< u->getPosX() << " y " << u->getPosY() <<std::endl;
            if (distance<minimumDistance && niceattack(u,un)){
                std::cout<<"U own OK " << distance << std::endl;
@@ -310,7 +309,6 @@ Unit* IA::closestEnnemyUnit(Unit* u){ //WIP
     }
  return closestunit;
 }
-
 
 
 void IA::adobjunit(Unit* u){
@@ -357,7 +355,7 @@ std::pair<int,int> IA::getClosestAccessible(Unit* u, int x, int y){
     double min = 100;
     std::pair<int,int> wheretomove;
     for(std::pair<int,int> p: move){
-        double dist = sqrt((p.first - x)^2 + (p.second - y)^2);
+        double dist = sqrt(pow(p.first - x,2) + pow(p.second - y ,2));
         if(dist<min && game->checkUnitOnPos(p.first,p.second) == false &&
                 game->checkBuildingOnPos(p.first,p.second) == false ){
             min = dist;
@@ -393,7 +391,7 @@ bool IA::checkifblinde(){
 bool IA::niceattack(Unit* a, Unit* v){
     int ida = a->getID();
     int idv = v->getID();
-    if(ida!=2&&ida!=10&&ida!=1&&ida!=4&&(idv==9||idv==10||idv==11)){
+    if(ida!=10&&ida!=4 && (idv==10||idv==11)){
         return false;
     }
     if(ida==1&&idv!=1&&idv!=2&&idv!=3&&idv!=4&&idv!=9){
@@ -402,6 +400,10 @@ bool IA::niceattack(Unit* a, Unit* v){
     if((ida==4||ida==10)&&idv!=9&&idv!=10&&idv!=11){
         return false;
     }
+    if(ida==idv && a->getHealth() < v->getHealth()){
+        return false;
+    }
+
     std::cout<<"datniceattack"<<std::endl;
     return true;
 }

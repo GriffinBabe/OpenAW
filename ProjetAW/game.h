@@ -63,7 +63,7 @@ public:
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);
     bool repairUnit(Player* p);
-
+    bool checkgameover();
 
 private:
 	Player* localPlayer;
