@@ -7,15 +7,17 @@
 
 IA::IA(int l, Player* p, Game* g)
 {
- level = l;            //level=0 : IA inactive
- player = p;            //level=1 :IA basique
- game = g;             //level=2 :IA greedy
- std::vector<Unit*>* objunit; //Liste des objectifs unités ennemis
- std::vector<Buildings*>* objbuild; //liste des objectifs batiments ennemis
+    level = l;            // level=0 : IA inactive
+    player = p;           // level=1 :IA basique
+    game = g;             // level=2 :IA greedy
+    std::vector<Unit*>* objunit;        // Liste des objectifs unités ennemis
+    std::vector<Buildings*>* objbuild;  // liste des objectifs batiments ennemis
 }
 
-void IA::play(){ //temporaire
-    if(game->getPlayerwhoplays()==player){action();}
+void IA::play(){ // temporaire
+    if(game->getPlayerwhoplays() == player){
+        action();
+    }
     std::cout << "l'ia joue" << std::endl;
     //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     //game->nextTurn();
@@ -31,7 +33,7 @@ void IA::action(){
     if (level==1){
 
 
-        std::vector<Unit*>* units= game->getUnits();
+        std::vector<Unit*>* units = game->getUnits();
 
         for(Unit* u : *units){            //check les unités que l'ia possède
             if(u->getOwner() == player){
@@ -202,23 +204,23 @@ int IA::maxUnitForMoney(bool AirType){
             return 11;
         }if (money>Fighter(1,1,player).getCost()&& rand()%2==0 && air){
             return 10;
-        }if (money>BCopter(1,1,player).getCost() && rand()%1==1 && blinde){
+        }if (money>BCopter(1,1,player).getCost() && rand()%2==1 && blinde){
             return 9;
         }
     }else if (AirType==false){
-        if (money>NeoTank(1,1,player).getCost()&& rand()%1==1 && blinde){
-            return 8;
-        }if (money>MegaTank(1,1,player).getCost() && rand()%1==0 && blinde){
+        if (money>NeoTank(1,1,player).getCost()&& rand()%2==1 && blinde){
+//            return 8;
+        }if (money>MegaTank(1,1,player).getCost() && rand()%2==0 && blinde){
             return 7;
         }if (money>MdTank(1,1,player).getCost()&& (rand()%2==1 || blinde )){
             return 6;
-        }if (money>AntiAir(1,1,player).getCost()&& rand()%1==0 && air){
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%2==0 && air){
             return 4;
         }if (money>Tank(1,1,player).getCost() &&rand()%2==0 ){
             return 5;
         }if (money>Recon(1,1,player).getCost()&& rand()%2==0){
             return 3;
-        }if (money>Bazooka(1,1,player).getCost() && rand()%1==0 && blinde){
+        }if (money>Bazooka(1,1,player).getCost() && rand()%2==0 && blinde){
             return 2;
         }if (money>Infantery(1,1,player).getCost()){
             return 1;

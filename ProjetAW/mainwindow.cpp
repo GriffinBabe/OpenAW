@@ -6,7 +6,7 @@
 #include <QResource>
 #include <QPixmap>
 
-int MainWindow::cellDim = 38; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 80; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
