@@ -36,9 +36,17 @@ void IA::action(){
         for(Unit* u : *units){            //check les unités que l'ia possède
             if(u->getOwner() == player){
 
-                movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+               movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
             }
         }
+        for(Unit* u : *units){            //je le repète (c'est moche mais si tu veux romain fait un truc plus joli, j'ai plus le temps)
+                                          //dans le cas où deux rangées d'unités sont collées et que celle derrière n'a pas pu bouger
+            if(u->getOwner() == player && u->getCanMove()){
+
+               movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+            }
+        }
+
         std::vector<Buildings*>* buildings = game->getBuildings();
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
@@ -296,7 +304,7 @@ Unit* IA::closestEnnemyUnit(Unit* u){ //WIP
         if(un->getOwner() != player){
            double distance = sqrt(pow(u->getPosX() - un->getPosX(),2)+pow(u->getPosY() - un->getPosY(),2));
            std::cout<< u->getPosX() << " y " << u->getPosY() <<std::endl;
-           if (distance<minimumDistance && niceattack(u,un)){
+           if (distance<minimumDistance && niceattack(u,un) &&checkNobj(un)<=2){
                std::cout<<"U own OK " << distance << std::endl;
                minimumDistance=distance;
                closestunit = un;
@@ -403,4 +411,13 @@ bool IA::niceattack(Unit* a, Unit* v){
 
     std::cout<<"datniceattack"<<std::endl;
     return true;
+}
+
+int IA::checkNobj(Unit* u){
+    int i = 0;
+    std::vector<Unit*> obj = getObjunit();
+    for(Unit* un : obj){
+        if(u == un){i++;}
+    }
+    return i;
 }
