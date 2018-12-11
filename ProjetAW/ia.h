@@ -21,6 +21,7 @@ public:
     std::vector<Buildings*> getObjbuild();
     void resetObj(); //réinialise les listes d'objectifs
     bool checkifobj(Buildings* b);
+    int  checkNobj(Unit* u);
     std::pair<int,int> getClosestAccessible(Unit* u,int x, int y); //position la plus proche de la cible
     bool checkifair();
     bool checkifblinde();
