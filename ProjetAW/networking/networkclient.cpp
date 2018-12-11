@@ -9,12 +9,11 @@
 
 NetworkClient::NetworkClient(Game* g, std::string ip, MainWindow* w)
 {
-	std::cout << "Initialising networkclient" << std::endl;
 	this->game = g;
 	this->mw = w; // stores the mainwindow
 	this->socket = new QTcpSocket();
 	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-	std::cout << "Now trying to connect to ip: " <<  ip << std::endl;
+	connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
 	this->socket->connectToHost(QString::fromStdString(ip), 2049); // connects to the server
 }
 
@@ -28,6 +27,7 @@ void NetworkClient::sendJson(QJsonObject obj)
 	QByteArray data = QJsonDocument(obj).toJson();
 	QDataStream out(this->socket);
 	out << (quint32) data.length();
+	std::cout << "Size is: " << (quint32) data.length() << std::endl;
 	this->socket->write(data);
 
 	std::cout << "[Client] Sending " << data.toStdString() << std::endl;
@@ -38,21 +38,25 @@ void NetworkClient::onConnected()
 	std::cout << "[Client] Connected to server" << std::endl;
 	connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected())); // Calls onDisconnected() when disconnected() gets called
 	connect(this->socket, SIGNAL(readyRead()), this, SLOT(onData())); // Calls onData() when readyRead() gets called
+	this->askConfiguration();
 }
 
 void NetworkClient::onData()
 {
 	std::cout << "[Client] Data Received !" << std::endl;
 	if(currentSize == 0) {
-		if(this->socket->bytesAvailable() < 4)
+		if(this->socket->bytesAvailable() < 4) {
+			std::cout << "WADUP" << std::endl;
 			return;
-
+		}
 		QDataStream in(this->socket);
 		in >> currentSize;
 	}
 
-	if(this->socket->bytesAvailable() < currentSize)
+	if(this->socket->bytesAvailable() < currentSize) {
+		std::cout << "YO" << std::endl;
 		return;
+	}
 
 	QByteArray data = this->socket->read(currentSize);
 	std::cout << data.toStdString() << std::endl;
@@ -67,7 +71,6 @@ void NetworkClient::onData()
 	if(!isConfigured) {
 		this->game->setIncome((json["income"]).toInt()); // In the Json the parameter "income"
 		this->game->setMap(json["map"].toInt());
-
 
 		int first = json["firstplayer"].toInt(); // We get the value of the first player
 		int second = json["secondplayer"].toInt();
@@ -110,9 +113,11 @@ void NetworkClient::onData()
 			this->game->createUnit(owner, x, y, id);
 		}
 
+		this->mw->getMenu()->setGame(this->game);
+		this->mw->resize();
 		isConfigured = true;
-		this->mw->setGame2(); // Whe know the map, this launches the rendering
-	} else { // if it is configured
+		this->mw->setGameSet(true);
+	} else { // if it is already configured
 		if (json.contains(QString("move"))) {
 			int unitX = json["move"].toArray().at(0).toInt();
 			int unitY = json["move"].toArray().at(1).toInt();
@@ -148,6 +153,13 @@ void NetworkClient::onData()
 void NetworkClient::onDisconnected()
 {
 	std::cout << "[Client] Disconnected" << std::endl;
+}
+
+void NetworkClient::askConfiguration()
+{
+	QJsonObject ask;
+	ask.insert("getconfig", true);
+	this->sendJson(ask);
 }
 
 

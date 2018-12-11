@@ -21,8 +21,30 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 			return str.substr(str.find(delimiter) + 1, str.length()-1);
 		}
 	}
-	throw std::invalid_argument("Can't find argument: "+arg);
+	throw std::invalid_argument("Can't find argument: " + arg);
 }
+
+/*
+struct BeteClasse : public QObject {
+	Q_OBJECT
+public:
+	BeteClasse();
+	QTcpSocket* socket;
+
+public slots:
+	void onConnected();
+};
+
+void BeteClasse::onConnected() {
+	std::cout << "LOL" << std::endl;
+}
+
+BeteClasse::BeteClasse() {
+	socket = new QTcpSocket();
+	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
+	// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+	this->socket->connectToHost("127.0.0.1", 2049); // connects to the server
+}*/
 
 int main(int argc, char *argv[])
 {
@@ -38,18 +60,14 @@ int main(int argc, char *argv[])
 		QApplication a(argc, argv);
 		Game game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
 		Network network(&game); // Launches the server
+
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
-		Player* p2;
-		if (getValue("teamColor", allArgs).at(0) == 'B') {
-			p2 = new Player("otherplayer", 'R');
-		} else {
-			p2 = new Player("otherplayer", 'B');
-		}
+		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+
 		std::cout << getValue("username", allArgs) << std::endl;
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
 		game.setLocalPlayer(p);
 		game.addPlayer(p2);
-
 
 		MainWindow w;
 		w.show();
@@ -58,27 +76,30 @@ int main(int argc, char *argv[])
 	}
 
 	/*
-	 * In this case we are running a client, we will get all game inforamtions from server
+	 * In this case we are running a client, we will get all game informations from server
 	 * But we already create a player and add it to the players vector
 	 */
 	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
-		std::cout << "Launching game as Client only" << std::endl;
+		// std::cout << "Launching game as Client only" << std::endl;
+		// BeteClasse truc;
+		// QTcpSocket* socket = new QTcpSocket();
+		// connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
+		// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+		// socket->connectToHost("127.0.0.1", 2049); // connects to the server
+		// return 0;
+
 		QApplication a(argc, argv);
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
-																									 // Maybe it's not a good idea as the server never approved for this player to come into the model
-		Player* p2;
-		if (getValue("teamColor", allArgs).at(0) == 'B') {
-			p2 = new Player("otherplayer", 'R');
-		} else {
-			p2 = new Player("otherplayer", 'B');
-		}
+		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+
+		std::string ip = getValue("ip", allArgs);
 		game.addPlayer(p);
 		game.setLocalPlayer(p);
 		game.addPlayer(p2);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "localhost"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
+		w.setGame(&game, ip); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
 

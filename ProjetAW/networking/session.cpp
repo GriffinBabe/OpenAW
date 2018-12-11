@@ -12,7 +12,6 @@ Session::Session(Player* p, Game* g, QTcpSocket* s,std::vector<Session*>* sess) 
 	this->socket = s;
 	this->sessions = sess;
 
-	configure();
 }
 
 Session::~Session()
@@ -28,6 +27,8 @@ void Session::sendJson(QJsonObject obj)
 	QByteArray data = QJsonDocument(obj).toJson();
 	QDataStream out(this->socket);
 	out << (quint32) data.length();
+	std::cout << "[Server" << this->player->getUsername() << "'s Session] Data Size is: " << (quint32) data.length() << std::endl;
+
 	this->socket->write(data);
 	std::cout << "[Server " << this->player->getUsername() << "'s session] Sending " << data.toStdString() << std::endl;
 }
@@ -46,16 +47,18 @@ void Session::onData()
 {
 	std::cout << "[Server Session] Received data from client " << this->player->getUsername() << std::endl;
 	if(currentSize == 0) {
-		if(this->socket->bytesAvailable() < 4)
+		if(this->socket->bytesAvailable() < 4) {
+			std::cout << "IH w " << this->socket->bytesAvailable() << std::endl;
 			return;
-
+		}
 		QDataStream in(this->socket);
 		in >> currentSize;
+		std::cout << "currentSize = " << currentSize << std::endl;
 	}
-
-	if(this->socket->bytesAvailable() < currentSize)
+	if(this->socket->bytesAvailable() < currentSize) {
+		std::cout << "LOK with currentSize = " << currentSize << std::endl;
 		return;
-
+	}
 	QByteArray data = this->socket->read(currentSize);
 	std::cout << data.toStdString() << std::endl;
 	currentSize = 0;
@@ -63,7 +66,9 @@ void Session::onData()
 	QJsonDocument doc = QJsonDocument::fromJson(data);
 	QJsonObject json = doc.object();
 
-	if (json.contains(QString("move"))) {
+	if (json.contains(QString("getconfig"))) {
+		configure();
+	} else if (json.contains(QString("move"))) {
 		/* We don't care about the fusing in our game as it is automatic, we just send it back if needed*/
 		int unitX = json["move"].toArray().at(0).toInt();
 		int unitY = json["move"].toArray().at(1).toInt();

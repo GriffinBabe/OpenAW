@@ -32,13 +32,16 @@ public:
 	void setGame(Game* game, std::string IP);
 	void setGame2();
 
+	UI* getMenu();
+	void resize();
+	void setGameSet(bool b);
+
 public slots:
 	void tick();
 
 private:
 	Ui::MainWindow *ui;
 	QTimer timer;
-	void resize();
 	int gcd(int a, int b); // Greatest common divisor, used for cell size
 
 	//Network !

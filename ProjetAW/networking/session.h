@@ -25,7 +25,7 @@ private:
 	std::vector<Session*>* sessions;
 
 
-	int currentSize;
+	int currentSize = 0;
 
 	void parseRequest();
 	void configure();

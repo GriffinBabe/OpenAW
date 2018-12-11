@@ -594,7 +594,7 @@ Player *Game::getPlayerByCountry(int country)
 			return p;
 		}
 	}
-	std::invalid_argument("No Player was found with country: "+country);
+	throw std::invalid_argument("No Player was found with country: " + std::to_string(country));
 }
 
 /*

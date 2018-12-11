@@ -46,6 +46,11 @@ void MainWindow::resize() {
 	this->menu->setDimensions(size().width(), size().height(), cellDim);
 }
 
+void MainWindow::setGameSet(bool b)
+{
+	gameSet = b;
+}
+
 void MainWindow::paintEvent(QPaintEvent *event) {
 
 	QPainter painter(this);
@@ -209,6 +214,11 @@ void MainWindow::setGame2()
 	resize();
 	std::cout << "Game set in view/controller" << std::endl;
 	gameSet = true;
+}
+
+UI* MainWindow::getMenu()
+{
+	return this->menu;
 }
 
 void MainWindow::selectElement()

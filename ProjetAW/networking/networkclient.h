@@ -32,8 +32,10 @@ private:
 	MainWindow* mw;
 	QTcpSocket* socket;
 
-	int currentSize;
+	int currentSize = 0;
 	bool isConfigured;
+
+	void askConfiguration();
 };
 
 #endif // NETWORKCLIENT_H
