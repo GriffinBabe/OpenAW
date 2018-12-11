@@ -8,8 +8,10 @@
 IA::IA(int l, Player* p, Game* g)
 {
     level = l;            // level=0 : IA inactive
-    player = p;           // level=1 :IA basique
+    player = p;           // level=1 :IA générique
     game = g;             // level=2 :IA greedy
+                          // level=3 :IA Recon
+                          // level=4 :IA Anti-Recon
     std::vector<Unit*>* objunit;        // Liste des objectifs unités ennemis
     std::vector<Buildings*>* objbuild;  // liste des objectifs batiments ennemis
 }
@@ -25,23 +27,25 @@ void IA::play(){ // temporaire
 
 void IA::action(){
     //std::this_thread::sleep_for(std::chrono::milliseconds(1000));//Ajout de temps entre chaque action
+
+    std::vector<Unit*>* units = game->getUnits();
+    std::vector<Buildings*>* buildings = game->getBuildings();
     //IA inactive
     if  (level==0){
 
     }
-    //IA Basique
+    //IA générique
     if (level==1){
 
 
-        std::vector<Unit*>* units = game->getUnits();
+
 
         for(Unit* u : *units){            //check les unités que l'ia possède
             if(u->getOwner() == player){
 
-                movement(u);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+                movement(u,level);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
             }
         }
-        std::vector<Buildings*>* buildings = game->getBuildings();
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
@@ -55,7 +59,7 @@ void IA::action(){
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
-                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes,crée une infanterie
+                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
                 }
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
@@ -72,13 +76,80 @@ void IA::action(){
         resetObj();
 
     }
+
     //IA Greedy
+    //Cette IA se joue contre l'ia inactive et va se déplacer pour capturer le plus rapidement possible toutes les villes
     if (level==2){
-      //l'ia qu'on a fait mais en bcp plus conne --> elle regarde juste parmis les cases accessibles le meilleur choix
+
+        for(Unit* u : *units){            //check les unités que l'ia possède
+            if(u->getOwner() == player){
+
+                movement(u,level);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+            }
+        }
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if (game->getPlayerUnitCount(player)<1){
+                game->createUnit(b,player,1); // Tant que le joueur n'a pas 1 infanterie, il en crée une
+                }
+            }
+        }
+        resetObj();
     }
+    //IA Recon: elle cherche à battre l'IA greedy le plus vite possible en ne produisant que des unités infantery, bazooka ou Recon
+    if (level==3){
+
+        for(Unit* u : *units){            //check les unités que l'ia possède
+            if(u->getOwner() == player){
+
+                movement(u,level);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+            }
+        }
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if (game->getPlayerCityCount(player)<5){
+                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes, il crée une infanterie
+                }
+                else if(player->getMoney()>1000){
+                    game->createUnit(b,player,reconUnit()); //Sinon, s'il a l'argent, il crée une unité
+                }
+            }
+        }
+        resetObj();
+    }
+    //IA Anti-Recon : Elle bat l'IA Recon le plus rapidement possible en utilisant des chars et des avions notamment
+    if (level==4){
+
+        for(Unit* u : *units){            //check les unités que l'ia possède
+            if(u->getOwner() == player){
+
+                movement(u,level);  //appelle la fonction qui va calculer et effectuer le mouvement pour cette unité
+            }
+        }
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
+                    game->createUnit(b,player,antiReconMaxUnit(true));//Crée une unité dans un aéroport en premier lieu
+
+                }
+            }
+        }
+        for(Buildings* b : *buildings){
+            if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
+                if (game->getPlayerCityCount(player)<5){
+                    game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes, il crée une infanterie
+                }
+                else if(player->getMoney()>1000){
+                    game->createUnit(b,player,antiReconMaxUnit(false));
+                }
+            }
+        }
+        resetObj();
+    }
+
 }
 
-void IA::movement(Unit* u){
+void IA::movement(Unit* u,int level){
     std::vector<std::pair<int,int>> move = game->getMoveCells(u); //obtiens la liste des positions possible
     //Cette liste ne contient plus les positions des unités ennemies et alliées
     for(std::pair<int,int> p : move ){
@@ -194,8 +265,50 @@ void IA::movement(Unit* u){
 
 
 }
+int IA::reconUnit(){
+    int money=player->getMoney();
+    srand(time(NULL));
+    if (money>Recon(1,1,player).getCost()&& ((rand()%3==1))){
+        return 3;
+    }if (money>Bazooka(1,1,player).getCost() && rand()%3==0){
+        return 2;
+    }if (money>Infantery(1,1,player).getCost()){
+    return 1;
+    }
+}
+int IA::antiReconMaxUnit(bool AirType){
+    int money=player->getMoney();
+    if (AirType==true){
+        if (money>Bomber(1,1,player).getCost() && ((rand()%3==1))){
+            return 11;
+        }if (money>Fighter(1,1,player).getCost()&& rand()%3==1){
+            return 10;
+        }if (money>BCopter(1,1,player).getCost()){
+            return 9;
+        }
+    }else if (AirType==false){
+        if (money>NeoTank(1,1,player).getCost()&& ((rand()%2==1))){
+            return 8;
+        }if (money>MegaTank(1,1,player).getCost() && rand()%2==1){
+            return 7;
+        }if (money>MdTank(1,1,player).getCost()&& rand()%2==1){
+            return 6;
+        }if (money>AntiAir(1,1,player).getCost()&& rand()%5==1){
+            return 4;
+        }if (money>Tank(1,1,player).getCost() && rand()%2==1 ){
+            return 5;
+        }if (money>Recon(1,1,player).getCost()&& ((rand()%2==1))){
+            return 3;
 
-//Renvoie l'id de la meilleure unité terrestre que l'on puisse produire en fonction de son argent restant
+        }if (money>Bazooka(1,1,player).getCost() && rand()%2==0){
+            return 2;
+        }if (money>Infantery(1,1,player).getCost()){
+            return 1;
+        }
+    }
+
+}
+//IA Générique: Renvoie l'id de la meilleure unité terrestre que l'on puisse produire en fonction de son argent restant
 int IA::maxUnitForMoney(bool AirType){
     int money=player->getMoney();
     srand(time(NULL));
@@ -235,6 +348,8 @@ int IA::maxUnitForMoney(bool AirType){
         return 100;
 
 }
+
+
 
 //Vérie s'il y a un ennemi accessible après un déplacement et renvoie la position de celui-ci
 int IA::nextToAnEnnemy(std::pair<int,int> p){
