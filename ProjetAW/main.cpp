@@ -24,28 +24,6 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	throw std::invalid_argument("Can't find argument: " + arg);
 }
 
-/*
-struct BeteClasse : public QObject {
-	Q_OBJECT
-public:
-	BeteClasse();
-	QTcpSocket* socket;
-
-public slots:
-	void onConnected();
-};
-
-void BeteClasse::onConnected() {
-	std::cout << "LOL" << std::endl;
-}
-
-BeteClasse::BeteClasse() {
-	socket = new QTcpSocket();
-	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-	// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-	this->socket->connectToHost("127.0.0.1", 2049); // connects to the server
-}*/
-
 int main(int argc, char *argv[])
 {
 	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
@@ -71,7 +49,7 @@ int main(int argc, char *argv[])
 
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
+		w.setGame(&game, "127.0.0.1"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
 		return a.exec();
 	}
 
@@ -80,13 +58,6 @@ int main(int argc, char *argv[])
 	 * But we already create a player and add it to the players vector
 	 */
 	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
-		// std::cout << "Launching game as Client only" << std::endl;
-		// BeteClasse truc;
-		// QTcpSocket* socket = new QTcpSocket();
-		// connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-		// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-		// socket->connectToHost("127.0.0.1", 2049); // connects to the server
-		// return 0;
 
 		QApplication a(argc, argv);
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
@@ -99,7 +70,7 @@ int main(int argc, char *argv[])
 		game.addPlayer(p2);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, ip); // We let localhost for testing purposes setGame2() will be called once network configuration is over
+		w.setGame(&game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
 

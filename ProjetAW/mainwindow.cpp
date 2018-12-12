@@ -261,6 +261,7 @@ void MainWindow::selectElement()
 	}
 	else if (menu->getType() == 1) { // Move menu
         if (this->game->unitCanMoveOnCell(this->selectedUnit,this->game->getMap()->getCellAt(cursorX,cursorY))) {
+			this->selectedUnit->setOldPos();
 			this->game->moveUnit(this->selectedUnit,std::pair<int,int>(cursorX,cursorY));
 			if (std::find(this->game->getUnits()->begin(), this->game->getUnits()->end(), this->selectedUnit) != this->game->getUnits()->end()) {
 				// If *this->selectedUnit is still in the vector or it has been deleted because of fusion
@@ -289,6 +290,7 @@ void MainWindow::selectElement()
 	}
 	else if (menu->getType() == 4) { // Attack Menu
 		this->menu->setType(this->selectedUnit, 0);
+		this->client->moveAttack(this->selectedUnit,this->selectedUnit->getPosX(),this->selectedUnit->getPosY(),this->menu->getSelectedAttackableUnit()->getPosX(),this->menu->getSelectedAttackableUnit()->getPosY());
 		this->game->attack(this->selectedUnit,this->menu->getSelectedAttackableUnit(),true); // Game.attack(Unit* u, Unit* u2);
 		return;
 	}
@@ -320,11 +322,15 @@ void MainWindow::noSelectedElement()
 void MainWindow::action(int id)
 {
 	if (id==2) { // capture
+		this->client->moveCapture(this->selectedUnit, this->selectedUnit->getPosX(), this->selectedUnit->getPosY());
 		this->game->capture(this->game->getBuildingOnPos(this->selectedUnit->getPosX(),this->selectedUnit->getPosY()));
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==0) { // wait - do nothing
-		this->selectedUnit->setCanAttack(false); // Can't attack anymore
+		if (this->selectedUnit != nullptr) {
+			this->client->moveWait(this->selectedUnit, this->selectedUnit->getPosX(), this->selectedUnit->getPosY(), true);
+			this->selectedUnit->setCanAttack(false); // Can't attack anymore
+		}
 		// TODO: Sends to the server the action
 		this->selectedUnit = nullptr;
 		this->selectedBuildings = nullptr;
@@ -332,48 +338,60 @@ void MainWindow::action(int id)
 	} else if (id==1) { //attack
 		this->menu->setType(this->selectedUnit, 4);
 	} else if (id==3) { // pass turn
+		this->client->endOfTurn();
 		this->game->nextTurn();
 	} else if (id==4) { // new infantery
+		this->client->build(this->selectedBuildings, 1);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 1);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==5) { // new Bazooka
+		this->client->build(this->selectedBuildings, 2);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 2);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==6) { // new recon
+		this->client->build(this->selectedBuildings, 3);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 3);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==7) { // new antiair
+		this->client->build(this->selectedBuildings, 4);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 4);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==8) { // new tank
+		this->client->build(this->selectedBuildings, 5);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 5);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==9) { // new mdtank
+		this->client->build(this->selectedBuildings, 6);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 6);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==10) { // new megatank
+		this->client->build(this->selectedBuildings, 7);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 7);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==11) { // new neotank
+		this->client->build(this->selectedBuildings, 8);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 8);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==12) { // new bcopter
+		this->client->build(this->selectedBuildings, 9);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 9);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==13) { // new bomber
+		this->client->build(this->selectedBuildings, 10);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 10);
 		this->selectedBuildings = nullptr;
 	}
 	else if (id==14) { // new fighter
+		this->client->build(this->selectedBuildings, 11);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 11);
 		this->selectedBuildings = nullptr;
 	}

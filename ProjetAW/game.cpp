@@ -581,7 +581,7 @@ int Game::getPlayerUnitCount(Player* p) {
 void Game::giveBuildingsTo(Player *p, int id)
 {
 	for (Buildings* b : this->buildings) {
-		if (b->getID() == id) {
+		if (this->map->getCellAt(b->getPosX(),b->getPosY()).gettype() == id) {
 			b->setOwner(p);
 		}
 	}

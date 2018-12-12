@@ -14,6 +14,7 @@ NetworkClient::NetworkClient(Game* g, std::string ip, MainWindow* w)
 	this->socket = new QTcpSocket();
 	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
 	connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+	std::cout << ip << std::endl;
 	this->socket->connectToHost(QString::fromStdString(ip), 2049); // connects to the server
 }
 
@@ -30,7 +31,7 @@ void NetworkClient::sendJson(QJsonObject obj)
 	std::cout << "Size is: " << (quint32) data.length() << std::endl;
 	this->socket->write(data);
 
-	std::cout << "[Client] Sending " << data.toStdString() << std::endl;
+	std::cout << "[Client] Sending to server " << data.toStdString() << std::endl;
 }
 
 void NetworkClient::onConnected()
@@ -46,7 +47,6 @@ void NetworkClient::onData()
 	std::cout << "[Client] Data Received !" << std::endl;
 	if(currentSize == 0) {
 		if(this->socket->bytesAvailable() < 4) {
-			std::cout << "WADUP" << std::endl;
 			return;
 		}
 		QDataStream in(this->socket);
@@ -54,7 +54,6 @@ void NetworkClient::onData()
 	}
 
 	if(this->socket->bytesAvailable() < currentSize) {
-		std::cout << "YO" << std::endl;
 		return;
 	}
 
@@ -82,6 +81,7 @@ void NetworkClient::onData()
 		newOwner1->setCountry(5); // The country for the blue player is 5
 		Player* newOwner2 = this->game->getPlayerByTeamcolor('R'); // The country for the red player is 10
 		newOwner2->setCountry(10);
+		std::cout << newOwner1->getUsername()<< std::endl;
 
 		if (first == 5) {
 			this->game->giveBuildingsTo(newOwner1, 95);
@@ -133,6 +133,8 @@ void NetworkClient::onData()
 				if (json["capture"].toBool()) {
 					this->game->capture(this->game->getBuildingOnPos(u->getPosX(), u ->getPosY()));
 				}
+			} else {
+				u->setCanAttack(false);
 			}
 		} else if (json.contains(QString("build"))) {
 			int x = json["build"].toArray().at(0).toInt();
@@ -166,7 +168,7 @@ void NetworkClient::askConfiguration()
 void NetworkClient::moveWait(Unit *u, int x, int y, bool fuse)
 {
 	QJsonObject move;
-	move.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	move.insert("move", QJsonArray() << u->getOldX() << u->getOldY() << u->getPosX() << u->getPosY());
 	if (this->game->moveWillFuse(u, x, y)) {
 		move.insert("join", true);
 	}
@@ -176,7 +178,7 @@ void NetworkClient::moveWait(Unit *u, int x, int y, bool fuse)
 void NetworkClient::moveAttack(Unit *u, int x, int y, int ax, int ay)
 {
 	QJsonObject obj;
-	obj.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	obj.insert("move", QJsonArray() << u->getOldX() << u->getOldY() << u->getPosX() << u->getPosY());
 	obj.insert("attack", QJsonArray() << ax << ay);
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
@@ -187,7 +189,7 @@ void NetworkClient::moveAttack(Unit *u, int x, int y, int ax, int ay)
 void NetworkClient::moveCapture(Unit *u, int x, int y)
 {
 	QJsonObject obj;
-	obj.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	obj.insert("move", QJsonArray() << u->getOldX() << u->getOldY() << u->getPosX() << u->getPosY());
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
 	}

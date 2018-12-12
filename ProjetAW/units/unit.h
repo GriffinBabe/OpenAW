@@ -31,13 +31,16 @@ public:
 	void setCanMove(bool c);
 	void setCanAttack(bool c);
     int getCost();
+	void setOldPos();
+	int getOldX();
+	int getOldY();
 
 	int getChartDamage(int u1, int u2); // Where u1 is attacker id and u2 is attacker id;
 	std::string getName();
 
 protected:
     Player* owner;
-    int id, health, damage, disp, x, y, movementPoints,movementType,cost;
+	int id, health, damage, disp, x, y, movementPoints,movementType,cost, oldX, oldY;
 	bool canAttack;
 	bool canMove;
 	std::string name;

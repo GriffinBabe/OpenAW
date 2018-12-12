@@ -50,6 +50,22 @@ int Unit::getMovementType() { return movementType;}
 
 int Unit::getCost(){return cost;}
 
+int Unit::getOldX()
+{
+	return oldX;
+}
+
+int Unit::getOldY()
+{
+	return oldY;
+}
+
+void Unit::setOldPos()
+{
+	oldX = x;
+	oldY = y;
+}
+
 int Unit::getChartDamage(int u1, int u2)
 {
 	return damageChart[u1-1][u2-1];
