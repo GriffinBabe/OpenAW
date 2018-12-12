@@ -9,7 +9,6 @@ Network::Network(Game *g)
 	this->server = new QTcpServer(this); // Creates a server
 	this->server->listen(QHostAddress::Any, 2049);
 	connect(this->server, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
-	// this->server->waitForNewConnection();
 	std::cout << "[Server] Network intialised" << std::endl;
 }
 
@@ -29,8 +28,4 @@ void Network::onNewConnection() {
 	connect(socket, SIGNAL(readyRead()), session, SLOT(onData())); // Calls onData() in this socket when readyRead() is called in socket
 	std::cout << "[Server] ip from new connection is " << socket->IPv4Protocol << std::endl;
 	this->sessions->push_back(session); // new Player is just a test!
-
-	// Gets ready for a new connection
-	this->server->waitForNewConnection();
-	std::cout << "wait for new connection" << std::endl;
 }

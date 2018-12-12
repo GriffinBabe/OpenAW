@@ -48,15 +48,12 @@ void Session::onData()
 	std::cout << "[Server Session] Received data from client " << this->player->getUsername() << std::endl;
 	if(currentSize == 0) {
 		if(this->socket->bytesAvailable() < 4) {
-			std::cout << "IH w " << this->socket->bytesAvailable() << std::endl;
 			return;
 		}
 		QDataStream in(this->socket);
 		in >> currentSize;
-		std::cout << "currentSize = " << currentSize << std::endl;
 	}
 	if(this->socket->bytesAvailable() < currentSize) {
-		std::cout << "LOK with currentSize = " << currentSize << std::endl;
 		return;
 	}
 	QByteArray data = this->socket->read(currentSize);

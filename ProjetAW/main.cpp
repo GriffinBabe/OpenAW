@@ -24,7 +24,6 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	throw std::invalid_argument("Can't find argument: " + arg);
 }
 
-
 int main(int argc, char *argv[])
 {
 	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
@@ -50,7 +49,7 @@ int main(int argc, char *argv[])
 
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "localhost"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
+		w.setGame(&game, "127.0.0.1"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
 		return a.exec();
 	}
 
@@ -71,7 +70,7 @@ int main(int argc, char *argv[])
 		game.addPlayer(p2);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, ip); // We let localhost for testing purposes setGame2() will be called once network configuration is over
+		w.setGame(&game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
 
