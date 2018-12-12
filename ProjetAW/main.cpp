@@ -36,21 +36,22 @@ int main(int argc, char *argv[])
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
 		std::cout << "Launching game as Server + Client" << std::endl;
 		QApplication a(argc, argv);
-		Game game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
+		Game * game = new Game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
 		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
-		game.addPlayer(p); // We add the player which is the client that also launched the server !
-		game.setLocalPlayer(p);
-		game.addPlayer(p2);
+		game->addPlayer(p); // We add the player which is the client that also launched the server !
+		game->setLocalPlayer(p);
+		game->addPlayer(p2);
 
-		Network network(&game); // Launches the server
+		std::cout << "Before I build anything else game is: " << game << std::endl;
+		Network network(game); // Launches the server
 
 
 		std::cout << getValue("username", allArgs) << std::endl;
 
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "127.0.0.1"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
+		w.setGame(game, "127.0.0.1"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
 		return a.exec();
 	}
 
@@ -61,17 +62,17 @@ int main(int argc, char *argv[])
 	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
 
 		QApplication a(argc, argv);
-		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
+		Game* game = new Game(); // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
 		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
 
 		std::string ip = getValue("ip", allArgs);
-		game.addPlayer(p);
-		game.setLocalPlayer(p);
-		game.addPlayer(p2);
+		game->addPlayer(p);
+		game->setLocalPlayer(p);
+		game->addPlayer(p2);
 		MainWindow w;
 		w.show();
-		w.setGame(&game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
+		w.setGame(game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
 

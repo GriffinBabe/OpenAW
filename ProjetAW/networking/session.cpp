@@ -8,13 +8,12 @@
 
 Session::Session(Player* p, Game* g, QTcpSocket* s,std::vector<Session*>* sess) {
 	this->player = p;
-	std::cout << p << std::endl;
-	std::cout << this->player << std::endl;
-	std::cout << "in session init, the localplayer from game is " << this->game->getLocalPlayer() << std::endl;
 	this->game = g;
 	this->socket = s;
 	this->sessions = sess;
 
+	std::cout << "in session init, the localplayer from game is " << this->game->getLocalPlayer() << std::endl;
+	std::cout << "in session init, the given player is " << this->player << std::endl;
 }
 
 Session::~Session()
@@ -77,16 +76,18 @@ void Session::onData()
 			int newX = json["move"].toArray().at(2).toInt();
 			int newY = json["move"].toArray().at(3).toInt();
 			Unit* u = this->game->getUnitOnPos(unitX,unitY);
+			this->game->getMoveCells(u); // Creates all the reachable cells and stuff so we can if the movement is possible in the moveUnit(...) call here below
 			this->game->moveUnit(u, std::pair<int,int>(newX,newY));
-			if (json.contains(QString("capture"))) {
-				if (json["capture"].toBool()) {
-					this->game->capture(this->game->getBuildingOnPos(newX,newY));
-				}
-			}
 			if (json.contains(QString("attack"))) {
-				int x = json["attack"].toArray().at(0).toInt();
-				int y = json["attack"].toArray().at(1).toInt();
-				this->game->attack(u,this->game->getUnitOnPos(x,y),true);
+				int attackX = json["attack"].toArray().at(0).toInt();
+				int attackY = json["attack"].toArray().at(1).toInt();
+				this->game->attack(u, this->game->getUnitOnPos(attackX, attackY), true);
+			} else if (json.contains(QString("capture"))) {
+				if (json["capture"].toBool()) {
+					this->game->capture(this->game->getBuildingOnPos(u->getPosX(), u ->getPosY()));
+				}
+			} else {
+				u->setCanAttack(false);
 			}
 		} else if (json.contains(QString("build"))) {
 			int x = json["build"].toArray().at(0).toInt();
@@ -100,8 +101,9 @@ void Session::onData()
 			}
 		}
 
+	} else { // if it's the localplayer that does the action then now we need to tell the others
+		this->sendAllButThisJson(json); // Confirms the thing
 	}
-	this->sendAllButThisJson(json); // Confirms the thing
 }
 
 void Session::onDisconnection()

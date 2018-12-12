@@ -102,7 +102,7 @@ void NetworkClient::onData()
 		if (who == "firstplayer") {
 			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('B'));
 		} else if (who == "secondplayer") {
-			this->game->setLocalPlayer(this->game->getPlayerByTeamcolor('R'));
+			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('R'));
 		}
 
 
@@ -125,6 +125,7 @@ void NetworkClient::onData()
 			int newX = json["move"].toArray().at(2).toInt();
 			int newY = json["move"].toArray().at(3).toInt();
 			Unit* u = this->game->getUnitOnPos(unitX, unitY);
+			this->game->getMoveCells(u); // Creates all the reachable cells and stuff so we can if the movement is possible in the moveUnit(...) call here below
 			this->game->moveUnit(u, std::pair<int,int>(newX, newY));
 			if (json.contains(QString("attack"))) {
 				int attackX = json["attack"].toArray().at(0).toInt();

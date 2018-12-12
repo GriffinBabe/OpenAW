@@ -72,6 +72,8 @@ public:
 	void setMap(int id);
 	int getMapId();
 
+	void networkReachableCellsPrep(Unit* u);
+
 	int getUnitIDbyName(std::string s);
 	std::string getUnitNamebyID(int id);
 	bool moveWillFuse(Unit* u, int x, int y);
