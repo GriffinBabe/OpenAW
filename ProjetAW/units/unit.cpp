@@ -75,18 +75,3 @@ std::string Unit::getName()
 {
 	return this->name;
 }
-
-void Unit::setOldPos()
-{
-	oldX = x;
-	oldY = y;
-}
-
-int Unit::getOldX() {
-	return oldX;
-}
-
-int Unit::getOldY() {
-	return oldY;
-}
-

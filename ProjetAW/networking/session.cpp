@@ -8,6 +8,9 @@
 
 Session::Session(Player* p, Game* g, QTcpSocket* s,std::vector<Session*>* sess) {
 	this->player = p;
+	std::cout << p << std::endl;
+	std::cout << this->player << std::endl;
+	std::cout << "in session init, the localplayer from game is " << this->game->getLocalPlayer() << std::endl;
 	this->game = g;
 	this->socket = s;
 	this->sessions = sess;
@@ -27,7 +30,6 @@ void Session::sendJson(QJsonObject obj)
 	QByteArray data = QJsonDocument(obj).toJson();
 	QDataStream out(this->socket);
 	out << (quint32) data.length();
-	std::cout << "[Server" << this->player->getUsername() << "'s Session] Data Size is: " << (quint32) data.length() << std::endl;
 
 	this->socket->write(data);
 	std::cout << "[Server " << this->player->getUsername() << "'s session] Sending " << data.toStdString() << std::endl;
@@ -67,6 +69,7 @@ void Session::onData()
 		configure();
 		return;
 	} else if (this->player!=this->game->getLocalPlayer()) { // As the localplayer already does the modifications
+		std::cout << this->player << " is not the localplayer so we are running that shit yooo the localplayer is " << this->game->getLocalPlayer() << std::endl;
 		if (json.contains(QString("move"))) {
 			/* We don't care about the fusing in our game as it is automatic, we just send it back if needed*/
 			int unitX = json["move"].toArray().at(0).toInt();

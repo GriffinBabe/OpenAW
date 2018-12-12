@@ -22,6 +22,7 @@ private:
 	QTcpServer* server;
 	std::vector<Session*>* sessions;
 	Game* game;
+	bool localAlreadyConnected;
 };
 
 #endif // SERVER_H

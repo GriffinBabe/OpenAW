@@ -327,26 +327,15 @@ void MainWindow::noSelectedElement()
 void MainWindow::action(int id)
 {
 	if (id==2) { // capture
-<<<<<<< HEAD
 		this->client->moveCapture(this->selectedUnit, this->selectedUnit->getOldX(), this->selectedUnit->getOldY(), this->selectedUnit->getPosX(), this->selectedUnit->getPosY());
-=======
-		this->client->moveCapture(this->selectedUnit, this->selectedUnit->getPosX(), this->selectedUnit->getPosY());
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 		this->game->capture(this->game->getBuildingOnPos(this->selectedUnit->getPosX(),this->selectedUnit->getPosY()));
 		this->selectedUnit = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
 	} else if (id==0) { // wait - do nothing
 		if (this->selectedUnit != nullptr) {
-<<<<<<< HEAD
 			this->client->moveWait(this->selectedUnit, this->selectedUnit->getOldX(), this->selectedUnit->getOldY(), this->selectedUnit->getPosX(), this->selectedUnit->getPosY(), true);
 			this->selectedUnit->setCanAttack(false); // Can't attack anymore
 		}
-=======
-			this->client->moveWait(this->selectedUnit, this->selectedUnit->getPosX(), this->selectedUnit->getPosY(), true);
-			this->selectedUnit->setCanAttack(false); // Can't attack anymore
-		}
-		// TODO: Sends to the server the action
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 		this->selectedUnit = nullptr;
 		this->selectedBuildings = nullptr;
 		this->menu->setType(this->selectedUnit, 0);
@@ -400,20 +389,12 @@ void MainWindow::action(int id)
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 9);
 		this->selectedBuildings = nullptr;
 	}
-<<<<<<< HEAD
 	else if (id==13) { // new fighter
-=======
-	else if (id==13) { // new bomber
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 		this->client->build(this->selectedBuildings, 10);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 10);
 		this->selectedBuildings = nullptr;
 	}
-<<<<<<< HEAD
 	else if (id==14) { // new bomber
-=======
-	else if (id==14) { // new fighter
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 		this->client->build(this->selectedBuildings, 11);
 		this->game->createUnit(this->selectedBuildings, this->game->getLocalPlayer(), 11);
 		this->selectedBuildings = nullptr;

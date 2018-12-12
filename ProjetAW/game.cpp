@@ -183,6 +183,7 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
         if (u2->getOwner() == u->getOwner() && u2->getID() == u->getID() && u2->getHealth() + u->getHealth() <= 10 && u2->getHealth() < 10 ) {
             return  true;
         }
+		std::cout << "There is a unit there and it's not the same ID, or health does't correspond" << std::endl;
         return false;
     }
 
@@ -197,6 +198,9 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
         }
     }
 
+	if (!isInTheList) {
+		std::cout << "It's not in the list" << std::endl;
+	}
     return isInTheList;
 }
 
@@ -532,6 +536,7 @@ Player* Game::getPlayerByTeamcolor(char tc)
 
 
 void Game::nextTurn(){
+	std::cout << "Next turn called, current player: " << this->playerwhoplays->getUsername() << std::endl;
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
         if (getPlayerwhoplays()==*(it) && it != players.end()-1){
@@ -555,6 +560,7 @@ void Game::nextTurn(){
             u->setCanAttack(false);
         }
     }
+	std::cout << "New turn end, current player: " << this->playerwhoplays->getUsername() << std::endl;
 }
 
 int Game::getPlayerCityCount(Player *p)
@@ -597,6 +603,16 @@ Player *Game::getPlayerByCountry(int country)
 		}
 	}
 	throw std::invalid_argument("No Player was found with country: " + std::to_string(country));
+}
+
+Player *Game::getNonLocalPlayer()
+{
+	for (Player* p : this->players) {
+		if (p != this->localPlayer) {
+			return p;
+		}
+	}
+	throw std::invalid_argument("No Non local player found");
 }
 
 /*

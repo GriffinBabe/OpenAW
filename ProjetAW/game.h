@@ -62,6 +62,7 @@ public:
 	int getPlayerUnitCount(Player* p);
 	void giveBuildingsTo(Player* p, int id);
 	Player *getPlayerByCountry(int country);
+	Player* getNonLocalPlayer();
 
 	void attack(Unit* u1, Unit* u2, bool backfire);
 	int getDamage(Unit* u1, Unit* u2);

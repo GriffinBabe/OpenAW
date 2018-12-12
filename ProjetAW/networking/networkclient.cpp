@@ -102,8 +102,9 @@ void NetworkClient::onData()
 		if (who == "firstplayer") {
 			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('B'));
 		} else if (who == "secondplayer") {
-			this->game->setPlayerwhoplays(this->game->getPlayerByTeamcolor('R'));
+			this->game->setLocalPlayer(this->game->getPlayerByTeamcolor('R'));
 		}
+
 
 		foreach (const QJsonValue & v, json["units"].toArray()) {
 			Player* owner = this->game->getPlayerByCountry(v.toObject().value("country").toInt());
@@ -178,11 +179,7 @@ void NetworkClient::moveWait(Unit *u, int oldX, int oldY, int x, int y, bool fus
 void NetworkClient::moveAttack(Unit *u, int oldX, int oldY, int x, int y, int ax, int ay)
 {
 	QJsonObject obj;
-<<<<<<< HEAD
-	obj.insert("move", QJsonArray() << oldX << oldY << x << y);
-=======
 	obj.insert("move", QJsonArray() << u->getOldX() << u->getOldY() << u->getPosX() << u->getPosY());
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 	obj.insert("attack", QJsonArray() << ax << ay);
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
@@ -193,11 +190,7 @@ void NetworkClient::moveAttack(Unit *u, int oldX, int oldY, int x, int y, int ax
 void NetworkClient::moveCapture(Unit *u, int oldX, int oldY, int x, int y)
 {
 	QJsonObject obj;
-<<<<<<< HEAD
 	obj.insert("move", QJsonArray() << oldX << oldY<< x << y);
-=======
-	obj.insert("move", QJsonArray() << u->getOldX() << u->getOldY() << u->getPosX() << u->getPosY());
->>>>>>> a4b731d89bb4e17781816ad232583e2ac9ad2bde
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
 	}

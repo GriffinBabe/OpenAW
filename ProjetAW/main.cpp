@@ -37,15 +37,16 @@ int main(int argc, char *argv[])
 		std::cout << "Launching game as Server + Client" << std::endl;
 		QApplication a(argc, argv);
 		Game game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
-		Network network(&game); // Launches the server
-
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
 		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
-
-		std::cout << getValue("username", allArgs) << std::endl;
 		game.addPlayer(p); // We add the player which is the client that also launched the server !
 		game.setLocalPlayer(p);
 		game.addPlayer(p2);
+
+		Network network(&game); // Launches the server
+
+
+		std::cout << getValue("username", allArgs) << std::endl;
 
 		MainWindow w;
 		w.show();
