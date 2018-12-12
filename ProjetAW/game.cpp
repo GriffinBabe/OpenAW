@@ -203,9 +203,6 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
         }
     }
 
-	if (!isInTheList) {
-		std::cout << "It's not in the list" << std::endl;
-	}
     return isInTheList;
 }
 
