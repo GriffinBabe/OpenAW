@@ -68,34 +68,38 @@ void Session::onData()
 
 	if (json.contains(QString("getconfig"))) {
 		configure();
-	} else if (json.contains(QString("move"))) {
-		/* We don't care about the fusing in our game as it is automatic, we just send it back if needed*/
-		int unitX = json["move"].toArray().at(0).toInt();
-		int unitY = json["move"].toArray().at(1).toInt();
-		int newX = json["move"].toArray().at(2).toInt();
-		int newY = json["move"].toArray().at(3).toInt();
-		Unit* u = this->game->getUnitOnPos(unitX,unitY);
-		this->game->moveUnit(u, std::pair<int,int>(newX,newY));
-		if (json.contains(QString("capture"))) {
-			if (json["capture"].toBool()) {
-				this->game->capture(this->game->getBuildingOnPos(newX,newY));
+		return;
+	} else if (this->player!=this->game->getLocalPlayer()) { // As the localplayer already does the modifications
+		if (json.contains(QString("move"))) {
+			/* We don't care about the fusing in our game as it is automatic, we just send it back if needed*/
+			int unitX = json["move"].toArray().at(0).toInt();
+			int unitY = json["move"].toArray().at(1).toInt();
+			int newX = json["move"].toArray().at(2).toInt();
+			int newY = json["move"].toArray().at(3).toInt();
+			Unit* u = this->game->getUnitOnPos(unitX,unitY);
+			this->game->moveUnit(u, std::pair<int,int>(newX,newY));
+			if (json.contains(QString("capture"))) {
+				if (json["capture"].toBool()) {
+					this->game->capture(this->game->getBuildingOnPos(newX,newY));
+				}
+			}
+			if (json.contains(QString("attack"))) {
+				int x = json["attack"].toArray().at(0).toInt();
+				int y = json["attack"].toArray().at(1).toInt();
+				this->game->attack(u,this->game->getUnitOnPos(x,y),true);
+			}
+		} else if (json.contains(QString("build"))) {
+			int x = json["build"].toArray().at(0).toInt();
+			int y = json["build"].toArray().at(1).toInt();
+			int id = this->game->getUnitIDbyName(json["type"].toString().toStdString());
+			Buildings* b = this->game->getBuildingOnPos(x,y);
+			this->game->createUnit(this->game->getBuildingOnPos(x,y), b->getOwner(), id);
+		} else if (json.contains(QString("endofturn"))) {
+			if (json["endofturn"].toBool()) {
+				this->game->nextTurn();
 			}
 		}
-		if (json.contains(QString("attack"))) {
-			int x = json["attack"].toArray().at(0).toInt();
-			int y = json["attack"].toArray().at(1).toInt();
-			this->game->attack(u,this->game->getUnitOnPos(x,y),true);
-		}
-	} else if (json.contains(QString("build"))) {
-		int x = json["build"].toArray().at(0).toInt();
-		int y = json["build"].toArray().at(1).toInt();
-		int id = this->game->getUnitIDbyName(json["type"].toString().toStdString());
-		Buildings* b = this->game->getBuildingOnPos(x,y);
-		this->game->createUnit(this->game->getBuildingOnPos(x,y), b->getOwner(), id);
-	} else if (json.contains(QString("endofturn"))) {
-		if (json["endofturn"].toBool()) {
-			this->game->nextTurn();
-		}
+
 	}
 	this->sendAllButThisJson(json); // Confirms the thing
 }

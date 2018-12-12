@@ -173,11 +173,11 @@ void UI::setType(Buildings *f, int t)
 				this->menuBoxes->push_back(new NewBCopterBox((width/2)-(swidth/2),(height/2)-(sheight*2),swidth,sheight));
 			}
 			if (this->game->canBuild(f, 10)) {
-				this->menuBoxes->push_back(new NewBomberBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
+				this->menuBoxes->push_back(new NewFighterBox((width/2)-(swidth/2),(height/2)-(sheight*1),swidth,sheight));
 
 			}
 			if (this->game->canBuild(f, 11)) {
-				this->menuBoxes->push_back(new NewFighterBox((width/2)-(swidth/2),(height/2),swidth,sheight));
+				this->menuBoxes->push_back(new NewBomberBox((width/2)-(swidth/2),(height/2),swidth,sheight));
 
 			}
 		}

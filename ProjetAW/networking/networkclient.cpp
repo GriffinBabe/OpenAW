@@ -163,20 +163,20 @@ void NetworkClient::askConfiguration()
 }
 
 
-void NetworkClient::moveWait(Unit *u, int x, int y, bool fuse)
+void NetworkClient::moveWait(Unit *u, int oldX, int oldY, int x, int y, bool fuse)
 {
 	QJsonObject move;
-	move.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	move.insert("move", QJsonArray() << oldX << oldY << x << y);
 	if (this->game->moveWillFuse(u, x, y)) {
 		move.insert("join", true);
 	}
 	sendJson(move);
 }
 
-void NetworkClient::moveAttack(Unit *u, int x, int y, int ax, int ay)
+void NetworkClient::moveAttack(Unit *u, int oldX, int oldY, int x, int y, int ax, int ay)
 {
 	QJsonObject obj;
-	obj.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	obj.insert("move", QJsonArray() << oldX << oldY << x << y);
 	obj.insert("attack", QJsonArray() << ax << ay);
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
@@ -184,10 +184,10 @@ void NetworkClient::moveAttack(Unit *u, int x, int y, int ax, int ay)
 	sendJson(obj);
 }
 
-void NetworkClient::moveCapture(Unit *u, int x, int y)
+void NetworkClient::moveCapture(Unit *u, int oldX, int oldY, int x, int y)
 {
 	QJsonObject obj;
-	obj.insert("move", QJsonArray() << u->getPosX() << u->getPosY() << x << y);
+	obj.insert("move", QJsonArray() << oldX << oldY<< x << y);
 	if (this->game->moveWillFuse(u, x, y)) {
 		obj.insert("join", true);
 	}
@@ -200,6 +200,11 @@ void NetworkClient::endOfTurn()
 	QJsonObject obj;
 	obj.insert("endofturn", true);
 	sendJson(obj);
+}
+
+bool NetworkClient::getConfigured()
+{
+	return this->isConfigured;
 }
 
 void NetworkClient::build(Buildings* b, int id) {

@@ -172,6 +172,8 @@ std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
 bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 {
     if (u->getOwner() != this->playerwhoplays) {
+		std::cout << "Owner of the unit isn't the guy who plays" << std::endl;
+		std::cout << this->playerwhoplays->getUsername() << std::endl;
         return false;
     }
 
@@ -581,7 +583,7 @@ int Game::getPlayerUnitCount(Player* p) {
 void Game::giveBuildingsTo(Player *p, int id)
 {
 	for (Buildings* b : this->buildings) {
-		if (b->getID() == id) {
+		if (this->map->getCellAt(b->getPosX(),b->getPosY()).gettype() == id) {
 			b->setOwner(p);
 		}
 	}

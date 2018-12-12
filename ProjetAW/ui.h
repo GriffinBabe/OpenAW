@@ -42,7 +42,7 @@ private:
 	QPixmap* target;
 	QPixmap* redtarget;
 	QPixmap* moveCellImage;
-	int menuType; // Type of menu that we need to show; O = no menu; 1 = moveMenu; 2 = unitMenu; 3 = mapMenu;
+	int menuType = 0; // Type of menu that we need to show; O = no menu; 1 = moveMenu; 2 = unitMenu; 3 = mapMenu;
 	Unit* selectedUnit;
 	int width, height, cellDim, cursorPos; // Window width and height, used for displaying menu at the right place
 	std::vector<std::pair<int,int>> moveCells;

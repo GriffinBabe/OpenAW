@@ -11,6 +11,8 @@ Bomber::Bomber(int xi, int yi, Player* owner)
    id = 11; // used for view
    x = xi;
    y = yi;
+   oldX = 0;
+   oldY = 0;
    canMove = false;
    canAttack = false;
    movementPoints = 7; // can be found here => http://awbw.amarriner.com/units.php

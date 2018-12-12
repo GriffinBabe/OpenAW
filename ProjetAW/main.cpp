@@ -24,27 +24,6 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	throw std::invalid_argument("Can't find argument: " + arg);
 }
 
-/*
-struct BeteClasse : public QObject {
-	Q_OBJECT
-public:
-	BeteClasse();
-	QTcpSocket* socket;
-
-public slots:
-	void onConnected();
-};
-
-void BeteClasse::onConnected() {
-	std::cout << "LOL" << std::endl;
-}
-
-BeteClasse::BeteClasse() {
-	socket = new QTcpSocket();
-	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-	// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-	this->socket->connectToHost("127.0.0.1", 2049); // connects to the server
-}*/
 
 int main(int argc, char *argv[])
 {
@@ -80,13 +59,6 @@ int main(int argc, char *argv[])
 	 * But we already create a player and add it to the players vector
 	 */
 	else if (argPresent("client", allArgs)) { // We are expecting something like: client username=user2 teamColor=B ip=localhost
-		// std::cout << "Launching game as Client only" << std::endl;
-		// BeteClasse truc;
-		// QTcpSocket* socket = new QTcpSocket();
-		// connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
-		// connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-		// socket->connectToHost("127.0.0.1", 2049); // connects to the server
-		// return 0;
 
 		QApplication a(argc, argv);
 		Game game; // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)

@@ -11,6 +11,8 @@ Recon::Recon(int xi, int yi, Player* owner)
    id = 3; // used for view
    x = xi;
    y = yi;
+   oldX = 0;
+   oldY = 0;
    canMove = false;
    canAttack = false;
    movementPoints = 8; // can be found here => http://awbw.amarriner.com/units.php
