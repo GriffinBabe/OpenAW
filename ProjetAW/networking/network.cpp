@@ -26,13 +26,10 @@ void Network::onNewConnection() {
 	Player * p;
 
 	if(!localAlreadyConnected) {
-		std::cout << "Getting the localplayer for that first session" << std::endl;
 		localAlreadyConnected = true;
 		p = this->game->getLocalPlayer();
-		std::cout << p << std::endl;
 	} else {
 		p = this->game->getNonLocalPlayer();
-		std::cout << "non localplayer taken" << std::endl;
 	}
 
 	Session* session = new Session(p, this->game, socket, this->sessions);

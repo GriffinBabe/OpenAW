@@ -43,11 +43,7 @@ int main(int argc, char *argv[])
 		game->setLocalPlayer(p);
 		game->addPlayer(p2);
 
-		std::cout << "Before I build anything else game is: " << game << std::endl;
 		Network network(game); // Launches the server
-
-
-		std::cout << getValue("username", allArgs) << std::endl;
 
 		MainWindow w;
 		w.show();

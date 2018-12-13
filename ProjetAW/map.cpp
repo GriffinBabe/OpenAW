@@ -36,8 +36,6 @@ Map::Map(int mapId)
             sizeX=line3.size();
         }
     sizeY=counter;
-    std::cout << "Map width: " << sizeX << std::endl;
-    std::cout << "Map height: " << sizeY <<std::endl;
     file.close();
     } else {
         throw "The file didn't open correctly";

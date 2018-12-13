@@ -14,7 +14,6 @@ NetworkClient::NetworkClient(Game* g, std::string ip, MainWindow* w)
 	this->socket = new QTcpSocket();
 	connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected())); // connects the SIGNAL connected() to the slot onConnected()
 	connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-	std::cout << ip << std::endl;
 	this->socket->connectToHost(QString::fromStdString(ip), 2049); // connects to the server
 }
 
@@ -28,7 +27,6 @@ void NetworkClient::sendJson(QJsonObject obj)
 	QByteArray data = QJsonDocument(obj).toJson();
 	QDataStream out(this->socket);
 	out << (quint32) data.length();
-	std::cout << "Size is: " << (quint32) data.length() << std::endl;
 	this->socket->write(data);
 
 	std::cout << "[Client] Sending to server " << data.toStdString() << std::endl;
@@ -81,7 +79,6 @@ void NetworkClient::onData()
 		newOwner1->setCountry(5); // The country for the blue player is 5
 		Player* newOwner2 = this->game->getPlayerByTeamcolor('R'); // The country for the red player is 10
 		newOwner2->setCountry(10);
-		std::cout << newOwner1->getUsername()<< std::endl;
 
 		if (first == 5) {
 			this->game->giveBuildingsTo(newOwner1, 95);

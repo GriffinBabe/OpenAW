@@ -177,8 +177,6 @@ std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
 bool Game::unitCanMoveOnCell(Unit *u, Cell c)
 {
     if (u->getOwner() != this->playerwhoplays) {
-		std::cout << "Owner of the unit isn't the guy who plays" << std::endl;
-		std::cout << this->playerwhoplays->getUsername() << std::endl;
         return false;
     }
 
@@ -188,7 +186,6 @@ bool Game::unitCanMoveOnCell(Unit *u, Cell c)
         if (u2->getOwner() == u->getOwner() && u2->getID() == u->getID() && u2->getHealth() + u->getHealth() <= 10 && u2->getHealth() < 10 ) {
             return  true;
         }
-		std::cout << "There is a unit there and it's not the same ID, or health does't correspond" << std::endl;
         return false;
     }
 
@@ -262,9 +259,7 @@ void Game::moveUnit(Unit *u, std::pair<int, int> pos)
             u->setCanMove(false); // The unit moved and can't move anymore.
             u->setCanAttack(true);
         }
-    } else {
-        std::cout << "unit can't move on this position: " << pos.first << "; " << pos.second << std::endl;
-    }
+	}
 }
 
 bool Game::checkUnitOnPos(int x,int y){ //check si il ya une unité à la position et renvoie cette unité
@@ -538,7 +533,6 @@ Player* Game::getPlayerByTeamcolor(char tc)
 
 
 void Game::nextTurn(){
-	std::cout << "Next turn called, current player: " << this->playerwhoplays->getUsername() << std::endl;
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
         if (getPlayerwhoplays()==*(it) && it != players.end()-1){
@@ -558,7 +552,6 @@ void Game::nextTurn(){
             u->setCanAttack(false);
         }
     }
-	std::cout << "New turn end, current player: " << this->playerwhoplays->getUsername() << std::endl;
 }
 
 int Game::getPlayerCityCount(Player *p)
@@ -653,8 +646,6 @@ int Game::getDamage(Unit *u1, Unit *u2)
     if (remaining >= .5f) {
         totdmg++; // We round up if the remaining value after , is 0,5 or bigger !
     }
-    std::cout << "Damage fight from " << u1->getOwner()->getUsername() << " to " << u2->getOwner()->getUsername() << ": " << damage/10 << std::endl;
-    std::cout << "int converted damage: " << totdmg << std::endl;
     return totdmg;
 }
 
