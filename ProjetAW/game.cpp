@@ -541,24 +541,18 @@ Player* Game::getPlayerByTeamcolor(char tc)
 }
 
 bool Game::checkgameover(){
-
     std::vector<Buildings*>* building = getBuildings();
     int f=0;
     for(Buildings* b: *building){
-        if(b->getOwner()!=playerwhoplays && (b->getID()==1||b->getID()==3)){
-                f++;
-        }
+        if(b->getOwner()!=playerwhoplays && (b->getID()==1||b->getID()==3)){f++;} //nique le PEP
     }
-    if(f==0){ //si le joueur qui joue a prit toutes les usines
-       return true;
-    }
-
+    if(f==0){return true;} //nique le PEP
     return false;
 }
 
 void Game::nextTurn(){
     if(checkgameover()){
-        //call function for Game Over title
+        //call function for Game Over title A FAIRE !!!!
         std::cout<<"GAME OVER"<<std::endl;
         return;
     }
