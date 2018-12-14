@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ia.h"
 #include <iostream>
 #include <math.h>
 #include <algorithm>
@@ -246,18 +247,25 @@ void Game::setLocalPlayer(Player *lp)
 void Game::moveUnit(Unit *u, std::pair<int, int> pos)
 {
     if (unitCanMoveOnCell(u,this->map->getCellAt(pos.first,pos.second))) {
+
         /*
          *  There is a unit on that cell AND from unitCanMoveOnCell()
          *	we know we can move there => we are 100% sure this is a fusing action
          */
         if (checkUnitOnPos(pos.first,pos.second) && (pos.first != u->getPosX() && pos.second != u->getPosY())) {
+            ;
             Unit* u2 = getUnitOnPos(pos.first,pos.second);
             u2->setHealth(u2->getHealth() + u->getHealth());
             units.erase(std::remove(units.begin(), units.end(), u), units.end());
         } else { //Simple movement
+
             u->setPos(pos.first,pos.second);
+
             u->setCanMove(false); // The unit moved and can't move anymore.
+
             u->setCanAttack(true);
+
+
         }
 	}
 }
@@ -300,6 +308,7 @@ Unit* Game::getUnitOnPos(int x, int y) {
             return *it;
         }
     }
+    return nullptr;
 }
 
 
@@ -325,9 +334,9 @@ void Game::createUnit(Buildings* b, Player* p, int unitID) {
         case 9:
             u = new BCopter(b->getPosX(),b->getPosY(),p); break;
         case 10:
-            u = new Bomber(b->getPosX(),b->getPosY(),p); break;
-        case 11:
             u = new Fighter(b->getPosX(),b->getPosY(),p); break;
+        case 11:
+            u = new Bomber(b->getPosX(),b->getPosY(),p); break;
     }
     if (u==nullptr) { // No ID Match
         throw "No ID Match in Unit creation";
@@ -531,8 +540,40 @@ Player* Game::getPlayerByTeamcolor(char tc)
 	return nullptr;
 }
 
+bool Game::checkgameover(){
+    std::vector<Unit*>* units = getUnits();
+    int u=0;
+    int ut=0;
+    for(Unit* u: *units){
+        ut++;
+        if(u->getOwner()!=playerwhoplays){
+            u++;
+        }
+    }
+    std::vector<Buildings*>* building = getBuildings();
+    int b=0;
+    int f=0;
+    for(Buildings* b: *building){
+        if(b->getOwner()!=playerwhoplays){
+            b++;
+            if(b->getID()==1||b->getID()==3){
+                f++;
+            }
+        }
+    }
+    //if((b==0 && ut !=0)||(f==0 && u==0 && ut != 0)){ //si le joueur qui joue a prit tous les batiments OU toutes les usines
+       // return true;
+    //}
+
+    return false;
+}
 
 void Game::nextTurn(){
+    if(checkgameover()){
+        //call function for Game Over title
+        std::cout<<"GAME OVER"<<std::endl;
+        return;
+    }
     std::vector<Player*>::iterator it;
     for (it = players.begin(); it != players.end(); ++it){  //passe son tour au joueur suivant
         if (getPlayerwhoplays()==*(it) && it != players.end()-1){
@@ -552,6 +593,10 @@ void Game::nextTurn(){
             u->setCanAttack(false);
         }
     }
+    if(getPlayerwhoplays()->getIA() != NULL){
+       getPlayerwhoplays()->getIA()->play();
+    } //si le joueur à qui c'est le tour est contrôlé
+      // par une ia, lance l'action de l'ia
 }
 
 int Game::getPlayerCityCount(Player *p)

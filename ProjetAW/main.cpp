@@ -24,8 +24,25 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	throw std::invalid_argument("Can't find argument: " + arg);
 }
 
+
 int main(int argc, char *argv[])
 {
+/*    Game game;
+
+
+	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
+	Player* p2 = new Player("Romain", 'R'); // Adds a red player
+    IA* ia1 = new IA(2,p,&game); //crée une IA pour le joueur 1 (temporaire pour test)
+    p->setIA(ia1);
+    IA* ia2 = new IA(0,p2,&game); //crée une IA pour le joueur 2 (temporaire pour test)
+    p2->setIA(ia2);
+
+	game.getBuildingOnPos(16,2)->setOwner(p);
+	game.getBuildingOnPos(4,14)->setOwner(p2);
+
+	game.getBuildingOnPos(16,4)->setOwner(p);
+	game.getBuildingOnPos(15,3)->setOwner(p);
+    //game.getBuildingOnPos(20,8)->setOwner(p);*/
 	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
 	for (std::string str : allArgs) {
 		std::cout << str << std::endl;
@@ -71,6 +88,5 @@ int main(int argc, char *argv[])
 		w.setGame(game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
 		return a.exec();
 	}
-
 	return 0;
 }

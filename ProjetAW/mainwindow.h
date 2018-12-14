@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QTimer>
 #include "game.h"
+#include "ia.h"
 #include "imageholder.h"
 #include "ui.h"
 

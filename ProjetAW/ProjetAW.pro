@@ -52,7 +52,8 @@ SOURCES += \
     menubox.cpp \
     networking/network.cpp \
     networking/session.cpp \
-    networking/networkclient.cpp
+    networking/networkclient.cpp \
+    ia.cpp
 
 
 HEADERS += \
@@ -86,9 +87,9 @@ HEADERS += \
     menubox.h \
     networking/network.h \
     networking/session.h \
-    networking/networkclient.h
-
-
+    networking/networkclient.h \
+    ia.h
+    
 FORMS += \
         mainwindow.ui
 
