@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 
 	Player* p = new Player("GriffinBabe", 'B'); // Adds a blue player
 	Player* p2 = new Player("Romain", 'R'); // Adds a red player
-    IA* ia1 = new IA(2,p,&game); //crée une IA pour le joueur 1 (temporaire pour test)
+    IA* ia1 = new IA(4,p,&game); //crée une IA pour le joueur 1 (temporaire pour test)
     p->setIA(ia1);
-    IA* ia2 = new IA(0,p2,&game); //crée une IA pour le joueur 2 (temporaire pour test)
+    IA* ia2 = new IA(1,p2,&game); //crée une IA pour le joueur 2 (temporaire pour test)
     p2->setIA(ia2);
 
 	game.getBuildingOnPos(16,2)->setOwner(p);

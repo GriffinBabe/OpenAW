@@ -84,6 +84,7 @@ void IA::action(){
         }
 
         resetObj();
+        std::cout<<"IA"<<std::endl;
 
     }
 
@@ -155,7 +156,9 @@ void IA::action(){
             }
         }
         resetObj();
+        std::cout<<"anti recon"<<std::endl;
     }
+
 
 }
 
