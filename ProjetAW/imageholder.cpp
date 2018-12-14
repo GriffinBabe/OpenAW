@@ -91,6 +91,72 @@ ImageHolder::ImageHolder()
 
 }
 
+ImageHolder::~ImageHolder()
+{
+	delete cursorImage;
+	delete grassImage;
+	delete  reefImage;
+	delete mountainImage;
+	delete seaImage;
+	delete woodImage;
+	delete riverImageEW;
+	delete riverImageNS;
+	delete riverImageNW;
+	delete riverImageNE;
+	delete riverImageSW;
+	delete roadEW;
+	delete roadNS;
+	delete roadES;
+	delete roadSW;
+	delete roadNW;
+	delete roadNE;
+	delete road3S;
+	delete road3W;
+	delete road3N;
+	delete road3E;
+	delete pipeNS;
+	delete pipeEW;
+	delete pipeES;
+	delete pipeNW;
+	delete pipe2N;
+	delete pipe2E;
+	delete pipe2S;
+	delete pipe2W;
+	delete bridgeNS;
+	delete bridgeEW;
+	delete infanteryB;
+	delete infanteryR;
+	delete bazookaB;
+	delete bazookaR;
+	delete tankB;
+	delete tankR;
+	delete reconB;
+	delete reconR;
+	delete mdtankB;
+	delete mdtankR;
+	delete megatankB;
+	delete megatankR;
+	delete neotankB;
+	delete neotankR;
+	delete bcopterB;
+	delete bcopterR;
+	delete bomberB;
+	delete bomberR;
+	delete fighterB;
+	delete fighterR;
+	delete antiairB;
+	delete antiairR;
+	delete cityB;
+	delete cityR;
+	delete city;
+	delete factoryB;
+	delete factoryR;
+	delete factory;
+	delete airportR;
+	delete airportB;
+	delete airport;
+}
+
 QPixmap* ImageHolder::getGrassImage() {
     return this->grassImage;
 }

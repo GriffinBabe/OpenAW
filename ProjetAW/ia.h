@@ -6,6 +6,8 @@ class Player;
 class Unit;
 class Buildings;
 class Game;
+class NetworkClient;
+
 class IA
 {
 public:
@@ -15,6 +17,7 @@ public:
     std::pair<int,int> nextToTarget(std::vector<std::pair<int,int>> m ,std::pair<int,int> t);
     void play();
 
+	void setClient(NetworkClient* cl);
     void adobjunit(Unit* objunit);   //rajoute un objectif à la liste
     void adobjbuild(Buildings* objbuild);
     std::vector<Unit*> getObjunit();  //retourne la liste des objectifs
@@ -36,6 +39,7 @@ private:
     int nextToAnEnnemy(std::pair<int,int> p);
     Buildings* closestBuilding(Unit* u);
     Unit* closestEnnemyUnit(Unit* u);
+	NetworkClient* client;
     std::vector<Unit*> objunit; //Liste des objectifs unités ennemis
     std::vector<Buildings*> objbuild; //liste des objectifs batiments ennemis
 };

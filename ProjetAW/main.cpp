@@ -56,6 +56,12 @@ int main(int argc, char *argv[])
 		Game * game = new Game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
 		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+
+		if (argPresent("ia", allArgs)) {
+			IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+			p->setIA(ia);
+		}
+
 		game->addPlayer(p); // We add the player which is the client that also launched the server !
 		game->setLocalPlayer(p);
 		game->addPlayer(p2);
@@ -78,6 +84,11 @@ int main(int argc, char *argv[])
 		Game* game = new Game(); // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
 		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
 		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+
+		if (argPresent("ia", allArgs)) {
+			IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+			p->setIA(ia);
+		}
 
 		std::string ip = getValue("ip", allArgs);
 		game->addPlayer(p);

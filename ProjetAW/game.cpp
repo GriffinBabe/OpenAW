@@ -12,6 +12,12 @@ Game::Game()
 	std::vector<Unit*> units;
 }
 
+Game::~Game()
+{
+	delete this->map;
+
+}
+
 Game::Game(int mapId, int startMoney, int inc) : mapId(mapId), startMoney(startMoney)
 {
 	std::cout << "[Game Model] Game Initialised with a map and startMoney" << std::endl;
@@ -166,7 +172,7 @@ std::vector<std::pair<int, int> > Game::getMoveCells(Unit* u)
 
 std::vector<Unit *> *Game::getAttackableUnits(Unit *u)
 {
-    std::vector<Unit*>* uns = new std::vector<Unit*>();
+	std::vector<Unit*>* uns = new std::vector<Unit*>();
     for (Unit* unit : this->units) {
         if (attackable(u,unit,false)){ // Can u attack unit ?
             uns->push_back(unit);

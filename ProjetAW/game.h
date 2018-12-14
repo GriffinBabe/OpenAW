@@ -25,6 +25,7 @@ class Game
 public:
 	//Model
 	Game();
+	~Game();
 	Game(int mapId, int startMoney, int inc); // This one is launched by the server
 	void addPlayer(Player* p);
     void addUnit(Unit* u);

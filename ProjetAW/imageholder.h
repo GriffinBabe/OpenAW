@@ -100,6 +100,7 @@ private:
 
 public:
     ImageHolder();
+	~ImageHolder();
     QPixmap* getBuildingImage(int id, char teamColor);
     QPixmap* getUnitImage(int id, char teamColor);
     QPixmap* getGrassImage();

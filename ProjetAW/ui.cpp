@@ -101,6 +101,7 @@ void UI::setType(Unit* u, int t)
 			if (un->size() > 0) { //The option is not available if there is no attackable units nearby
 				this->menuBoxes->push_back(new AttackBox((width/2)-(swidth/2),(height/2)-(sheight*1.5),swidth,sheight));
 			}
+			delete un;
 		}
 		Buildings* build = this->game->getBuildingOnPos(u->getPosX(), u->getPosY()); // !! MIGHT BE NULLPTR
 		if (build != nullptr) {
@@ -110,6 +111,7 @@ void UI::setType(Unit* u, int t)
 														  swidth, sheight));
 			}
 		}
+		delete build;
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2), (height/2)+(sheight*1.5), swidth, sheight));
 		this->selectedBox = this->menuBoxes->at(0);
 	} else if (menuType == 4) { // Attack menu
