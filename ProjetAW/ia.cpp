@@ -54,6 +54,7 @@ void IA::action(){
                     int id = maxUnitForMoney(true);
                     if(id != 100){
                         game->createUnit(b,player,id);//Crée une unité dans un aéroport en premier lieu
+						this->client->build(b ,id);
                     }
                 }
             }
@@ -62,15 +63,19 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
+					this->client->build(b ,1);
                 }
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+					this->client->build(b ,maxUnitForMoney(false));
                 }
                 else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>= 10 && game->getPlayerCityCount(player) < 15 ){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+					this->client->build(b ,maxUnitForMoney(false));
                 }
                 else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>=15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+					this->client->build(b ,maxUnitForMoney(false));
                 }
             }
         }
@@ -87,7 +92,8 @@ void IA::action(){
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerUnitCount(player)<1){
-                game->createUnit(b,player,1); // Tant que le joueur n'a pas 1 infanterie, il en crée une
+					game->createUnit(b,player,1); // Tant que le joueur n'a pas 1 infanterie, il en crée une
+					this->client->build(b, 1);
                 }
             }
         }
@@ -105,9 +111,11 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes, il crée une infanterie
+					this->client->build(b, 1);
                 }
                 else if(player->getMoney()>1000){
                     game->createUnit(b,player,reconUnit()); //Sinon, s'il a l'argent, il crée une unité
+					this->client->build(b, reconUnit());
                 }
             }
         }
@@ -125,6 +133,7 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
                     game->createUnit(b,player,antiReconMaxUnit(true));//Crée une unité dans un aéroport en premier lieu
+					this->client->build(b, antiReconMaxUnit(true));
                 }
             }
         }
@@ -132,9 +141,11 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes, il crée une infanterie
+					this->client->build(b, 1);
                 }
                 else if(player->getMoney()>1000){
                     game->createUnit(b,player,antiReconMaxUnit(false));
+					this->client->build(b, antiReconMaxUnit(false));
                 }
             }
         }
@@ -152,32 +163,40 @@ void IA::movement(Unit* u,int level){
             if (nextToAnEnnemy(p)==1){
                 Unit* u2=game->getUnitOnPos(p.first,p.second-1);
                 if (game->getDamage(u,u2)>u2->getHealth() || (game->getDamage(u,u2)>game->getDamage(u2,u))){
+					u->setOldPos();
                     game->moveUnit(u,p);
                     game->attack(u,u2,true);
+					this->client->moveAttack(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), u2->getPosX(), u2->getPosY());
                     break;
                 }
             }//down
             if (nextToAnEnnemy(p)==2){
                 Unit* u2=game->getUnitOnPos(p.first,p.second+1);
                 if (game->getDamage(u,u2)>u2->getHealth() || (game->getDamage(u,u2)>game->getDamage(u2,u))){
+					u->setOldPos();
                     game->moveUnit(u,p);
                     game->attack(u,u2,true);
+					this->client->moveAttack(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), u2->getPosX(), u2->getPosY());
                     break;
                 }
             }//left
             if (nextToAnEnnemy(p)==3){
                 Unit* u2=game->getUnitOnPos(p.first-1,p.second);
                 if (game->getDamage(u,u2)>u2->getHealth() || (game->getDamage(u,u2)>game->getDamage(u2,u))){
+					u->setOldPos();
                     game->moveUnit(u,p);
                     game->attack(u,u2,true);
+					this->client->moveAttack(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), u2->getPosX(), u2->getPosY());
                     break;
                 }
             }if (nextToAnEnnemy(p)==4){
                 Unit* u2=game->getUnitOnPos(p.first+1,p.second);
                 if (game->getDamage(u,u2)>u2->getHealth() || (game->getDamage(u,u2)>game->getDamage(u2,u))){
+					u->setOldPos();
                     game->moveUnit(u,p);
                     game->attack(u,u2,true);
-                break;
+					this->client->moveAttack(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), u2->getPosX(), u2->getPosY());
+					break;
                 }
             }
         }
@@ -185,11 +204,13 @@ void IA::movement(Unit* u,int level){
         if(u->getCanMove()){
             if (game->checkBuildingOnPos(u->getPosX(),u->getPosY()) && ((u->getID()==1)||(u->getID()==2))){
                 if(game->getBuildingOnPos(u->getPosX(),u->getPosY())->getOwner()!=player){
+					u->setOldPos();
                     p.first=u->getPosX();
                     p.second=u->getPosY();
                     game->moveUnit(u,p);
                     game->capture(game->getBuildingOnPos(p.first,p.second));
-                break;
+					this->client->moveCapture(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY());
+					break;
                 }
             }
 
@@ -198,9 +219,11 @@ void IA::movement(Unit* u,int level){
             if (game->checkBuildingOnPos(p.first,p.second) && ((u->getID()==1)||(u->getID()==2))){ //si n'a pas attaqué ce tour check si batiment accessible
                 if(game->getBuildingOnPos(p.first,p.second)->getOwner()!=player){ //L'unité ne se déplace pas sur une ville qu'elle possède déjà
                     if (game->checkUnitOnPos(p.first,p.second)==false || (u->getPosX()==p.first && u->getPosY()==p.second)){ //Pas d'unités sur la case, à part elle-même
+						u->setOldPos();
                         game->moveUnit(u,p); // s'y déplace
                         game->capture(game->getBuildingOnPos(p.first,p.second));//le capture si possible
-                    break;
+						this->client->moveCapture(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY());
+						break;
                     }
                 }
             }
@@ -227,7 +250,9 @@ void IA::movement(Unit* u,int level){
                 std::cout<<"se déplace vers unité"<<std::endl;
                 adobjunit(e);
                 std::cout<<e->getPosX()<<e->getPosY()<<std::endl;
+				u->setOldPos();
                 game->moveUnit(u,getClosestAccessible(u,e->getPosX(),e->getPosY()));
+				this->client->moveWait(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), true);
             }
         }
 
@@ -235,7 +260,9 @@ void IA::movement(Unit* u,int level){
             adobjbuild(b);
             std::cout<<"addedobj"<<std::endl;
             //se déplace en direction du batiment objectif
+			u->setOldPos();
             game->moveUnit(u,getClosestAccessible(u,b->getPosX(),b->getPosY()));
+			this->client->moveWait(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), true);
          }
 
     }
@@ -247,7 +274,9 @@ void IA::movement(Unit* u,int level){
         std::cout<<"randoooooom"<<std::endl;
         srand(time(NULL));
         int a1=rand()%(move.size());
+		u->setOldPos();
         game->moveUnit(u,move[a1]);
+		this->client->moveWait(u, u->getOldX(), u->getOldY(), u->getPosX(), u->getPosY(), true);
     }
 
 

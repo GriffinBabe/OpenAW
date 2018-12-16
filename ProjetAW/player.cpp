@@ -2,7 +2,7 @@
 
 Player::Player(std::string name, char tc)
 {
-    money=10000;
+	money=1500;
 	this->username = name;
 	teamColor = tc;
     ia = NULL;
