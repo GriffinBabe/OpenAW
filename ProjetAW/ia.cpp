@@ -68,16 +68,19 @@ void IA::action(){
 					this->client->build(b ,1);
                 }
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
-                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
-					this->client->build(b ,maxUnitForMoney(false));
+                    int id = maxUnitForMoney(false);
+                    game->createUnit(b,player,id); //Crée une unité dans une usine
+                    this->client->build(b ,id);
                 }
                 else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>= 10 && game->getPlayerCityCount(player) < 15 ){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
-                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
-					this->client->build(b ,maxUnitForMoney(false));
+                    int id = maxUnitForMoney(false);
+                    game->createUnit(b,player,id); //Crée une unité dans une usine
+                    this->client->build(b ,id);
                 }
                 else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>=15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
+                    int id = maxUnitForMoney(false);
                     game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
-					this->client->build(b ,maxUnitForMoney(false));
+                    this->client->build(b ,id);
 
                 }
             }
@@ -138,9 +141,10 @@ void IA::action(){
         for(Buildings* b : *buildings){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
-                    game->createUnit(b,player,antiReconMaxUnit(true));//Crée une unité dans un aéroport en premier lieu
+                    int id = antiReconMaxUnit(true);
+                    game->createUnit(b,player,id);//Crée une unité dans un aéroport en premier lieu
 
-					this->client->build(b, antiReconMaxUnit(true));
+                    this->client->build(b,id);
 
                 }
             }
@@ -152,8 +156,9 @@ void IA::action(){
 					this->client->build(b, 1);
                 }
                 else if(player->getMoney()>1000){
-                    game->createUnit(b,player,antiReconMaxUnit(false));
-					this->client->build(b, antiReconMaxUnit(false));
+                    int id=antiReconMaxUnit(false);
+                    game->createUnit(b,player,id);
+                    this->client->build(b, id);
                 }
             }
         }
