@@ -7,7 +7,7 @@ Buildings::Buildings()
 
 Buildings::~Buildings()
 {
-	delete this;
+    //delete this;
 }
 
 void Buildings::setCpoint(int a){capturepoint = a;}

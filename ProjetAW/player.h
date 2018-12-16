@@ -9,7 +9,7 @@ class Player
 		 */
 {
 public:
-	Player(std::string name, char tc);
+    Player(std::string name, char tc);
     void setIA(IA* ia);
     IA* getIA();
 	std::string getUsername();

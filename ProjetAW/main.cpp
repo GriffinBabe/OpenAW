@@ -18,7 +18,7 @@ std::string getValue(std::string arg, std::vector<std::string> args) {
 	std::string delimiter = "=";
 	for (std::string str : args) {
 		if (arg == str.substr(0, str.find(delimiter))) { // This one seems to return the opposite value, LIKE WHAT THE FUCK
-			return str.substr(str.find(delimiter) + 1, str.length()-1);
+            return str.substr(str.find(delimiter) + 1, str.length()-1);
 		}
 	}
 	throw std::invalid_argument("Can't find argument: " + arg);
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	game.getBuildingOnPos(16,4)->setOwner(p);
 	game.getBuildingOnPos(15,3)->setOwner(p);
     //game.getBuildingOnPos(20,8)->setOwner(p);*/
-	std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
+    std::vector<std::string> allArgs(argv + 1, argv + argc); //  Array containing all strings of arguments
 	for (std::string str : allArgs) {
 		std::cout << str << std::endl;
 	}
@@ -54,13 +54,15 @@ int main(int argc, char *argv[])
 		std::cout << "Launching game as Server + Client" << std::endl;
 		QApplication a(argc, argv);
 		Game * game = new Game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
-		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
-		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
-
-		if (argPresent("ia", allArgs)) {
-			IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
-			p->setIA(ia);
-		}
+        Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
+        Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+        std::cout<<argPresent("ia", allArgs)<<std::endl;
+        std::cout<<true<<std::endl;
+        //if (argPresent("ia", allArgs)) {
+        std::cout<<"test"<<std::endl;
+        IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+        p->setIA(ia);
+        //}
 
 		game->addPlayer(p); // We add the player which is the client that also launched the server !
 		game->setLocalPlayer(p);
@@ -82,13 +84,15 @@ int main(int argc, char *argv[])
 
 		QApplication a(argc, argv);
 		Game* game = new Game(); // Empty as we don't know any informations (they will be given by the server in the NetworkClient class)
-		Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
-		Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
+        Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // We create a player with the launching parameters
+        Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
 
-		if (argPresent("ia", allArgs)) {
-			IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
-			p->setIA(ia);
-		}
+
+        //if (argPresent("ia", allArgs)) {
+        IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+        p->setIA(ia);
+        //}
+
 
 		std::string ip = getValue("ip", allArgs);
 		game->addPlayer(p);

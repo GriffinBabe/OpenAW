@@ -44,14 +44,14 @@ void NetworkClient::onData()
 {
 	std::cout << "[Client] Data Received !" << std::endl;
 	if(currentSize == 0) {
-		if(this->socket->bytesAvailable() < 4) {
+        if(this->socket->bytesAvailable() < 4) {
 			return;
 		}
 		QDataStream in(this->socket);
 		in >> currentSize;
 	}
 
-	if(this->socket->bytesAvailable() < currentSize) {
+    if(this->socket->bytesAvailable() < currentSize) {
 		return;
 	}
 
@@ -131,7 +131,7 @@ void NetworkClient::onData()
 			} else if (json.contains(QString("capture"))) {
 				if (json["capture"].toBool()) {
 					this->game->capture(this->game->getBuildingOnPos(u->getPosX(), u ->getPosY()));
-				}
+                }
 			} else {
 				u->setCanAttack(false);
 			}

@@ -36,6 +36,7 @@ public:
 	UI* getMenu();
 	void resize();
 	void setGameSet(bool b);
+    NetworkClient* getNetworkClient();
 
 public slots:
 	void tick();

@@ -7,11 +7,12 @@
 #include <QPixmap>
 #include "networking/networkclient.h"
 
-int MainWindow::cellDim = 32; //static int value of square cells dimension! important!
+int MainWindow::cellDim = 80; //static int value of square cells dimension! important!
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
+
 {
 	setWindowIcon(QIcon(":/Images/Icon/icone.png"));
 	this->menu = new UI();
@@ -210,6 +211,7 @@ void MainWindow::setGame(Game *game, std::string ip)
 {
 	this->game = game;
 	this->client = new NetworkClient(this->game, ip, this);
+
 	std::cout << "NetworkClient initialization finished." << std::endl;
 }
 
@@ -455,4 +457,8 @@ void MainWindow::cursorUp() {
 	if (temp >= 0) {
 		cursorY--;
 	}
+}
+NetworkClient *MainWindow::getNetworkClient(){
+
+    return this->client;
 }

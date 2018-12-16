@@ -4,7 +4,9 @@
 #include <math.h>
 #include <algorithm>
 #include <exception>
-
+#include <chrono>
+#include <thread>
+#include "networking/networkclient.h"
 Game::Game()
 {
 	std::cout << "[Game Model] Game Initialised without map or startMoney" << std::endl;
@@ -14,15 +16,16 @@ Game::Game()
 
 Game::~Game()
 {
-	delete this->map;
-
+    delete this->map;
 }
+
 
 Game::Game(int mapId, int startMoney, int inc) : mapId(mapId), startMoney(startMoney)
 {
 	std::cout << "[Game Model] Game Initialised with a map and startMoney" << std::endl;
 	income = inc;
-	this->map = new Map(mapId);
+
+    this->map = new Map(mapId);
 	std::vector<Player> players;
 	std::vector<Unit*> units;
 	this->buildings = *map->getBuildings();
@@ -583,6 +586,7 @@ void Game::nextTurn(){
     }
     if(getPlayerwhoplays()->getIA() != NULL){
        getPlayerwhoplays()->getIA()->play();
+
     } //si le joueur à qui c'est le tour est contrôlé
       // par une ia, lance l'action de l'ia
 }
