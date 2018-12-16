@@ -21,8 +21,7 @@ void IA::play(){
     if(game->getPlayerwhoplays() == player){
         action();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        //MainWindow()->getNeworkClient()->endOfTurn();
-        client->endOfTurn();                        //Ces 2 dernières lignes ne marchent pas. Quel est le problème?
+        client->endOfTurn();
         game->nextTurn();
     }
     std::cout << "l'ia joue" << std::endl;
@@ -54,6 +53,7 @@ void IA::action(){
                     int id = maxUnitForMoney(true);
                     if(id != 100){
                         game->createUnit(b,player,id);//Crée une unité dans un aéroport en premier lieu
+                        this->client->build(b,id);
                     }
                 }
             }
@@ -62,15 +62,22 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 8 villes,crée une infanterie
+                    this->client->build(b,1);
                 }
                 else if(player->getMoney()>1000 && game->getPlayerCityCount(player)<10 && game->getPlayerCityCount(player)>=5){
-                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                    int id = maxUnitForMoney(false);
+                    game->createUnit(b,player,id); //Crée une unité dans une usine
+                    this->client->build(b,id);
                 }
                 else if(player->getMoney()>3000 && game->getPlayerCityCount(player)>= 10 && game->getPlayerCityCount(player) < 15 ){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
-                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                     int id = maxUnitForMoney(false);
+                     game->createUnit(b,player,id); //Crée une unité dans une usine
+                     this->client->build(b,id);
                 }
                 else if(player->getMoney()>7000 && game->getPlayerCityCount(player)>=15){ //pour économiser de l'argent sinon dans le endgame ne fait pas de gros blindé
-                    game->createUnit(b,player,maxUnitForMoney(false)); //Crée une unité dans une usine
+                    int id = maxUnitForMoney(false);
+                    game->createUnit(b,player,id); //Crée une unité dans une usine
+                    this->client->build(b,id);
                 }
             }
         }
@@ -88,6 +95,7 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerUnitCount(player)<1){
                 game->createUnit(b,player,1); // Tant que le joueur n'a pas 1 infanterie, il en crée une
+                this->client->build(b,1);
                 }
             }
         }
@@ -105,9 +113,12 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if (game->getPlayerCityCount(player)<5){
                     game->createUnit(b,player,1); // Tant que le joueur n'a pas 5 villes, il crée une infanterie
+                    this->client->build(b,1);
                 }
                 else if(player->getMoney()>1000){
-                    game->createUnit(b,player,reconUnit()); //Sinon, s'il a l'argent, il crée une unité
+                    int id = reconUnit();
+                    game->createUnit(b,player,id); //Sinon, s'il a l'argent, il crée une unité
+                    this->client->build(b,id);
                 }
             }
         }
@@ -125,6 +136,7 @@ void IA::action(){
             if(b->getOwner() == player && game->checkUnitOnPos(b->getPosX(),b->getPosY())==false){
                 if(b->getID()==3 && player->getMoney()>BCopter(1,1,player).getCost()){
                     game->createUnit(b,player,antiReconMaxUnit(true));//Crée une unité dans un aéroport en premier lieu
+
                 }
             }
         }

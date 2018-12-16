@@ -89,13 +89,7 @@ int main(int argc, char *argv[])
         Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
 
 
-        //if (argPresent("ia", allArgs)) {
-        //IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
-        //p->setIA(ia);
-        //}
-
-
-		std::string ip = getValue("ip", allArgs);
+        std::string ip = getValue("ip", allArgs);
 		game->addPlayer(p);
 		game->setLocalPlayer(p);
 		game->addPlayer(p2);
