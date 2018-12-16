@@ -101,17 +101,19 @@ void UI::setType(Unit* u, int t)
 			if (un->size() > 0) { //The option is not available if there is no attackable units nearby
 				this->menuBoxes->push_back(new AttackBox((width/2)-(swidth/2),(height/2)-(sheight*1.5),swidth,sheight));
 			}
-			delete un;
 		}
+		std::cout << "Checking if there is a building on the unit position" << std::endl;
 		Buildings* build = this->game->getBuildingOnPos(u->getPosX(), u->getPosY()); // !! MIGHT BE NULLPTR
 		if (build != nullptr) {
+			std::cout << "Building pointer non null" << std::endl;
 			if (this->game->canCapture(build)) {
 				this->menuBoxes->push_back(new CaptureBox((width/2)-(swidth/2),
 														  (height/2),
 														  swidth, sheight));
 			}
+		} else {
+			std::cout << "Building pointer" << std::endl;
 		}
-		delete build;
 		this->menuBoxes->push_back(new WaitBox((width/2)-(swidth/2), (height/2)+(sheight*1.5), swidth, sheight));
 		this->selectedBox = this->menuBoxes->at(0);
 	} else if (menuType == 4) { // Attack menu
