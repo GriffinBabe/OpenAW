@@ -56,13 +56,6 @@ int main(int argc, char *argv[])
 		Game * game = new Game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
         Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
         Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
-        std::cout<<argPresent("ia", allArgs)<<std::endl;
-        std::cout<<true<<std::endl;
-        //if (argPresent("ia", allArgs)) {
-        std::cout<<"test"<<std::endl;
-        IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
-        p->setIA(ia);
-        //}
 
 		game->addPlayer(p); // We add the player which is the client that also launched the server !
 		game->setLocalPlayer(p);
@@ -71,9 +64,17 @@ int main(int argc, char *argv[])
 		Network network(game); // Launches the server
 
 		MainWindow w;
-		w.show();
+        w.show();
 		w.setGame(game, "127.0.0.1"); // We are setting the game to the view/controller and give it the local ip adress, even the local client uses a socket
-		return a.exec();
+        for (std::string str : allArgs){
+            if ("ia" == str.substr(0, str.find("="))) {
+                IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+                ia->setClient(w.getNetworkClient());
+                std::cout<<"test"<<std::endl;
+                p->setIA(ia);
+             }
+        }
+        return a.exec();
 	}
 
 	/*
@@ -89,8 +90,8 @@ int main(int argc, char *argv[])
 
 
         //if (argPresent("ia", allArgs)) {
-        IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
-        p->setIA(ia);
+        //IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+        //p->setIA(ia);
         //}
 
 
@@ -99,9 +100,16 @@ int main(int argc, char *argv[])
 		game->setLocalPlayer(p);
 		game->addPlayer(p2);
 		MainWindow w;
-		w.show();
+        w.show();
 		w.setGame(game, "127.0.0.1"); // We let localhost for testing purposes setGame2() will be called once network configuration is over
-		return a.exec();
+        for (std::string str : allArgs){
+            if ("ia" == str.substr(0, str.find("="))) {
+                IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
+                ia->setClient(w.getNetworkClient());
+                p->setIA(ia);
+             }
+        }
+        return a.exec();
 	}
 	return 0;
 }

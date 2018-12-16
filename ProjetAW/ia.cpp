@@ -22,8 +22,8 @@ void IA::play(){
         action();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         //MainWindow()->getNeworkClient()->endOfTurn();
-        //client->endOfTurn();                        Ces 2 dernières lignes ne marchent pas. Quel est le problème?
-        //game->nextTurn();
+        client->endOfTurn();                        //Ces 2 dernières lignes ne marchent pas. Quel est le problème?
+        game->nextTurn();
     }
     std::cout << "l'ia joue" << std::endl;
 
@@ -517,4 +517,7 @@ int IA::checkNobj(Unit* u){
         if(u == un){i++;}
     }
     return i;
+}
+void IA::setClient(NetworkClient* cl){
+    this->client=cl;
 }
