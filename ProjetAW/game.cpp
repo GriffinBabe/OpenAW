@@ -551,18 +551,21 @@ Player* Game::getPlayerByTeamcolor(char tc)
 
 bool Game::checkgameover(){
     std::vector<Buildings*>* building = getBuildings();
-    int f=0;
     for(Buildings* b: *building){
-        if(b->getOwner()!=playerwhoplays && (b->getID()==1||b->getID()==3)){f++;} //nique le PEP
-    }
-    if(f==0){return true;} //nique le PEP
-    return false;
+		if (b->getOwner() != nullptr) {
+			if(b->getOwner()!=playerwhoplays && b->getID()==2){
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 void Game::nextTurn(){
     if(checkgameover()){
         //call function for Game Over title A FAIRE !!!!
         std::cout<<"GAME OVER"<<std::endl;
+		exit(0);
         return;
     }
     std::vector<Player*>::iterator it;
