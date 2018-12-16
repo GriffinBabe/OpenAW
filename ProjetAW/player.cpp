@@ -2,7 +2,7 @@
 
 Player::Player(std::string name, char tc)
 {
-	money=1500;
+    money=10000;
 	this->username = name;
 	teamColor = tc;
     ia = NULL;
@@ -36,6 +36,10 @@ void Player::setCountry(int c)
 	country = c;
 }
 
-int Player::getMoney(){return this->money;}
+int Player::getMoney(){
+    return this->money;
+}
 
-void Player::setMoney(int m){money = m;}
+void Player::setMoney(int m){
+    this->money = m;
+}

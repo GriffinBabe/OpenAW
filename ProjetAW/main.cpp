@@ -31,8 +31,7 @@ int main(int argc, char *argv[])
 	for (std::string str : allArgs) {
 		std::cout << str << std::endl;
 	}
-
-	/*
+    /*
 	 * In this case we are running a server, we will load the map from a file and we will have our mainwindow to connect to "localhost"
 	 */
 	if (argPresent("server", allArgs)) { // We expect to have a line like: server map=map1.txt username=user1 teamColor=R startMoney=6000
@@ -41,7 +40,6 @@ int main(int argc, char *argv[])
 		Game * game = new Game(std::stoi(getValue("map", allArgs)), std::stoi(getValue("startMoney", allArgs)), std::stoi(getValue("income", allArgs))); // starts a new gale setting the map file path and the starting money
         Player* p = new Player(getValue("username", allArgs), getValue("teamColor", allArgs).at(0)); // creates the local player
         Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
-
 
 		game->addPlayer(p); // We add the player which is the client that also launched the server !
 		game->setLocalPlayer(p);
@@ -74,7 +72,6 @@ int main(int argc, char *argv[])
         Player* p2 = new Player("otherplayer", getValue("teamColor", allArgs).at(0) == 'B' ? 'R' : 'B');
 
 
-
         std::string ip = getValue("ip", allArgs);
 
 		game->addPlayer(p);
@@ -86,6 +83,7 @@ int main(int argc, char *argv[])
 		w.setGame(game, getValue("ip", allArgs)); // We let localhost for testing purposes setGame2() will be called once network configuration is over
         for (std::string str : allArgs){
             if ("ia" == str.substr(0, str.find("="))) {
+                std::cout<<"test"<<std::endl;
                 IA* ia = new IA(std::stoi(getValue("ia", allArgs)), p, game);
                 ia->setClient(w.getNetworkClient());
                 p->setIA(ia);
