@@ -1,4 +1,21 @@
-# ProjetInfo
+# OpenAW
+
+Powered by Qt - Made with - https://github.com/khookh
+                          - https://github.com/inspecgadg7
+                              
+# AI
+
+The AI is in the Master Branch
+
+# Networking
+
+The Networking is in the Networking Branch, the AI has been merged to this branch too but it is not recomended to play with the AI trough network for the moment.
+
+# Project initially made for the Ecole Polytechnique de Bruxelles
+
+For the course INFO-H304 "Compléments de programmation et d'algorithmique" teached by Jérémie ROLAND and https://github.com/robertvandeneynde
+
+#
 
 Le Projet Final se situe dans la branche "networking".
 
